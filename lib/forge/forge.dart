@@ -6,13 +6,16 @@ import 'package:forge/forge/model/firewall/firewall_rule/firewall_rule.dart';
 import 'package:forge/forge/model/firewall/get_firewall_rule_response/get_firewall_rule_response.dart';
 import 'package:forge/forge/model/firewall/list_firewall_rules_response/list_firewall_rules_response.dart';
 import 'package:forge/forge/model/server/server_list.dart';
+import 'package:forge/settings/settings_notifier.dart';
 
 const String forgeUrl = "https://forge.laravel.com/api/v1";
 
-final forgeApiKeyProvider = StateProvider((_) => "");
-
 final forgeClientProvider = Provider((ref) {
-  final apiKey = ref.watch(forgeApiKeyProvider);
+  final String apiKey = ref.watch(settingsNotifierProvider).maybeWhen(
+        valid: (settings) => settings.apiKey,
+        loaded: (settings) => settings.apiKey,
+        orElse: () => "",
+      );
 
   final options = BaseOptions(
     baseUrl: forgeUrl,
@@ -100,4 +103,19 @@ class ForgeSdk {
 
     return res.statusCode == 200;
   }
+}
+
+Future<bool> verifyApiKey(ForgeSdk forge) async {
+  try {
+    await forge.listServers();
+    return true;
+  } catch (e) {
+    if (e is DioError) {
+      if (e.response?.statusCode == 422) {
+        return false;
+      }
+    }
+  }
+
+  return false;
 }

@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/mac/widgets/custom_list_tile.dart';
 import 'package:forge/mac/widgets/loading.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
+import 'package:forge/servers/server_list_state.dart';
 import 'package:forge/settings/widgets/settings_page_button.dart';
+import 'package:forge/system_tray/tray.dart';
 import 'package:macos_ui/macos_ui.dart';
 
 class ServerListPage extends ConsumerStatefulWidget {
@@ -20,14 +23,24 @@ class _ServerListPageState extends ConsumerState<ServerListPage> {
   final List<String> selectedPorts = [];
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     ref.read(serverListNotifierProvider.notifier).getServerList();
 
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final systemTray = ref.read(systemTrayProvider);
+
+    ref.listen(serverListNotifierProvider, (prev, ServerListState next) {
+      next.whenOrNull(
+        loaded: (servers) => systemTray.addServers(servers, (Server server) {
+          AutoRouter.of(context).push(WhitelistRoute(server: server));
+        }),
+      );
+    });
+
     return MacosScaffold(
       titleBar: TitleBar(
         title: const Text('Servers'),
@@ -41,8 +54,7 @@ class _ServerListPageState extends ConsumerState<ServerListPage> {
               maxHeight: 50,
             ),
             onPressed: () {
-              AutoRouter.of(context).popUntilRoot();
-              AutoRouter.of(context).replace(SettingsRoute(initialPage: false));
+              AutoRouter.of(context).push(SettingsRoute(initialPage: false));
             },
           ),
         ],
@@ -74,7 +86,8 @@ class _ServerListPageState extends ConsumerState<ServerListPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomListTile(
-                                leading: const Icon(CupertinoIcons.lightbulb),
+                                leading:
+                                    const Icon(CupertinoIcons.device_desktop),
                                 title: server.name,
                                 subtitle: server.ipAddress,
                               ),

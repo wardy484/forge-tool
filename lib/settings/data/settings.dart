@@ -1,15 +1,16 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
-part 'settings.freezed.dart';
 part 'settings.g.dart';
 
-@freezed
-class Settings with _$Settings {
-  factory Settings({
-    required String name,
-    required String apiKey,
-  }) = _Settings;
+@HiveType(typeId: 0)
+class Settings extends HiveObject {
+  @HiveField(0)
+  String name = "";
 
-  factory Settings.fromJson(Map<String, dynamic> json) =>
-      _$SettingsFromJson(json);
+  @HiveField(1)
+  String apiKey = "";
+
+  bool get isConfigured {
+    return name != "" && apiKey != "";
+  }
 }

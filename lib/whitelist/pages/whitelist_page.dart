@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:forge/exceptions/rule_exists_exception.dart';
@@ -9,7 +8,7 @@ import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/mac/widgets/loading.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/widgets/port_select_option.dart';
-import 'package:forge/settings/cubit/settings_cubit.dart';
+import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/settings/widgets/settings_input.dart';
 import 'package:forge/settings/widgets/settings_page_button.dart';
 import 'package:forge/whitelist/whitelist_state_notifier.dart';
@@ -28,21 +27,12 @@ class WhitelistPage extends ConsumerStatefulWidget {
 }
 
 class _WhitelistPageState extends ConsumerState<WhitelistPage> {
-  late final SettingsCubit _settingsCubit;
-
   final _formKey = GlobalKey<FormState>();
   final _ipAddressController = TextEditingController();
   final _nameController = TextEditingController();
 
   final ports = ["80", "443", "3306", "22"];
   final List<String> selectedPorts = [];
-
-  @override
-  void didChangeDependencies() {
-    _settingsCubit = BlocProvider.of<SettingsCubit>(context);
-
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +109,8 @@ class _WhitelistPageState extends ConsumerState<WhitelistPage> {
   }
 
   Future<void> whitelist(List<String> ports) async {
-    _settingsCubit.state.whenOrNull(
-      loaded: (settings) async {
+    ref.read(settingsNotifierProvider).whenOrNull(
+      valid: (settings) async {
         final whitelistNotifier = ref.read(whitelistNotifierProvider.notifier);
 
         try {
