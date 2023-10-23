@@ -1,75 +1,105 @@
-// **************************************************************************
-// AutoRouteGenerator
-// **************************************************************************
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
-// AutoRouteGenerator
+// AutoRouterGenerator
 // **************************************************************************
-//
+
 // ignore_for_file: type=lint
+// coverage:ignore-file
 
 part of 'router.dart';
 
-class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+abstract class _$AppRouter extends RootStackRouter {
+  // ignore: unused_element
+  _$AppRouter({super.navigatorKey});
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ServerListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ServerListPage(),
+      );
+    },
     SettingsRoute.name: (routeData) {
       final args = routeData.argsAs<SettingsRouteArgs>(
           orElse: () => const SettingsRouteArgs());
-      return MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: SettingsPage(key: args.key, initialPage: args.initialPage));
-    },
-    ServerListRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const ServerListPage());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SettingsPage(
+          key: args.key,
+          initialPage: args.initialPage,
+        ),
+      );
     },
     WhitelistRoute.name: (routeData) {
       final args = routeData.argsAs<WhitelistRouteArgs>();
-      return MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: WhitelistPage(key: args.key, server: args.server));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WhitelistPage(
+          key: args.key,
+          server: args.server,
+          ports: args.ports,
+          skipInput: args.skipInput,
+        ),
+      );
     },
     WhitelistStatusRoute.name: (routeData) {
       final args = routeData.argsAs<WhitelistStatusRouteArgs>();
-      return MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: WhitelistStatusPage(
-              key: args.key,
-              serverId: args.serverId,
-              inProgressRules: args.inProgressRules,
-              deletableRules: args.deletableRules));
-    }
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WhitelistStatusPage(
+          key: args.key,
+          serverId: args.serverId,
+          inProgressRules: args.inProgressRules,
+          deletableRules: args.deletableRules,
+        ),
+      );
+    },
   };
+}
 
-  @override
-  List<RouteConfig> get routes => [
-        RouteConfig('/#redirect',
-            path: '/', redirectTo: '/settings', fullMatch: true),
-        RouteConfig(SettingsRoute.name, path: '/settings'),
-        RouteConfig(ServerListRoute.name, path: '/servers'),
-        RouteConfig(WhitelistRoute.name, path: '/whitelist-page'),
-        RouteConfig(WhitelistStatusRoute.name, path: '/whitelist-status-page')
-      ];
+/// generated route for
+/// [ServerListPage]
+class ServerListRoute extends PageRouteInfo<void> {
+  const ServerListRoute({List<PageRouteInfo>? children})
+      : super(
+          ServerListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ServerListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
 /// [SettingsPage]
 class SettingsRoute extends PageRouteInfo<SettingsRouteArgs> {
-  SettingsRoute({Key? key, bool initialPage = true})
-      : super(SettingsRoute.name,
-            path: '/settings',
-            args: SettingsRouteArgs(key: key, initialPage: initialPage));
+  SettingsRoute({
+    Key? key,
+    bool initialPage = true,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SettingsRoute.name,
+          args: SettingsRouteArgs(
+            key: key,
+            initialPage: initialPage,
+          ),
+          initialChildren: children,
+        );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<SettingsRouteArgs> page =
+      PageInfo<SettingsRouteArgs>(name);
 }
 
 class SettingsRouteArgs {
-  const SettingsRouteArgs({this.key, this.initialPage = true});
+  const SettingsRouteArgs({
+    this.key,
+    this.initialPage = true,
+  });
 
   final Key? key;
 
@@ -82,62 +112,86 @@ class SettingsRouteArgs {
 }
 
 /// generated route for
-/// [ServerListPage]
-class ServerListRoute extends PageRouteInfo<void> {
-  const ServerListRoute() : super(ServerListRoute.name, path: '/servers');
-
-  static const String name = 'ServerListRoute';
-}
-
-/// generated route for
 /// [WhitelistPage]
 class WhitelistRoute extends PageRouteInfo<WhitelistRouteArgs> {
-  WhitelistRoute({Key? key, required Server server})
-      : super(WhitelistRoute.name,
-            path: '/whitelist-page',
-            args: WhitelistRouteArgs(key: key, server: server));
+  WhitelistRoute({
+    Key? key,
+    required Server server,
+    WhitelistPort? ports,
+    bool skipInput = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WhitelistRoute.name,
+          args: WhitelistRouteArgs(
+            key: key,
+            server: server,
+            ports: ports,
+            skipInput: skipInput,
+          ),
+          initialChildren: children,
+        );
 
   static const String name = 'WhitelistRoute';
+
+  static const PageInfo<WhitelistRouteArgs> page =
+      PageInfo<WhitelistRouteArgs>(name);
 }
 
 class WhitelistRouteArgs {
-  const WhitelistRouteArgs({this.key, required this.server});
+  const WhitelistRouteArgs({
+    this.key,
+    required this.server,
+    this.ports,
+    this.skipInput = false,
+  });
 
   final Key? key;
 
   final Server server;
 
+  final WhitelistPort? ports;
+
+  final bool skipInput;
+
   @override
   String toString() {
-    return 'WhitelistRouteArgs{key: $key, server: $server}';
+    return 'WhitelistRouteArgs{key: $key, server: $server, ports: $ports, skipInput: $skipInput}';
   }
 }
 
 /// generated route for
 /// [WhitelistStatusPage]
 class WhitelistStatusRoute extends PageRouteInfo<WhitelistStatusRouteArgs> {
-  WhitelistStatusRoute(
-      {Key? key,
-      required int serverId,
-      required List<FirewallRule> inProgressRules,
-      required List<FirewallRule> deletableRules})
-      : super(WhitelistStatusRoute.name,
-            path: '/whitelist-status-page',
-            args: WhitelistStatusRouteArgs(
-                key: key,
-                serverId: serverId,
-                inProgressRules: inProgressRules,
-                deletableRules: deletableRules));
+  WhitelistStatusRoute({
+    Key? key,
+    required int serverId,
+    required List<FirewallRule> inProgressRules,
+    required List<FirewallRule> deletableRules,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WhitelistStatusRoute.name,
+          args: WhitelistStatusRouteArgs(
+            key: key,
+            serverId: serverId,
+            inProgressRules: inProgressRules,
+            deletableRules: deletableRules,
+          ),
+          initialChildren: children,
+        );
 
   static const String name = 'WhitelistStatusRoute';
+
+  static const PageInfo<WhitelistStatusRouteArgs> page =
+      PageInfo<WhitelistStatusRouteArgs>(name);
 }
 
 class WhitelistStatusRouteArgs {
-  const WhitelistStatusRouteArgs(
-      {this.key,
-      required this.serverId,
-      required this.inProgressRules,
-      required this.deletableRules});
+  const WhitelistStatusRouteArgs({
+    this.key,
+    required this.serverId,
+    required this.inProgressRules,
+    required this.deletableRules,
+  });
 
   final Key? key;
 

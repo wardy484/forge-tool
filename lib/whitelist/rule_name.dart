@@ -7,10 +7,10 @@ class RuleName {
 
   @override
   String toString() {
-    return name + '-' + suffix;
+    return '$name-$suffix';
   }
 
   String get matcher {
-    return name + "-";
+    return "$name-";
   }
 }

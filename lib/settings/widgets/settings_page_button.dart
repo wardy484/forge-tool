@@ -6,10 +6,10 @@ class SettingsPageButton extends StatelessWidget {
   final String label;
 
   const SettingsPageButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class SettingsPageButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           PushButton(
-            child: Text(label),
-            buttonSize: ButtonSize.large,
+            controlSize: ControlSize.large,
             onPressed: onPressed,
+            child: Text(label),
           ),
         ],
       ),

@@ -6,8 +6,8 @@ part of 'firewall_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_FirewallRule _$$_FirewallRuleFromJson(Map<String, dynamic> json) =>
-    _$_FirewallRule(
+_$FirewallRuleImpl _$$FirewallRuleImplFromJson(Map<String, dynamic> json) =>
+    _$FirewallRuleImpl(
       id: json['id'] as int,
       name: json['name'] as String,
       port: json['port'] as String,
@@ -17,7 +17,7 @@ _$_FirewallRule _$$_FirewallRuleFromJson(Map<String, dynamic> json) =>
       createdAt: json['created_at'] as String,
     );
 
-Map<String, dynamic> _$$_FirewallRuleToJson(_$_FirewallRule instance) =>
+Map<String, dynamic> _$$FirewallRuleImplToJson(_$FirewallRuleImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

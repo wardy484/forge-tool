@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'whitelist_state.dart';
 
@@ -12,66 +12,12 @@ part of 'whitelist_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$WhitelistStateTearOff {
-  const _$WhitelistStateTearOff();
-
-  _Initial initial(List<FirewallRule> rules, List<FirewallRule> oldRules) {
-    return _Initial(
-      rules,
-      oldRules,
-    );
-  }
-
-  _Loading loading(List<FirewallRule> rules, List<FirewallRule> oldRules) {
-    return _Loading(
-      rules,
-      oldRules,
-    );
-  }
-
-  _Queued queued(List<FirewallRule> rules, List<FirewallRule> oldRules) {
-    return _Queued(
-      rules,
-      oldRules,
-    );
-  }
-
-  _Success success(List<FirewallRule> rules, List<FirewallRule> oldRules) {
-    return _Success(
-      rules,
-      oldRules,
-    );
-  }
-
-  _SuccessEmptyQueues sucessEmptyQueues(
-      List<FirewallRule> rules, List<FirewallRule> oldRules) {
-    return _SuccessEmptyQueues(
-      rules,
-      oldRules,
-    );
-  }
-
-  _Error error(
-      List<FirewallRule> rules, List<FirewallRule> oldRules, String message) {
-    return _Error(
-      rules,
-      oldRules,
-      message,
-    );
-  }
-}
-
-/// @nodoc
-const $WhitelistState = _$WhitelistStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$WhitelistState {
   List<FirewallRule> get rules => throw _privateConstructorUsedError;
   List<FirewallRule> get oldRules => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -96,17 +42,17 @@ mixin _$WhitelistState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) =>
@@ -141,12 +87,12 @@ mixin _$WhitelistState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -170,67 +116,72 @@ mixin _$WhitelistState {
 abstract class $WhitelistStateCopyWith<$Res> {
   factory $WhitelistStateCopyWith(
           WhitelistState value, $Res Function(WhitelistState) then) =
-      _$WhitelistStateCopyWithImpl<$Res>;
+      _$WhitelistStateCopyWithImpl<$Res, WhitelistState>;
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class _$WhitelistStateCopyWithImpl<$Res>
+class _$WhitelistStateCopyWithImpl<$Res, $Val extends WhitelistState>
     implements $WhitelistStateCopyWith<$Res> {
   _$WhitelistStateCopyWithImpl(this._value, this._then);
 
-  final WhitelistState _value;
   // ignore: unused_field
-  final $Res Function(WhitelistState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
     return _then(_value.copyWith(
-      rules: rules == freezed
+      rules: null == rules
           ? _value.rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules: oldRules == freezed
+      oldRules: null == oldRules
           ? _value.oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res>
+abstract class _$$InitialImplCopyWith<$Res>
     implements $WhitelistStateCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
+  factory _$$InitialImplCopyWith(
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
+  __$$InitialImplCopyWithImpl(
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Initial get _value => super._value as _Initial;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
-    return _then(_Initial(
-      rules == freezed
-          ? _value.rules
+    return _then(_$InitialImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
     ));
@@ -239,13 +190,27 @@ class __$InitialCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial(this.rules, this.oldRules);
+class _$InitialImpl implements _Initial {
+  const _$InitialImpl(
+      final List<FirewallRule> rules, final List<FirewallRule> oldRules)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
 
   @override
   String toString() {
@@ -256,21 +221,22 @@ class _$_Initial implements _Initial {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Initial &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules));
+            other is _$InitialImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules));
 
   @JsonKey(ignore: true)
   @override
-  _$InitialCopyWith<_Initial> get copyWith =>
-      __$InitialCopyWithImpl<_Initial>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
+      __$$InitialImplCopyWithImpl<_$InitialImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -300,17 +266,17 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -357,12 +323,12 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -387,7 +353,8 @@ class _$_Initial implements _Initial {
 
 abstract class _Initial implements WhitelistState {
   const factory _Initial(
-      List<FirewallRule> rules, List<FirewallRule> oldRules) = _$_Initial;
+          final List<FirewallRule> rules, final List<FirewallRule> oldRules) =
+      _$InitialImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -395,40 +362,42 @@ abstract class _Initial implements WhitelistState {
   List<FirewallRule> get oldRules;
   @override
   @JsonKey(ignore: true)
-  _$InitialCopyWith<_Initial> get copyWith =>
+  _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res>
+abstract class _$$LoadingImplCopyWith<$Res>
     implements $WhitelistStateCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Loading get _value => super._value as _Loading;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
-    return _then(_Loading(
-      rules == freezed
-          ? _value.rules
+    return _then(_$LoadingImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
     ));
@@ -437,13 +406,27 @@ class __$LoadingCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading(this.rules, this.oldRules);
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl(
+      final List<FirewallRule> rules, final List<FirewallRule> oldRules)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
 
   @override
   String toString() {
@@ -454,21 +437,22 @@ class _$_Loading implements _Loading {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Loading &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules));
+            other is _$LoadingImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules));
 
   @JsonKey(ignore: true)
   @override
-  _$LoadingCopyWith<_Loading> get copyWith =>
-      __$LoadingCopyWithImpl<_Loading>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -498,17 +482,17 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -555,12 +539,12 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -585,7 +569,8 @@ class _$_Loading implements _Loading {
 
 abstract class _Loading implements WhitelistState {
   const factory _Loading(
-      List<FirewallRule> rules, List<FirewallRule> oldRules) = _$_Loading;
+          final List<FirewallRule> rules, final List<FirewallRule> oldRules) =
+      _$LoadingImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -593,39 +578,42 @@ abstract class _Loading implements WhitelistState {
   List<FirewallRule> get oldRules;
   @override
   @JsonKey(ignore: true)
-  _$LoadingCopyWith<_Loading> get copyWith =>
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$QueuedCopyWith<$Res> implements $WhitelistStateCopyWith<$Res> {
-  factory _$QueuedCopyWith(_Queued value, $Res Function(_Queued) then) =
-      __$QueuedCopyWithImpl<$Res>;
+abstract class _$$QueuedImplCopyWith<$Res>
+    implements $WhitelistStateCopyWith<$Res> {
+  factory _$$QueuedImplCopyWith(
+          _$QueuedImpl value, $Res Function(_$QueuedImpl) then) =
+      __$$QueuedImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class __$QueuedCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$QueuedCopyWith<$Res> {
-  __$QueuedCopyWithImpl(_Queued _value, $Res Function(_Queued) _then)
-      : super(_value, (v) => _then(v as _Queued));
+class __$$QueuedImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$QueuedImpl>
+    implements _$$QueuedImplCopyWith<$Res> {
+  __$$QueuedImplCopyWithImpl(
+      _$QueuedImpl _value, $Res Function(_$QueuedImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Queued get _value => super._value as _Queued;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
-    return _then(_Queued(
-      rules == freezed
-          ? _value.rules
+    return _then(_$QueuedImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
     ));
@@ -634,13 +622,27 @@ class __$QueuedCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Queued implements _Queued {
-  const _$_Queued(this.rules, this.oldRules);
+class _$QueuedImpl implements _Queued {
+  const _$QueuedImpl(
+      final List<FirewallRule> rules, final List<FirewallRule> oldRules)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
 
   @override
   String toString() {
@@ -651,21 +653,22 @@ class _$_Queued implements _Queued {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Queued &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules));
+            other is _$QueuedImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules));
 
   @JsonKey(ignore: true)
   @override
-  _$QueuedCopyWith<_Queued> get copyWith =>
-      __$QueuedCopyWithImpl<_Queued>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$QueuedImplCopyWith<_$QueuedImpl> get copyWith =>
+      __$$QueuedImplCopyWithImpl<_$QueuedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -695,17 +698,17 @@ class _$_Queued implements _Queued {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -752,12 +755,12 @@ class _$_Queued implements _Queued {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return queued?.call(this);
   }
@@ -781,8 +784,9 @@ class _$_Queued implements _Queued {
 }
 
 abstract class _Queued implements WhitelistState {
-  const factory _Queued(List<FirewallRule> rules, List<FirewallRule> oldRules) =
-      _$_Queued;
+  const factory _Queued(
+          final List<FirewallRule> rules, final List<FirewallRule> oldRules) =
+      _$QueuedImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -790,39 +794,42 @@ abstract class _Queued implements WhitelistState {
   List<FirewallRule> get oldRules;
   @override
   @JsonKey(ignore: true)
-  _$QueuedCopyWith<_Queued> get copyWith => throw _privateConstructorUsedError;
+  _$$QueuedImplCopyWith<_$QueuedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$SuccessCopyWith<$Res>
+abstract class _$$SuccessImplCopyWith<$Res>
     implements $WhitelistStateCopyWith<$Res> {
-  factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
-      __$SuccessCopyWithImpl<$Res>;
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class __$SuccessCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$SuccessCopyWith<$Res> {
-  __$SuccessCopyWithImpl(_Success _value, $Res Function(_Success) _then)
-      : super(_value, (v) => _then(v as _Success));
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Success get _value => super._value as _Success;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
-    return _then(_Success(
-      rules == freezed
-          ? _value.rules
+    return _then(_$SuccessImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
     ));
@@ -831,13 +838,27 @@ class __$SuccessCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Success implements _Success {
-  const _$_Success(this.rules, this.oldRules);
+class _$SuccessImpl implements _Success {
+  const _$SuccessImpl(
+      final List<FirewallRule> rules, final List<FirewallRule> oldRules)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
 
   @override
   String toString() {
@@ -848,21 +869,22 @@ class _$_Success implements _Success {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Success &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules));
+            other is _$SuccessImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules));
 
   @JsonKey(ignore: true)
   @override
-  _$SuccessCopyWith<_Success> get copyWith =>
-      __$SuccessCopyWithImpl<_Success>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -892,17 +914,17 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -949,12 +971,12 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return success?.call(this);
   }
@@ -979,7 +1001,8 @@ class _$_Success implements _Success {
 
 abstract class _Success implements WhitelistState {
   const factory _Success(
-      List<FirewallRule> rules, List<FirewallRule> oldRules) = _$_Success;
+          final List<FirewallRule> rules, final List<FirewallRule> oldRules) =
+      _$SuccessImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -987,43 +1010,42 @@ abstract class _Success implements WhitelistState {
   List<FirewallRule> get oldRules;
   @override
   @JsonKey(ignore: true)
-  _$SuccessCopyWith<_Success> get copyWith =>
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$SuccessEmptyQueuesCopyWith<$Res>
+abstract class _$$SuccessEmptyQueuesImplCopyWith<$Res>
     implements $WhitelistStateCopyWith<$Res> {
-  factory _$SuccessEmptyQueuesCopyWith(
-          _SuccessEmptyQueues value, $Res Function(_SuccessEmptyQueues) then) =
-      __$SuccessEmptyQueuesCopyWithImpl<$Res>;
+  factory _$$SuccessEmptyQueuesImplCopyWith(_$SuccessEmptyQueuesImpl value,
+          $Res Function(_$SuccessEmptyQueuesImpl) then) =
+      __$$SuccessEmptyQueuesImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<FirewallRule> rules, List<FirewallRule> oldRules});
 }
 
 /// @nodoc
-class __$SuccessEmptyQueuesCopyWithImpl<$Res>
-    extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$SuccessEmptyQueuesCopyWith<$Res> {
-  __$SuccessEmptyQueuesCopyWithImpl(
-      _SuccessEmptyQueues _value, $Res Function(_SuccessEmptyQueues) _then)
-      : super(_value, (v) => _then(v as _SuccessEmptyQueues));
+class __$$SuccessEmptyQueuesImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$SuccessEmptyQueuesImpl>
+    implements _$$SuccessEmptyQueuesImplCopyWith<$Res> {
+  __$$SuccessEmptyQueuesImplCopyWithImpl(_$SuccessEmptyQueuesImpl _value,
+      $Res Function(_$SuccessEmptyQueuesImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _SuccessEmptyQueues get _value => super._value as _SuccessEmptyQueues;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
   }) {
-    return _then(_SuccessEmptyQueues(
-      rules == freezed
-          ? _value.rules
+    return _then(_$SuccessEmptyQueuesImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
     ));
@@ -1032,13 +1054,27 @@ class __$SuccessEmptyQueuesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SuccessEmptyQueues implements _SuccessEmptyQueues {
-  const _$_SuccessEmptyQueues(this.rules, this.oldRules);
+class _$SuccessEmptyQueuesImpl implements _SuccessEmptyQueues {
+  const _$SuccessEmptyQueuesImpl(
+      final List<FirewallRule> rules, final List<FirewallRule> oldRules)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
 
   @override
   String toString() {
@@ -1049,21 +1085,23 @@ class _$_SuccessEmptyQueues implements _SuccessEmptyQueues {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _SuccessEmptyQueues &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules));
+            other is _$SuccessEmptyQueuesImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules));
 
   @JsonKey(ignore: true)
   @override
-  _$SuccessEmptyQueuesCopyWith<_SuccessEmptyQueues> get copyWith =>
-      __$SuccessEmptyQueuesCopyWithImpl<_SuccessEmptyQueues>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$SuccessEmptyQueuesImplCopyWith<_$SuccessEmptyQueuesImpl> get copyWith =>
+      __$$SuccessEmptyQueuesImplCopyWithImpl<_$SuccessEmptyQueuesImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1093,17 +1131,17 @@ class _$_SuccessEmptyQueues implements _SuccessEmptyQueues {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -1150,12 +1188,12 @@ class _$_SuccessEmptyQueues implements _SuccessEmptyQueues {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return sucessEmptyQueues?.call(this);
   }
@@ -1180,8 +1218,8 @@ class _$_SuccessEmptyQueues implements _SuccessEmptyQueues {
 
 abstract class _SuccessEmptyQueues implements WhitelistState {
   const factory _SuccessEmptyQueues(
-          List<FirewallRule> rules, List<FirewallRule> oldRules) =
-      _$_SuccessEmptyQueues;
+          final List<FirewallRule> rules, final List<FirewallRule> oldRules) =
+      _$SuccessEmptyQueuesImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -1189,44 +1227,47 @@ abstract class _SuccessEmptyQueues implements WhitelistState {
   List<FirewallRule> get oldRules;
   @override
   @JsonKey(ignore: true)
-  _$SuccessEmptyQueuesCopyWith<_SuccessEmptyQueues> get copyWith =>
+  _$$SuccessEmptyQueuesImplCopyWith<_$SuccessEmptyQueuesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ErrorCopyWith<$Res> implements $WhitelistStateCopyWith<$Res> {
-  factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
-      __$ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res>
+    implements $WhitelistStateCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {List<FirewallRule> rules, List<FirewallRule> oldRules, String message});
 }
 
 /// @nodoc
-class __$ErrorCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
-    implements _$ErrorCopyWith<$Res> {
-  __$ErrorCopyWithImpl(_Error _value, $Res Function(_Error) _then)
-      : super(_value, (v) => _then(v as _Error));
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$WhitelistStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Error get _value => super._value as _Error;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rules = freezed,
-    Object? oldRules = freezed,
-    Object? message = freezed,
+    Object? rules = null,
+    Object? oldRules = null,
+    Object? message = null,
   }) {
-    return _then(_Error(
-      rules == freezed
-          ? _value.rules
+    return _then(_$ErrorImpl(
+      null == rules
+          ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      oldRules == freezed
-          ? _value.oldRules
+      null == oldRules
+          ? _value._oldRules
           : oldRules // ignore: cast_nullable_to_non_nullable
               as List<FirewallRule>,
-      message == freezed
+      null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
@@ -1236,13 +1277,28 @@ class __$ErrorCopyWithImpl<$Res> extends _$WhitelistStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error(this.rules, this.oldRules, this.message);
+class _$ErrorImpl implements _Error {
+  const _$ErrorImpl(final List<FirewallRule> rules,
+      final List<FirewallRule> oldRules, this.message)
+      : _rules = rules,
+        _oldRules = oldRules;
 
+  final List<FirewallRule> _rules;
   @override
-  final List<FirewallRule> rules;
+  List<FirewallRule> get rules {
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rules);
+  }
+
+  final List<FirewallRule> _oldRules;
   @override
-  final List<FirewallRule> oldRules;
+  List<FirewallRule> get oldRules {
+    if (_oldRules is EqualUnmodifiableListView) return _oldRules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_oldRules);
+  }
+
   @override
   final String message;
 
@@ -1255,23 +1311,24 @@ class _$_Error implements _Error {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Error &&
-            const DeepCollectionEquality().equals(other.rules, rules) &&
-            const DeepCollectionEquality().equals(other.oldRules, oldRules) &&
-            const DeepCollectionEquality().equals(other.message, message));
+            other is _$ErrorImpl &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality().equals(other._oldRules, _oldRules) &&
+            (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(rules),
-      const DeepCollectionEquality().hash(oldRules),
-      const DeepCollectionEquality().hash(message));
+      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_oldRules),
+      message);
 
   @JsonKey(ignore: true)
   @override
-  _$ErrorCopyWith<_Error> get copyWith =>
-      __$ErrorCopyWithImpl<_Error>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1301,17 +1358,17 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         initial,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         loading,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         queued,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         success,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules)?
         sucessEmptyQueues,
-    TResult Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
+    TResult? Function(List<FirewallRule> rules, List<FirewallRule> oldRules,
             String message)?
         error,
   }) {
@@ -1358,12 +1415,12 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Queued value)? queued,
-    TResult Function(_Success value)? success,
-    TResult Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Queued value)? queued,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_SuccessEmptyQueues value)? sucessEmptyQueues,
+    TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
   }
@@ -1387,8 +1444,8 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements WhitelistState {
-  const factory _Error(List<FirewallRule> rules, List<FirewallRule> oldRules,
-      String message) = _$_Error;
+  const factory _Error(final List<FirewallRule> rules,
+      final List<FirewallRule> oldRules, final String message) = _$ErrorImpl;
 
   @override
   List<FirewallRule> get rules;
@@ -1397,5 +1454,6 @@ abstract class _Error implements WhitelistState {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

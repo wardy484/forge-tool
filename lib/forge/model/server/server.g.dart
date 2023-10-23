@@ -6,7 +6,7 @@ part of 'server.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Server _$$_ServerFromJson(Map<String, dynamic> json) => _$_Server(
+_$ServerImpl _$$ServerImplFromJson(Map<String, dynamic> json) => _$ServerImpl(
       id: json['id'] as int,
       credentialId: json['credential_id'] as int,
       name: json['name'] as String,
@@ -23,7 +23,8 @@ _$_Server _$$_ServerFromJson(Map<String, dynamic> json) => _$_Server(
       network: (json['network'] as List<dynamic>).map((e) => e as int).toList(),
     );
 
-Map<String, dynamic> _$$_ServerToJson(_$_Server instance) => <String, dynamic>{
+Map<String, dynamic> _$$ServerImplToJson(_$ServerImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'credential_id': instance.credentialId,
       'name': instance.name,

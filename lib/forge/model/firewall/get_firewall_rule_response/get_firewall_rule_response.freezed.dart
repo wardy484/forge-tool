@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'get_firewall_rule_response.dart';
 
@@ -12,30 +12,12 @@ part of 'get_firewall_rule_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 GetFirewallRuleResponse _$GetFirewallRuleResponseFromJson(
     Map<String, dynamic> json) {
   return _GetFirewallRuleResponse.fromJson(json);
 }
-
-/// @nodoc
-class _$GetFirewallRuleResponseTearOff {
-  const _$GetFirewallRuleResponseTearOff();
-
-  _GetFirewallRuleResponse call({required FirewallRule rule}) {
-    return _GetFirewallRuleResponse(
-      rule: rule,
-    );
-  }
-
-  GetFirewallRuleResponse fromJson(Map<String, Object?> json) {
-    return GetFirewallRuleResponse.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $GetFirewallRuleResponse = _$GetFirewallRuleResponseTearOff();
 
 /// @nodoc
 mixin _$GetFirewallRuleResponse {
@@ -51,48 +33,55 @@ mixin _$GetFirewallRuleResponse {
 abstract class $GetFirewallRuleResponseCopyWith<$Res> {
   factory $GetFirewallRuleResponseCopyWith(GetFirewallRuleResponse value,
           $Res Function(GetFirewallRuleResponse) then) =
-      _$GetFirewallRuleResponseCopyWithImpl<$Res>;
+      _$GetFirewallRuleResponseCopyWithImpl<$Res, GetFirewallRuleResponse>;
+  @useResult
   $Res call({FirewallRule rule});
 
   $FirewallRuleCopyWith<$Res> get rule;
 }
 
 /// @nodoc
-class _$GetFirewallRuleResponseCopyWithImpl<$Res>
+class _$GetFirewallRuleResponseCopyWithImpl<$Res,
+        $Val extends GetFirewallRuleResponse>
     implements $GetFirewallRuleResponseCopyWith<$Res> {
   _$GetFirewallRuleResponseCopyWithImpl(this._value, this._then);
 
-  final GetFirewallRuleResponse _value;
   // ignore: unused_field
-  final $Res Function(GetFirewallRuleResponse) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rule = freezed,
+    Object? rule = null,
   }) {
     return _then(_value.copyWith(
-      rule: rule == freezed
+      rule: null == rule
           ? _value.rule
           : rule // ignore: cast_nullable_to_non_nullable
               as FirewallRule,
-    ));
+    ) as $Val);
   }
 
   @override
+  @pragma('vm:prefer-inline')
   $FirewallRuleCopyWith<$Res> get rule {
     return $FirewallRuleCopyWith<$Res>(_value.rule, (value) {
-      return _then(_value.copyWith(rule: value));
+      return _then(_value.copyWith(rule: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$GetFirewallRuleResponseCopyWith<$Res>
+abstract class _$$GetFirewallRuleResponseImplCopyWith<$Res>
     implements $GetFirewallRuleResponseCopyWith<$Res> {
-  factory _$GetFirewallRuleResponseCopyWith(_GetFirewallRuleResponse value,
-          $Res Function(_GetFirewallRuleResponse) then) =
-      __$GetFirewallRuleResponseCopyWithImpl<$Res>;
+  factory _$$GetFirewallRuleResponseImplCopyWith(
+          _$GetFirewallRuleResponseImpl value,
+          $Res Function(_$GetFirewallRuleResponseImpl) then) =
+      __$$GetFirewallRuleResponseImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({FirewallRule rule});
 
   @override
@@ -100,23 +89,22 @@ abstract class _$GetFirewallRuleResponseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$GetFirewallRuleResponseCopyWithImpl<$Res>
-    extends _$GetFirewallRuleResponseCopyWithImpl<$Res>
-    implements _$GetFirewallRuleResponseCopyWith<$Res> {
-  __$GetFirewallRuleResponseCopyWithImpl(_GetFirewallRuleResponse _value,
-      $Res Function(_GetFirewallRuleResponse) _then)
-      : super(_value, (v) => _then(v as _GetFirewallRuleResponse));
+class __$$GetFirewallRuleResponseImplCopyWithImpl<$Res>
+    extends _$GetFirewallRuleResponseCopyWithImpl<$Res,
+        _$GetFirewallRuleResponseImpl>
+    implements _$$GetFirewallRuleResponseImplCopyWith<$Res> {
+  __$$GetFirewallRuleResponseImplCopyWithImpl(
+      _$GetFirewallRuleResponseImpl _value,
+      $Res Function(_$GetFirewallRuleResponseImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _GetFirewallRuleResponse get _value =>
-      super._value as _GetFirewallRuleResponse;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rule = freezed,
+    Object? rule = null,
   }) {
-    return _then(_GetFirewallRuleResponse(
-      rule: rule == freezed
+    return _then(_$GetFirewallRuleResponseImpl(
+      rule: null == rule
           ? _value.rule
           : rule // ignore: cast_nullable_to_non_nullable
               as FirewallRule,
@@ -126,11 +114,11 @@ class __$GetFirewallRuleResponseCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GetFirewallRuleResponse implements _GetFirewallRuleResponse {
-  _$_GetFirewallRuleResponse({required this.rule});
+class _$GetFirewallRuleResponseImpl implements _GetFirewallRuleResponse {
+  _$GetFirewallRuleResponseImpl({required this.rule});
 
-  factory _$_GetFirewallRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$$_GetFirewallRuleResponseFromJson(json);
+  factory _$GetFirewallRuleResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetFirewallRuleResponseImplFromJson(json);
 
   @override
   final FirewallRule rule;
@@ -144,37 +132,40 @@ class _$_GetFirewallRuleResponse implements _GetFirewallRuleResponse {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _GetFirewallRuleResponse &&
-            const DeepCollectionEquality().equals(other.rule, rule));
+            other is _$GetFirewallRuleResponseImpl &&
+            (identical(other.rule, rule) || other.rule == rule));
   }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(rule));
 
   @JsonKey(ignore: true)
   @override
-  _$GetFirewallRuleResponseCopyWith<_GetFirewallRuleResponse> get copyWith =>
-      __$GetFirewallRuleResponseCopyWithImpl<_GetFirewallRuleResponse>(
-          this, _$identity);
+  int get hashCode => Object.hash(runtimeType, rule);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetFirewallRuleResponseImplCopyWith<_$GetFirewallRuleResponseImpl>
+      get copyWith => __$$GetFirewallRuleResponseImplCopyWithImpl<
+          _$GetFirewallRuleResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GetFirewallRuleResponseToJson(this);
+    return _$$GetFirewallRuleResponseImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _GetFirewallRuleResponse implements GetFirewallRuleResponse {
-  factory _GetFirewallRuleResponse({required FirewallRule rule}) =
-      _$_GetFirewallRuleResponse;
+  factory _GetFirewallRuleResponse({required final FirewallRule rule}) =
+      _$GetFirewallRuleResponseImpl;
 
   factory _GetFirewallRuleResponse.fromJson(Map<String, dynamic> json) =
-      _$_GetFirewallRuleResponse.fromJson;
+      _$GetFirewallRuleResponseImpl.fromJson;
 
   @override
   FirewallRule get rule;
   @override
   @JsonKey(ignore: true)
-  _$GetFirewallRuleResponseCopyWith<_GetFirewallRuleResponse> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$GetFirewallRuleResponseImplCopyWith<_$GetFirewallRuleResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

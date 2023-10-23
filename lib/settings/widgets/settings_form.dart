@@ -114,7 +114,8 @@ class _SettingsFormState extends ConsumerState<SettingsForm> {
     settingsNotifier.apiKeyHasBeenValidated(isValid);
 
     if (isValid) {
-      ref.read(serverListNotifierProvider.notifier).getServerList();
+      ref.invalidate(serverListProvider);
+      ref.refresh(serverListProvider);
 
       AutoRouter.of(context).popUntilRoot();
       AutoRouter.of(context).replace(const ServerListRoute());

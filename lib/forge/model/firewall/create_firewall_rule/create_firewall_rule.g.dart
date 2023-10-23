@@ -6,17 +6,17 @@ part of 'create_firewall_rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CreateFirewallRule _$$_CreateFirewallRuleFromJson(
+_$CreateFirewallRuleImpl _$$CreateFirewallRuleImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CreateFirewallRule(
+    _$CreateFirewallRuleImpl(
       name: json['name'] as String,
       ipAddress: json['ip_address'] as String?,
       port: json['port'] as int,
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$_CreateFirewallRuleToJson(
-        _$_CreateFirewallRule instance) =>
+Map<String, dynamic> _$$CreateFirewallRuleImplToJson(
+        _$CreateFirewallRuleImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'ip_address': instance.ipAddress,

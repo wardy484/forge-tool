@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings_state.dart';
 
@@ -12,42 +12,7 @@ part of 'settings_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$SettingsStateTearOff {
-  const _$SettingsStateTearOff();
-
-  _Initial initial() {
-    return const _Initial();
-  }
-
-  _Loading loading() {
-    return const _Loading();
-  }
-
-  _Loaded loaded(Settings settings) {
-    return _Loaded(
-      settings,
-    );
-  }
-
-  _Valid valid(Settings settings) {
-    return _Valid(
-      settings,
-    );
-  }
-
-  _Error error(Settings settings, String error) {
-    return _Error(
-      settings,
-      error,
-    );
-  }
-}
-
-/// @nodoc
-const $SettingsState = _$SettingsStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
 mixin _$SettingsState {
@@ -62,11 +27,11 @@ mixin _$SettingsState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -90,11 +55,11 @@ mixin _$SettingsState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -113,39 +78,40 @@ mixin _$SettingsState {
 abstract class $SettingsStateCopyWith<$Res> {
   factory $SettingsStateCopyWith(
           SettingsState value, $Res Function(SettingsState) then) =
-      _$SettingsStateCopyWithImpl<$Res>;
+      _$SettingsStateCopyWithImpl<$Res, SettingsState>;
 }
 
 /// @nodoc
-class _$SettingsStateCopyWithImpl<$Res>
+class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
     implements $SettingsStateCopyWith<$Res> {
   _$SettingsStateCopyWithImpl(this._value, this._then);
 
-  final SettingsState _value;
   // ignore: unused_field
-  final $Res Function(SettingsState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 }
 
 /// @nodoc
-abstract class _$InitialCopyWith<$Res> {
-  factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
-      __$InitialCopyWithImpl<$Res>;
+abstract class _$$InitialImplCopyWith<$Res> {
+  factory _$$InitialImplCopyWith(
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$InitialCopyWith<$Res> {
-  __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
-      : super(_value, (v) => _then(v as _Initial));
-
-  @override
-  _Initial get _value => super._value as _Initial;
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
+  __$$InitialImplCopyWithImpl(
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$InitialImpl implements _Initial {
+  const _$InitialImpl();
 
   @override
   String toString() {
@@ -155,7 +121,7 @@ class _$_Initial implements _Initial {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Initial);
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
 
   @override
@@ -176,11 +142,11 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) {
     return initial?.call();
   }
@@ -216,11 +182,11 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -243,29 +209,29 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements SettingsState {
-  const factory _Initial() = _$_Initial;
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
+abstract class _$$LoadingImplCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
-
-  @override
-  _Loading get _value => super._value as _Loading;
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading();
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl();
 
   @override
   String toString() {
@@ -275,7 +241,7 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Loading);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
   @override
@@ -296,11 +262,11 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) {
     return loading?.call();
   }
@@ -336,11 +302,11 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -363,31 +329,33 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements SettingsState {
-  const factory _Loading() = _$_Loading;
+  const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$LoadedCopyWith<$Res> {
-  factory _$LoadedCopyWith(_Loaded value, $Res Function(_Loaded) then) =
-      __$LoadedCopyWithImpl<$Res>;
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
+  @useResult
   $Res call({Settings settings});
 }
 
 /// @nodoc
-class __$LoadedCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$LoadedCopyWith<$Res> {
-  __$LoadedCopyWithImpl(_Loaded _value, $Res Function(_Loaded) _then)
-      : super(_value, (v) => _then(v as _Loaded));
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Loaded get _value => super._value as _Loaded;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? settings = freezed,
+    Object? settings = null,
   }) {
-    return _then(_Loaded(
-      settings == freezed
+    return _then(_$LoadedImpl(
+      null == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as Settings,
@@ -397,8 +365,8 @@ class __$LoadedCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loaded implements _Loaded {
-  const _$_Loaded(this.settings);
+class _$LoadedImpl implements _Loaded {
+  const _$LoadedImpl(this.settings);
 
   @override
   final Settings settings;
@@ -412,18 +380,19 @@ class _$_Loaded implements _Loaded {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Loaded &&
-            const DeepCollectionEquality().equals(other.settings, settings));
+            other is _$LoadedImpl &&
+            (identical(other.settings, settings) ||
+                other.settings == settings));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(settings));
+  int get hashCode => Object.hash(runtimeType, settings);
 
   @JsonKey(ignore: true)
   @override
-  _$LoadedCopyWith<_Loaded> get copyWith =>
-      __$LoadedCopyWithImpl<_Loaded>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -440,11 +409,11 @@ class _$_Loaded implements _Loaded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) {
     return loaded?.call(settings);
   }
@@ -480,11 +449,11 @@ class _$_Loaded implements _Loaded {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) {
     return loaded?.call(this);
   }
@@ -507,35 +476,38 @@ class _$_Loaded implements _Loaded {
 }
 
 abstract class _Loaded implements SettingsState {
-  const factory _Loaded(Settings settings) = _$_Loaded;
+  const factory _Loaded(final Settings settings) = _$LoadedImpl;
 
   Settings get settings;
   @JsonKey(ignore: true)
-  _$LoadedCopyWith<_Loaded> get copyWith => throw _privateConstructorUsedError;
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ValidCopyWith<$Res> {
-  factory _$ValidCopyWith(_Valid value, $Res Function(_Valid) then) =
-      __$ValidCopyWithImpl<$Res>;
+abstract class _$$ValidImplCopyWith<$Res> {
+  factory _$$ValidImplCopyWith(
+          _$ValidImpl value, $Res Function(_$ValidImpl) then) =
+      __$$ValidImplCopyWithImpl<$Res>;
+  @useResult
   $Res call({Settings settings});
 }
 
 /// @nodoc
-class __$ValidCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$ValidCopyWith<$Res> {
-  __$ValidCopyWithImpl(_Valid _value, $Res Function(_Valid) _then)
-      : super(_value, (v) => _then(v as _Valid));
+class __$$ValidImplCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$ValidImpl>
+    implements _$$ValidImplCopyWith<$Res> {
+  __$$ValidImplCopyWithImpl(
+      _$ValidImpl _value, $Res Function(_$ValidImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Valid get _value => super._value as _Valid;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? settings = freezed,
+    Object? settings = null,
   }) {
-    return _then(_Valid(
-      settings == freezed
+    return _then(_$ValidImpl(
+      null == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as Settings,
@@ -545,8 +517,8 @@ class __$ValidCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Valid implements _Valid {
-  const _$_Valid(this.settings);
+class _$ValidImpl implements _Valid {
+  const _$ValidImpl(this.settings);
 
   @override
   final Settings settings;
@@ -560,18 +532,19 @@ class _$_Valid implements _Valid {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Valid &&
-            const DeepCollectionEquality().equals(other.settings, settings));
+            other is _$ValidImpl &&
+            (identical(other.settings, settings) ||
+                other.settings == settings));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(settings));
+  int get hashCode => Object.hash(runtimeType, settings);
 
   @JsonKey(ignore: true)
   @override
-  _$ValidCopyWith<_Valid> get copyWith =>
-      __$ValidCopyWithImpl<_Valid>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ValidImplCopyWith<_$ValidImpl> get copyWith =>
+      __$$ValidImplCopyWithImpl<_$ValidImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -588,11 +561,11 @@ class _$_Valid implements _Valid {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) {
     return valid?.call(settings);
   }
@@ -628,11 +601,11 @@ class _$_Valid implements _Valid {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) {
     return valid?.call(this);
   }
@@ -655,40 +628,43 @@ class _$_Valid implements _Valid {
 }
 
 abstract class _Valid implements SettingsState {
-  const factory _Valid(Settings settings) = _$_Valid;
+  const factory _Valid(final Settings settings) = _$ValidImpl;
 
   Settings get settings;
   @JsonKey(ignore: true)
-  _$ValidCopyWith<_Valid> get copyWith => throw _privateConstructorUsedError;
+  _$$ValidImplCopyWith<_$ValidImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ErrorCopyWith<$Res> {
-  factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
-      __$ErrorCopyWithImpl<$Res>;
+abstract class _$$ErrorImplCopyWith<$Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
+      __$$ErrorImplCopyWithImpl<$Res>;
+  @useResult
   $Res call({Settings settings, String error});
 }
 
 /// @nodoc
-class __$ErrorCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
-    implements _$ErrorCopyWith<$Res> {
-  __$ErrorCopyWithImpl(_Error _value, $Res Function(_Error) _then)
-      : super(_value, (v) => _then(v as _Error));
+class __$$ErrorImplCopyWithImpl<$Res>
+    extends _$SettingsStateCopyWithImpl<$Res, _$ErrorImpl>
+    implements _$$ErrorImplCopyWith<$Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Error get _value => super._value as _Error;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? settings = freezed,
-    Object? error = freezed,
+    Object? settings = null,
+    Object? error = null,
   }) {
-    return _then(_Error(
-      settings == freezed
+    return _then(_$ErrorImpl(
+      null == settings
           ? _value.settings
           : settings // ignore: cast_nullable_to_non_nullable
               as Settings,
-      error == freezed
+      null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
@@ -698,8 +674,8 @@ class __$ErrorCopyWithImpl<$Res> extends _$SettingsStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error(this.settings, this.error);
+class _$ErrorImpl implements _Error {
+  const _$ErrorImpl(this.settings, this.error);
 
   @override
   final Settings settings;
@@ -715,21 +691,20 @@ class _$_Error implements _Error {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Error &&
-            const DeepCollectionEquality().equals(other.settings, settings) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            other is _$ErrorImpl &&
+            (identical(other.settings, settings) ||
+                other.settings == settings) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(settings),
-      const DeepCollectionEquality().hash(error));
+  int get hashCode => Object.hash(runtimeType, settings, error);
 
   @JsonKey(ignore: true)
   @override
-  _$ErrorCopyWith<_Error> get copyWith =>
-      __$ErrorCopyWithImpl<_Error>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -746,11 +721,11 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Settings settings)? loaded,
-    TResult Function(Settings settings)? valid,
-    TResult Function(Settings settings, String error)? error,
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(Settings settings)? loaded,
+    TResult? Function(Settings settings)? valid,
+    TResult? Function(Settings settings, String error)? error,
   }) {
     return error?.call(settings, this.error);
   }
@@ -786,11 +761,11 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Valid value)? valid,
-    TResult Function(_Error value)? error,
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Valid value)? valid,
+    TResult? Function(_Error value)? error,
   }) {
     return error?.call(this);
   }
@@ -813,10 +788,12 @@ class _$_Error implements _Error {
 }
 
 abstract class _Error implements SettingsState {
-  const factory _Error(Settings settings, String error) = _$_Error;
+  const factory _Error(final Settings settings, final String error) =
+      _$ErrorImpl;
 
   Settings get settings;
   String get error;
   @JsonKey(ignore: true)
-  _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;
+  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

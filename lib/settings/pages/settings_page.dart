@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/mac/widgets/loading.dart';
@@ -6,6 +7,7 @@ import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/settings/widgets/settings_form.dart';
 import 'package:macos_ui/macos_ui.dart';
 
+@RoutePage()
 class SettingsPage extends ConsumerStatefulWidget {
   final bool initialPage;
 
@@ -22,8 +24,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
-      titleBar: const TitleBar(
+      toolBar: const ToolBar(
         title: Text('Settings'),
+        centerTitle: true,
       ),
       children: [
         ContentArea(

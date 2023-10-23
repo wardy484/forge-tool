@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
@@ -10,7 +13,19 @@ import 'package:hive/hive.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// This method initializes macos_window_utils and styles the window.
+Future<void> _configureMacosWindowUtils() async {
+  const config = MacosWindowUtilsConfig();
+  await config.apply();
+}
+
 void main() async {
+  if (!kIsWeb) {
+    if (Platform.isMacOS) {
+      await _configureMacosWindowUtils();
+    }
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
 
   Hive.init((await getApplicationDocumentsDirectory()).path);
@@ -40,18 +55,13 @@ void main() async {
 final _appRouter = AppRouter();
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final settingsState = ref.read(settingsNotifierProvider);
@@ -70,13 +80,18 @@ class _MyAppState extends ConsumerState<MyApp> {
           HideIntent: CallbackAction<HideIntent>(
             onInvoke: (intent) {
               ref.read(systemTrayProvider).hideWindow();
+              return null;
             },
           ),
         },
         child: MacosApp.router(
+          theme: MacosThemeData.light(),
+          darkTheme: MacosThemeData.dark(),
+          // themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
           routeInformationParser: _appRouter.defaultRouteParser(),
           routerDelegate: _appRouter.delegate(
+            // TODO: Default route;
             initialRoutes: settingsState.whenOrNull(
               valid: (settings) => [
                 const ServerListRoute(),

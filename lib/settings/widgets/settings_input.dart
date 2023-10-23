@@ -8,11 +8,11 @@ class SettingsInput extends StatelessWidget {
   final TextEditingController controller;
 
   const SettingsInput({
-    Key? key,
+    super.key,
     required this.icon,
     required this.placeholder,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

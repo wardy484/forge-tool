@@ -6,14 +6,14 @@ part of 'server_list.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ServerList _$$_ServerListFromJson(Map<String, dynamic> json) =>
-    _$_ServerList(
+_$ServerListImpl _$$ServerListImplFromJson(Map<String, dynamic> json) =>
+    _$ServerListImpl(
       servers: (json['servers'] as List<dynamic>)
           .map((e) => Server.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_ServerListToJson(_$_ServerList instance) =>
+Map<String, dynamic> _$$ServerListImplToJson(_$ServerListImpl instance) =>
     <String, dynamic>{
       'servers': instance.servers,
     };

@@ -6,7 +6,7 @@ part of 'rule.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Rule _$$_RuleFromJson(Map<String, dynamic> json) => _$_Rule(
+_$RuleImpl _$$RuleImplFromJson(Map<String, dynamic> json) => _$RuleImpl(
       id: json['id'] as int?,
       name: json['name'] as String?,
       port: json['port'] as int?,
@@ -16,7 +16,8 @@ _$_Rule _$$_RuleFromJson(Map<String, dynamic> json) => _$_Rule(
       createdAt: json['created_at'] as String?,
     );
 
-Map<String, dynamic> _$$_RuleToJson(_$_Rule instance) => <String, dynamic>{
+Map<String, dynamic> _$$RuleImplToJson(_$RuleImpl instance) =>
+    <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'port': instance.port,

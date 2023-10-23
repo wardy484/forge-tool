@@ -46,7 +46,14 @@ class ForgeSdk {
     final res = await client.get("/servers");
 
     if (res.statusCode == 200) {
-      return ServerList.fromJson(res.data);
+      final allServers = ServerList.fromJson(res.data);
+
+      // Exclude revoked servers, these are probably deleted.
+      return ServerList(
+        servers: allServers.servers.where((server) {
+          return server.revoked == false;
+        }).toList(),
+      );
     }
 
     return ServerList(servers: []);

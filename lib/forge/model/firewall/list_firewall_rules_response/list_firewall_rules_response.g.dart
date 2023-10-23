@@ -6,16 +6,16 @@ part of 'list_firewall_rules_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ListFirewallRulesResponse _$$_ListFirewallRulesResponseFromJson(
+_$ListFirewallRulesResponseImpl _$$ListFirewallRulesResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ListFirewallRulesResponse(
+    _$ListFirewallRulesResponseImpl(
       rules: (json['rules'] as List<dynamic>)
           .map((e) => FirewallRule.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_ListFirewallRulesResponseToJson(
-        _$_ListFirewallRulesResponse instance) =>
+Map<String, dynamic> _$$ListFirewallRulesResponseImplToJson(
+        _$ListFirewallRulesResponseImpl instance) =>
     <String, dynamic>{
       'rules': instance.rules,
     };

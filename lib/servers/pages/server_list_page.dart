@@ -3,17 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/model/server/server.dart';
+import 'package:forge/forge/model/server/server_list.dart';
 import 'package:forge/mac/widgets/custom_list_tile.dart';
 import 'package:forge/mac/widgets/loading.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
-import 'package:forge/servers/server_list_state.dart';
 import 'package:forge/settings/widgets/settings_page_button.dart';
 import 'package:forge/system_tray/tray.dart';
+import 'package:forge/whitelist/pages/whitelist_page.dart';
 import 'package:macos_ui/macos_ui.dart';
 
+@RoutePage()
 class ServerListPage extends ConsumerStatefulWidget {
-  const ServerListPage({Key? key}) : super(key: key);
+  const ServerListPage({super.key});
 
   @override
   _ServerListPageState createState() => _ServerListPageState();
@@ -23,36 +25,33 @@ class _ServerListPageState extends ConsumerState<ServerListPage> {
   final List<String> selectedPorts = [];
 
   @override
-  void initState() {
-    ref.read(serverListNotifierProvider.notifier).getServerList();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final systemTray = ref.read(systemTrayProvider);
 
-    ref.listen(serverListNotifierProvider, (prev, ServerListState next) {
+    ref.listen(serverListProvider, (prev, AsyncValue<ServerList> next) {
       next.whenOrNull(
-        loaded: (servers) => systemTray.addServers(servers, (Server server) {
-          AutoRouter.of(context).push(WhitelistRoute(server: server));
+        data: (servers) => systemTray.addServers(servers, (
+          Server server, {
+          WhitelistPort? port,
+        }) {
+          AutoRouter.of(context).push(WhitelistRoute(
+            server: server,
+            ports: port,
+            skipInput: true,
+          ));
         }),
       );
     });
 
     return MacosScaffold(
-      titleBar: TitleBar(
-        title: const Text('Servers'),
+      toolBar: ToolBar(
+        title: const Text('Whitelist Ninja'),
+        centerTitle: true,
         actions: [
-          MacosIconButton(
+          ToolBarIconButton(
             icon: const MacosIcon(CupertinoIcons.settings),
-            boxConstraints: const BoxConstraints(
-              minHeight: 40,
-              minWidth: 40,
-              maxWidth: 50,
-              maxHeight: 50,
-            ),
+            label: 'Settings',
+            showLabel: false,
             onPressed: () {
               AutoRouter.of(context).push(SettingsRoute(initialPage: false));
             },
@@ -62,11 +61,10 @@ class _ServerListPageState extends ConsumerState<ServerListPage> {
       children: [
         ContentArea(
           builder: (context, scrollController) {
-            return ref.watch(serverListNotifierProvider).when(
-                  initial: () => const Loading(),
+            return ref.watch(serverListProvider).when(
                   loading: () => const Loading(),
-                  error: () => const Error(),
-                  loaded: (serverList) {
+                  error: (error, stackTrace) => const Error(),
+                  data: (serverList) {
                     return ListView.separated(
                       controller: scrollController,
                       padding: const EdgeInsets.all(6),

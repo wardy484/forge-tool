@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'server.dart';
 
@@ -12,56 +12,11 @@ part of 'server.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Server _$ServerFromJson(Map<String, dynamic> json) {
   return _Server.fromJson(json);
 }
-
-/// @nodoc
-class _$ServerTearOff {
-  const _$ServerTearOff();
-
-  _Server call(
-      {required int id,
-      required int credentialId,
-      required String name,
-      required String region,
-      required String phpVersion,
-      required String databaseType,
-      required String ipAddress,
-      required String privateIpAddress,
-      String? blackfireStatus,
-      String? papertrailStatus,
-      required bool revoked,
-      required String createdAt,
-      required bool isReady,
-      required List<int> network}) {
-    return _Server(
-      id: id,
-      credentialId: credentialId,
-      name: name,
-      region: region,
-      phpVersion: phpVersion,
-      databaseType: databaseType,
-      ipAddress: ipAddress,
-      privateIpAddress: privateIpAddress,
-      blackfireStatus: blackfireStatus,
-      papertrailStatus: papertrailStatus,
-      revoked: revoked,
-      createdAt: createdAt,
-      isReady: isReady,
-      network: network,
-    );
-  }
-
-  Server fromJson(Map<String, Object?> json) {
-    return Server.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Server = _$ServerTearOff();
 
 /// @nodoc
 mixin _$Server {
@@ -88,7 +43,8 @@ mixin _$Server {
 /// @nodoc
 abstract class $ServerCopyWith<$Res> {
   factory $ServerCopyWith(Server value, $Res Function(Server) then) =
-      _$ServerCopyWithImpl<$Res>;
+      _$ServerCopyWithImpl<$Res, Server>;
+  @useResult
   $Res call(
       {int id,
       int credentialId,
@@ -107,96 +63,101 @@ abstract class $ServerCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ServerCopyWithImpl<$Res> implements $ServerCopyWith<$Res> {
+class _$ServerCopyWithImpl<$Res, $Val extends Server>
+    implements $ServerCopyWith<$Res> {
   _$ServerCopyWithImpl(this._value, this._then);
 
-  final Server _value;
   // ignore: unused_field
-  final $Res Function(Server) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? credentialId = freezed,
-    Object? name = freezed,
-    Object? region = freezed,
-    Object? phpVersion = freezed,
-    Object? databaseType = freezed,
-    Object? ipAddress = freezed,
-    Object? privateIpAddress = freezed,
+    Object? id = null,
+    Object? credentialId = null,
+    Object? name = null,
+    Object? region = null,
+    Object? phpVersion = null,
+    Object? databaseType = null,
+    Object? ipAddress = null,
+    Object? privateIpAddress = null,
     Object? blackfireStatus = freezed,
     Object? papertrailStatus = freezed,
-    Object? revoked = freezed,
-    Object? createdAt = freezed,
-    Object? isReady = freezed,
-    Object? network = freezed,
+    Object? revoked = null,
+    Object? createdAt = null,
+    Object? isReady = null,
+    Object? network = null,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      credentialId: credentialId == freezed
+      credentialId: null == credentialId
           ? _value.credentialId
           : credentialId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      region: region == freezed
+      region: null == region
           ? _value.region
           : region // ignore: cast_nullable_to_non_nullable
               as String,
-      phpVersion: phpVersion == freezed
+      phpVersion: null == phpVersion
           ? _value.phpVersion
           : phpVersion // ignore: cast_nullable_to_non_nullable
               as String,
-      databaseType: databaseType == freezed
+      databaseType: null == databaseType
           ? _value.databaseType
           : databaseType // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      privateIpAddress: privateIpAddress == freezed
+      privateIpAddress: null == privateIpAddress
           ? _value.privateIpAddress
           : privateIpAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      blackfireStatus: blackfireStatus == freezed
+      blackfireStatus: freezed == blackfireStatus
           ? _value.blackfireStatus
           : blackfireStatus // ignore: cast_nullable_to_non_nullable
               as String?,
-      papertrailStatus: papertrailStatus == freezed
+      papertrailStatus: freezed == papertrailStatus
           ? _value.papertrailStatus
           : papertrailStatus // ignore: cast_nullable_to_non_nullable
               as String?,
-      revoked: revoked == freezed
+      revoked: null == revoked
           ? _value.revoked
           : revoked // ignore: cast_nullable_to_non_nullable
               as bool,
-      createdAt: createdAt == freezed
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
-      isReady: isReady == freezed
+      isReady: null == isReady
           ? _value.isReady
           : isReady // ignore: cast_nullable_to_non_nullable
               as bool,
-      network: network == freezed
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as List<int>,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$ServerCopyWith<$Res> implements $ServerCopyWith<$Res> {
-  factory _$ServerCopyWith(_Server value, $Res Function(_Server) then) =
-      __$ServerCopyWithImpl<$Res>;
+abstract class _$$ServerImplCopyWith<$Res> implements $ServerCopyWith<$Res> {
+  factory _$$ServerImplCopyWith(
+          _$ServerImpl value, $Res Function(_$ServerImpl) then) =
+      __$$ServerImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {int id,
       int credentialId,
@@ -215,86 +176,86 @@ abstract class _$ServerCopyWith<$Res> implements $ServerCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$ServerCopyWithImpl<$Res> extends _$ServerCopyWithImpl<$Res>
-    implements _$ServerCopyWith<$Res> {
-  __$ServerCopyWithImpl(_Server _value, $Res Function(_Server) _then)
-      : super(_value, (v) => _then(v as _Server));
+class __$$ServerImplCopyWithImpl<$Res>
+    extends _$ServerCopyWithImpl<$Res, _$ServerImpl>
+    implements _$$ServerImplCopyWith<$Res> {
+  __$$ServerImplCopyWithImpl(
+      _$ServerImpl _value, $Res Function(_$ServerImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Server get _value => super._value as _Server;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? credentialId = freezed,
-    Object? name = freezed,
-    Object? region = freezed,
-    Object? phpVersion = freezed,
-    Object? databaseType = freezed,
-    Object? ipAddress = freezed,
-    Object? privateIpAddress = freezed,
+    Object? id = null,
+    Object? credentialId = null,
+    Object? name = null,
+    Object? region = null,
+    Object? phpVersion = null,
+    Object? databaseType = null,
+    Object? ipAddress = null,
+    Object? privateIpAddress = null,
     Object? blackfireStatus = freezed,
     Object? papertrailStatus = freezed,
-    Object? revoked = freezed,
-    Object? createdAt = freezed,
-    Object? isReady = freezed,
-    Object? network = freezed,
+    Object? revoked = null,
+    Object? createdAt = null,
+    Object? isReady = null,
+    Object? network = null,
   }) {
-    return _then(_Server(
-      id: id == freezed
+    return _then(_$ServerImpl(
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      credentialId: credentialId == freezed
+      credentialId: null == credentialId
           ? _value.credentialId
           : credentialId // ignore: cast_nullable_to_non_nullable
               as int,
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      region: region == freezed
+      region: null == region
           ? _value.region
           : region // ignore: cast_nullable_to_non_nullable
               as String,
-      phpVersion: phpVersion == freezed
+      phpVersion: null == phpVersion
           ? _value.phpVersion
           : phpVersion // ignore: cast_nullable_to_non_nullable
               as String,
-      databaseType: databaseType == freezed
+      databaseType: null == databaseType
           ? _value.databaseType
           : databaseType // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: null == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      privateIpAddress: privateIpAddress == freezed
+      privateIpAddress: null == privateIpAddress
           ? _value.privateIpAddress
           : privateIpAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      blackfireStatus: blackfireStatus == freezed
+      blackfireStatus: freezed == blackfireStatus
           ? _value.blackfireStatus
           : blackfireStatus // ignore: cast_nullable_to_non_nullable
               as String?,
-      papertrailStatus: papertrailStatus == freezed
+      papertrailStatus: freezed == papertrailStatus
           ? _value.papertrailStatus
           : papertrailStatus // ignore: cast_nullable_to_non_nullable
               as String?,
-      revoked: revoked == freezed
+      revoked: null == revoked
           ? _value.revoked
           : revoked // ignore: cast_nullable_to_non_nullable
               as bool,
-      createdAt: createdAt == freezed
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String,
-      isReady: isReady == freezed
+      isReady: null == isReady
           ? _value.isReady
           : isReady // ignore: cast_nullable_to_non_nullable
               as bool,
-      network: network == freezed
-          ? _value.network
+      network: null == network
+          ? _value._network
           : network // ignore: cast_nullable_to_non_nullable
               as List<int>,
     ));
@@ -303,8 +264,8 @@ class __$ServerCopyWithImpl<$Res> extends _$ServerCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Server implements _Server {
-  _$_Server(
+class _$ServerImpl implements _Server {
+  _$ServerImpl(
       {required this.id,
       required this.credentialId,
       required this.name,
@@ -318,10 +279,11 @@ class _$_Server implements _Server {
       required this.revoked,
       required this.createdAt,
       required this.isReady,
-      required this.network});
+      required final List<int> network})
+      : _network = network;
 
-  factory _$_Server.fromJson(Map<String, dynamic> json) =>
-      _$$_ServerFromJson(json);
+  factory _$ServerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServerImplFromJson(json);
 
   @override
   final int id;
@@ -349,8 +311,13 @@ class _$_Server implements _Server {
   final String createdAt;
   @override
   final bool isReady;
+  final List<int> _network;
   @override
-  final List<int> network;
+  List<int> get network {
+    if (_network is EqualUnmodifiableListView) return _network;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_network);
+  }
 
   @override
   String toString() {
@@ -361,76 +328,82 @@ class _$_Server implements _Server {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Server &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality()
-                .equals(other.credentialId, credentialId) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.region, region) &&
-            const DeepCollectionEquality()
-                .equals(other.phpVersion, phpVersion) &&
-            const DeepCollectionEquality()
-                .equals(other.databaseType, databaseType) &&
-            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.privateIpAddress, privateIpAddress) &&
-            const DeepCollectionEquality()
-                .equals(other.blackfireStatus, blackfireStatus) &&
-            const DeepCollectionEquality()
-                .equals(other.papertrailStatus, papertrailStatus) &&
-            const DeepCollectionEquality().equals(other.revoked, revoked) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
-            const DeepCollectionEquality().equals(other.isReady, isReady) &&
-            const DeepCollectionEquality().equals(other.network, network));
+            other is _$ServerImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.credentialId, credentialId) ||
+                other.credentialId == credentialId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.region, region) || other.region == region) &&
+            (identical(other.phpVersion, phpVersion) ||
+                other.phpVersion == phpVersion) &&
+            (identical(other.databaseType, databaseType) ||
+                other.databaseType == databaseType) &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.privateIpAddress, privateIpAddress) ||
+                other.privateIpAddress == privateIpAddress) &&
+            (identical(other.blackfireStatus, blackfireStatus) ||
+                other.blackfireStatus == blackfireStatus) &&
+            (identical(other.papertrailStatus, papertrailStatus) ||
+                other.papertrailStatus == papertrailStatus) &&
+            (identical(other.revoked, revoked) || other.revoked == revoked) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.isReady, isReady) || other.isReady == isReady) &&
+            const DeepCollectionEquality().equals(other._network, _network));
   }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(credentialId),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(region),
-      const DeepCollectionEquality().hash(phpVersion),
-      const DeepCollectionEquality().hash(databaseType),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(privateIpAddress),
-      const DeepCollectionEquality().hash(blackfireStatus),
-      const DeepCollectionEquality().hash(papertrailStatus),
-      const DeepCollectionEquality().hash(revoked),
-      const DeepCollectionEquality().hash(createdAt),
-      const DeepCollectionEquality().hash(isReady),
-      const DeepCollectionEquality().hash(network));
 
   @JsonKey(ignore: true)
   @override
-  _$ServerCopyWith<_Server> get copyWith =>
-      __$ServerCopyWithImpl<_Server>(this, _$identity);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      credentialId,
+      name,
+      region,
+      phpVersion,
+      databaseType,
+      ipAddress,
+      privateIpAddress,
+      blackfireStatus,
+      papertrailStatus,
+      revoked,
+      createdAt,
+      isReady,
+      const DeepCollectionEquality().hash(_network));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ServerImplCopyWith<_$ServerImpl> get copyWith =>
+      __$$ServerImplCopyWithImpl<_$ServerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ServerToJson(this);
+    return _$$ServerImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Server implements Server {
   factory _Server(
-      {required int id,
-      required int credentialId,
-      required String name,
-      required String region,
-      required String phpVersion,
-      required String databaseType,
-      required String ipAddress,
-      required String privateIpAddress,
-      String? blackfireStatus,
-      String? papertrailStatus,
-      required bool revoked,
-      required String createdAt,
-      required bool isReady,
-      required List<int> network}) = _$_Server;
+      {required final int id,
+      required final int credentialId,
+      required final String name,
+      required final String region,
+      required final String phpVersion,
+      required final String databaseType,
+      required final String ipAddress,
+      required final String privateIpAddress,
+      final String? blackfireStatus,
+      final String? papertrailStatus,
+      required final bool revoked,
+      required final String createdAt,
+      required final bool isReady,
+      required final List<int> network}) = _$ServerImpl;
 
-  factory _Server.fromJson(Map<String, dynamic> json) = _$_Server.fromJson;
+  factory _Server.fromJson(Map<String, dynamic> json) = _$ServerImpl.fromJson;
 
   @override
   int get id;
@@ -462,5 +435,6 @@ abstract class _Server implements Server {
   List<int> get network;
   @override
   @JsonKey(ignore: true)
-  _$ServerCopyWith<_Server> get copyWith => throw _privateConstructorUsedError;
+  _$$ServerImplCopyWith<_$ServerImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

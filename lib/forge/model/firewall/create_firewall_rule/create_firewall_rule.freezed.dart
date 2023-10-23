@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'create_firewall_rule.dart';
 
@@ -12,36 +12,11 @@ part of 'create_firewall_rule.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 CreateFirewallRule _$CreateFirewallRuleFromJson(Map<String, dynamic> json) {
   return _CreateFirewallRule.fromJson(json);
 }
-
-/// @nodoc
-class _$CreateFirewallRuleTearOff {
-  const _$CreateFirewallRuleTearOff();
-
-  _CreateFirewallRule call(
-      {required String name,
-      String? ipAddress,
-      required int port,
-      required String type}) {
-    return _CreateFirewallRule(
-      name: name,
-      ipAddress: ipAddress,
-      port: port,
-      type: type,
-    );
-  }
-
-  CreateFirewallRule fromJson(Map<String, Object?> json) {
-    return CreateFirewallRule.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $CreateFirewallRule = _$CreateFirewallRuleTearOff();
 
 /// @nodoc
 mixin _$CreateFirewallRule {
@@ -60,89 +35,91 @@ mixin _$CreateFirewallRule {
 abstract class $CreateFirewallRuleCopyWith<$Res> {
   factory $CreateFirewallRuleCopyWith(
           CreateFirewallRule value, $Res Function(CreateFirewallRule) then) =
-      _$CreateFirewallRuleCopyWithImpl<$Res>;
+      _$CreateFirewallRuleCopyWithImpl<$Res, CreateFirewallRule>;
+  @useResult
   $Res call({String name, String? ipAddress, int port, String type});
 }
 
 /// @nodoc
-class _$CreateFirewallRuleCopyWithImpl<$Res>
+class _$CreateFirewallRuleCopyWithImpl<$Res, $Val extends CreateFirewallRule>
     implements $CreateFirewallRuleCopyWith<$Res> {
   _$CreateFirewallRuleCopyWithImpl(this._value, this._then);
 
-  final CreateFirewallRule _value;
   // ignore: unused_field
-  final $Res Function(CreateFirewallRule) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? ipAddress = freezed,
-    Object? port = freezed,
-    Object? type = freezed,
+    Object? port = null,
+    Object? type = null,
   }) {
     return _then(_value.copyWith(
-      name: name == freezed
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: freezed == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      port: port == freezed
+      port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$CreateFirewallRuleCopyWith<$Res>
+abstract class _$$CreateFirewallRuleImplCopyWith<$Res>
     implements $CreateFirewallRuleCopyWith<$Res> {
-  factory _$CreateFirewallRuleCopyWith(
-          _CreateFirewallRule value, $Res Function(_CreateFirewallRule) then) =
-      __$CreateFirewallRuleCopyWithImpl<$Res>;
+  factory _$$CreateFirewallRuleImplCopyWith(_$CreateFirewallRuleImpl value,
+          $Res Function(_$CreateFirewallRuleImpl) then) =
+      __$$CreateFirewallRuleImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({String name, String? ipAddress, int port, String type});
 }
 
 /// @nodoc
-class __$CreateFirewallRuleCopyWithImpl<$Res>
-    extends _$CreateFirewallRuleCopyWithImpl<$Res>
-    implements _$CreateFirewallRuleCopyWith<$Res> {
-  __$CreateFirewallRuleCopyWithImpl(
-      _CreateFirewallRule _value, $Res Function(_CreateFirewallRule) _then)
-      : super(_value, (v) => _then(v as _CreateFirewallRule));
+class __$$CreateFirewallRuleImplCopyWithImpl<$Res>
+    extends _$CreateFirewallRuleCopyWithImpl<$Res, _$CreateFirewallRuleImpl>
+    implements _$$CreateFirewallRuleImplCopyWith<$Res> {
+  __$$CreateFirewallRuleImplCopyWithImpl(_$CreateFirewallRuleImpl _value,
+      $Res Function(_$CreateFirewallRuleImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _CreateFirewallRule get _value => super._value as _CreateFirewallRule;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? name = null,
     Object? ipAddress = freezed,
-    Object? port = freezed,
-    Object? type = freezed,
+    Object? port = null,
+    Object? type = null,
   }) {
-    return _then(_CreateFirewallRule(
-      name: name == freezed
+    return _then(_$CreateFirewallRuleImpl(
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      ipAddress: ipAddress == freezed
+      ipAddress: freezed == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      port: port == freezed
+      port: null == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int,
-      type: type == freezed
+      type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
@@ -152,15 +129,15 @@ class __$CreateFirewallRuleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CreateFirewallRule implements _CreateFirewallRule {
-  _$_CreateFirewallRule(
+class _$CreateFirewallRuleImpl implements _CreateFirewallRule {
+  _$CreateFirewallRuleImpl(
       {required this.name,
       this.ipAddress,
       required this.port,
       required this.type});
 
-  factory _$_CreateFirewallRule.fromJson(Map<String, dynamic> json) =>
-      _$$_CreateFirewallRuleFromJson(json);
+  factory _$CreateFirewallRuleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateFirewallRuleImplFromJson(json);
 
   @override
   final String name;
@@ -180,41 +157,42 @@ class _$_CreateFirewallRule implements _CreateFirewallRule {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _CreateFirewallRule &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality().equals(other.port, port) &&
-            const DeepCollectionEquality().equals(other.type, type));
+            other is _$CreateFirewallRuleImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.ipAddress, ipAddress) ||
+                other.ipAddress == ipAddress) &&
+            (identical(other.port, port) || other.port == port) &&
+            (identical(other.type, type) || other.type == type));
   }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(port),
-      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
-  _$CreateFirewallRuleCopyWith<_CreateFirewallRule> get copyWith =>
-      __$CreateFirewallRuleCopyWithImpl<_CreateFirewallRule>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, name, ipAddress, port, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateFirewallRuleImplCopyWith<_$CreateFirewallRuleImpl> get copyWith =>
+      __$$CreateFirewallRuleImplCopyWithImpl<_$CreateFirewallRuleImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CreateFirewallRuleToJson(this);
+    return _$$CreateFirewallRuleImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _CreateFirewallRule implements CreateFirewallRule {
   factory _CreateFirewallRule(
-      {required String name,
-      String? ipAddress,
-      required int port,
-      required String type}) = _$_CreateFirewallRule;
+      {required final String name,
+      final String? ipAddress,
+      required final int port,
+      required final String type}) = _$CreateFirewallRuleImpl;
 
   factory _CreateFirewallRule.fromJson(Map<String, dynamic> json) =
-      _$_CreateFirewallRule.fromJson;
+      _$CreateFirewallRuleImpl.fromJson;
 
   @override
   String get name;
@@ -226,6 +204,6 @@ abstract class _CreateFirewallRule implements CreateFirewallRule {
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$CreateFirewallRuleCopyWith<_CreateFirewallRule> get copyWith =>
+  _$$CreateFirewallRuleImplCopyWith<_$CreateFirewallRuleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

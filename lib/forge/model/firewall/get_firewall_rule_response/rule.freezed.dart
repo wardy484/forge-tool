@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'rule.dart';
 
@@ -12,42 +12,11 @@ part of 'rule.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Rule _$RuleFromJson(Map<String, dynamic> json) {
   return _Rule.fromJson(json);
 }
-
-/// @nodoc
-class _$RuleTearOff {
-  const _$RuleTearOff();
-
-  _Rule call(
-      {int? id,
-      String? name,
-      int? port,
-      String? type,
-      @JsonKey(name: 'ip_address') dynamic ipAddress,
-      String? status,
-      @JsonKey(name: 'created_at') String? createdAt}) {
-    return _Rule(
-      id: id,
-      name: name,
-      port: port,
-      type: type,
-      ipAddress: ipAddress,
-      status: status,
-      createdAt: createdAt,
-    );
-  }
-
-  Rule fromJson(Map<String, Object?> json) {
-    return Rule.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $Rule = _$RuleTearOff();
 
 /// @nodoc
 mixin _$Rule {
@@ -69,7 +38,8 @@ mixin _$Rule {
 /// @nodoc
 abstract class $RuleCopyWith<$Res> {
   factory $RuleCopyWith(Rule value, $Res Function(Rule) then) =
-      _$RuleCopyWithImpl<$Res>;
+      _$RuleCopyWithImpl<$Res, Rule>;
+  @useResult
   $Res call(
       {int? id,
       String? name,
@@ -81,13 +51,16 @@ abstract class $RuleCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RuleCopyWithImpl<$Res> implements $RuleCopyWith<$Res> {
+class _$RuleCopyWithImpl<$Res, $Val extends Rule>
+    implements $RuleCopyWith<$Res> {
   _$RuleCopyWithImpl(this._value, this._then);
 
-  final Rule _value;
   // ignore: unused_field
-  final $Res Function(Rule) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = freezed,
@@ -99,43 +72,45 @@ class _$RuleCopyWithImpl<$Res> implements $RuleCopyWith<$Res> {
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      port: port == freezed
+      port: freezed == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int?,
-      type: type == freezed
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      ipAddress: ipAddress == freezed
+      ipAddress: freezed == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      status: status == freezed
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: createdAt == freezed
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$RuleCopyWith<$Res> implements $RuleCopyWith<$Res> {
-  factory _$RuleCopyWith(_Rule value, $Res Function(_Rule) then) =
-      __$RuleCopyWithImpl<$Res>;
+abstract class _$$RuleImplCopyWith<$Res> implements $RuleCopyWith<$Res> {
+  factory _$$RuleImplCopyWith(
+          _$RuleImpl value, $Res Function(_$RuleImpl) then) =
+      __$$RuleImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {int? id,
       String? name,
@@ -147,14 +122,13 @@ abstract class _$RuleCopyWith<$Res> implements $RuleCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$RuleCopyWithImpl<$Res> extends _$RuleCopyWithImpl<$Res>
-    implements _$RuleCopyWith<$Res> {
-  __$RuleCopyWithImpl(_Rule _value, $Res Function(_Rule) _then)
-      : super(_value, (v) => _then(v as _Rule));
+class __$$RuleImplCopyWithImpl<$Res>
+    extends _$RuleCopyWithImpl<$Res, _$RuleImpl>
+    implements _$$RuleImplCopyWith<$Res> {
+  __$$RuleImplCopyWithImpl(_$RuleImpl _value, $Res Function(_$RuleImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Rule get _value => super._value as _Rule;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = freezed,
@@ -165,32 +139,32 @@ class __$RuleCopyWithImpl<$Res> extends _$RuleCopyWithImpl<$Res>
     Object? status = freezed,
     Object? createdAt = freezed,
   }) {
-    return _then(_Rule(
-      id: id == freezed
+    return _then(_$RuleImpl(
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      name: name == freezed
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      port: port == freezed
+      port: freezed == port
           ? _value.port
           : port // ignore: cast_nullable_to_non_nullable
               as int?,
-      type: type == freezed
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      ipAddress: ipAddress == freezed
+      ipAddress: freezed == ipAddress
           ? _value.ipAddress
           : ipAddress // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      status: status == freezed
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      createdAt: createdAt == freezed
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as String?,
@@ -200,8 +174,8 @@ class __$RuleCopyWithImpl<$Res> extends _$RuleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Rule implements _Rule {
-  _$_Rule(
+class _$RuleImpl implements _Rule {
+  _$RuleImpl(
       {this.id,
       this.name,
       this.port,
@@ -210,7 +184,8 @@ class _$_Rule implements _Rule {
       this.status,
       @JsonKey(name: 'created_at') this.createdAt});
 
-  factory _$_Rule.fromJson(Map<String, dynamic> json) => _$$_RuleFromJson(json);
+  factory _$RuleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RuleImplFromJson(json);
 
   @override
   final int? id;
@@ -238,49 +213,47 @@ class _$_Rule implements _Rule {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Rule &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.port, port) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
+            other is _$RuleImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.port, port) || other.port == port) &&
+            (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other.ipAddress, ipAddress) &&
-            const DeepCollectionEquality().equals(other.status, status) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(port),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(ipAddress),
-      const DeepCollectionEquality().hash(status),
-      const DeepCollectionEquality().hash(createdAt));
 
   @JsonKey(ignore: true)
   @override
-  _$RuleCopyWith<_Rule> get copyWith =>
-      __$RuleCopyWithImpl<_Rule>(this, _$identity);
+  int get hashCode => Object.hash(runtimeType, id, name, port, type,
+      const DeepCollectionEquality().hash(ipAddress), status, createdAt);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RuleImplCopyWith<_$RuleImpl> get copyWith =>
+      __$$RuleImplCopyWithImpl<_$RuleImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RuleToJson(this);
+    return _$$RuleImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Rule implements Rule {
   factory _Rule(
-      {int? id,
-      String? name,
-      int? port,
-      String? type,
-      @JsonKey(name: 'ip_address') dynamic ipAddress,
-      String? status,
-      @JsonKey(name: 'created_at') String? createdAt}) = _$_Rule;
+      {final int? id,
+      final String? name,
+      final int? port,
+      final String? type,
+      @JsonKey(name: 'ip_address') final dynamic ipAddress,
+      final String? status,
+      @JsonKey(name: 'created_at') final String? createdAt}) = _$RuleImpl;
 
-  factory _Rule.fromJson(Map<String, dynamic> json) = _$_Rule.fromJson;
+  factory _Rule.fromJson(Map<String, dynamic> json) = _$RuleImpl.fromJson;
 
   @override
   int? get id;
@@ -300,5 +273,6 @@ abstract class _Rule implements Rule {
   String? get createdAt;
   @override
   @JsonKey(ignore: true)
-  _$RuleCopyWith<_Rule> get copyWith => throw _privateConstructorUsedError;
+  _$$RuleImplCopyWith<_$RuleImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

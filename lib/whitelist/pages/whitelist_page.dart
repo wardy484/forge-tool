@@ -14,13 +14,44 @@ import 'package:forge/settings/widgets/settings_page_button.dart';
 import 'package:forge/whitelist/whitelist_state_notifier.dart';
 import 'package:macos_ui/macos_ui.dart';
 
+enum WhitelistPort implements Comparable<WhitelistPort> {
+  http(ports: ["80", "443"]),
+  mysql(ports: ["3306"]),
+  ssh(ports: ["22"]);
+
+  const WhitelistPort({
+    required this.ports,
+  });
+
+  final List<String> ports;
+
+  String get label {
+    switch (this) {
+      case WhitelistPort.http:
+        return "HTTP";
+      case WhitelistPort.mysql:
+        return "MySQL";
+      case WhitelistPort.ssh:
+        return "SSH";
+    }
+  }
+
+  @override
+  int compareTo(WhitelistPort other) => index.compareTo(other.index);
+}
+
+@RoutePage()
 class WhitelistPage extends ConsumerStatefulWidget {
   final Server server;
+  final WhitelistPort? ports;
+  final bool skipInput;
 
   const WhitelistPage({
-    Key? key,
+    super.key,
     required this.server,
-  }) : super(key: key);
+    this.ports,
+    this.skipInput = false,
+  });
 
   @override
   _WhitelistPageState createState() => _WhitelistPageState();
@@ -31,14 +62,28 @@ class _WhitelistPageState extends ConsumerState<WhitelistPage> {
   final _ipAddressController = TextEditingController();
   final _nameController = TextEditingController();
 
-  final ports = ["80", "443", "3306", "22"];
-  final List<String> selectedPorts = [];
+  final List<WhitelistPort> selectedPorts = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      if (widget.skipInput && widget.ports != null) {
+        selectedPorts.add(widget.ports!);
+
+        whitelist(selectedPorts);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
-      titleBar: TitleBar(
+      toolBar: ToolBar(
         title: Text('Select ports for ${widget.server.name}'),
+        titleWidth: 400,
+        centerTitle: true,
       ),
       children: [
         ContentArea(
@@ -70,13 +115,10 @@ class _WhitelistPageState extends ConsumerState<WhitelistPage> {
                               const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: ports.map((port) {
-                                  bool portSelected =
-                                      selectedPorts.contains(port);
-
+                                children: WhitelistPort.values.map((ports) {
                                   return PortSelectOption(
-                                    port: port,
-                                    isChecked: portSelected,
+                                    port: ports,
+                                    isChecked: selectedPorts.contains(ports),
                                     onChanged: (port, checked) {
                                       setState(() {
                                         if (selectedPorts.contains(port)) {
@@ -108,7 +150,7 @@ class _WhitelistPageState extends ConsumerState<WhitelistPage> {
     );
   }
 
-  Future<void> whitelist(List<String> ports) async {
+  Future<void> whitelist(List<WhitelistPort> ports) async {
     ref.read(settingsNotifierProvider).whenOrNull(
       valid: (settings) async {
         final whitelistNotifier = ref.read(whitelistNotifierProvider.notifier);
@@ -124,7 +166,7 @@ class _WhitelistPageState extends ConsumerState<WhitelistPage> {
           await whitelistNotifier.createFirewallRules(
             serverId: widget.server.id,
             name: name,
-            ports: ports,
+            ports: ports.map((e) => e.ports).expand((i) => i).toList(),
             ipAddress: ipAddress,
           );
         } catch (e) {

@@ -9,14 +9,15 @@ import 'package:forge/whitelist/pages/whitelist_status_page.dart';
 
 part 'router.gr.dart';
 
-@MaterialAutoRouter(
+@AutoRouterConfig(
   replaceInRouteName: 'Page,Route',
-  routes: <AutoRoute>[
-    AutoRoute(page: SettingsPage, initial: true, path: "/settings"),
-    AutoRoute(page: ServerListPage, path: "/servers"),
-    AutoRoute(page: WhitelistPage),
-    AutoRoute(page: WhitelistStatusPage),
-  ],
 )
-// extend the generated private router
-class AppRouter extends _$AppRouter {}
+class AppRouter extends _$AppRouter {
+  @override
+  List<AutoRoute> get routes => [
+        AutoRoute(page: SettingsRoute.page, initial: true, path: "/settings"),
+        AutoRoute(page: ServerListRoute.page, path: "/servers"),
+        AutoRoute(page: WhitelistRoute.page),
+        AutoRoute(page: WhitelistStatusRoute.page),
+      ];
+}

@@ -8,25 +8,27 @@ class CustomListTile extends StatelessWidget {
   final String subtitle;
 
   const CustomListTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     this.leading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MacosListTile(
-      leading: leading,
-      title: Text(
-        title,
-        style: MacosTheme.of(context).typography.headline,
-      ),
-      subtitle: Text(
-        subtitle,
-        style: MacosTheme.of(context).typography.subheadline.copyWith(
-              color: MacosColors.systemGrayColor,
-            ),
+    return Expanded(
+      child: MacosListTile(
+        leading: leading,
+        title: Text(
+          title,
+          style: MacosTheme.of(context).typography.headline,
+        ),
+        subtitle: Text(
+          subtitle,
+          style: MacosTheme.of(context).typography.subheadline.copyWith(
+                color: MacosColors.systemGrayColor,
+              ),
+        ),
       ),
     );
   }

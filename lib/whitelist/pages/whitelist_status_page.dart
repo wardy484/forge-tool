@@ -6,22 +6,22 @@ import 'package:forge/forge/model/firewall/firewall_rule/firewall_rule.dart';
 import 'package:forge/mac/widgets/buttons/danger_button.dart';
 import 'package:forge/mac/widgets/custom_list_tile.dart';
 import 'package:forge/mac/widgets/loading.dart';
-import 'package:forge/router.dart';
-import 'package:forge/settings/widgets/settings_page_button.dart';
+import 'package:forge/whitelist/whitelist_state.dart';
 import 'package:forge/whitelist/whitelist_state_notifier.dart';
 import 'package:macos_ui/macos_ui.dart';
 
+@RoutePage()
 class WhitelistStatusPage extends ConsumerStatefulWidget {
   final List<FirewallRule> inProgressRules;
   final List<FirewallRule> deletableRules;
   final int serverId;
 
   const WhitelistStatusPage({
-    Key? key,
+    super.key,
     required this.serverId,
     required this.inProgressRules,
     required this.deletableRules,
-  }) : super(key: key);
+  });
 
   @override
   _WhitelistStatusPageState createState() => _WhitelistStatusPageState();
@@ -58,9 +58,32 @@ class _WhitelistStatusPageState extends ConsumerState<WhitelistStatusPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(whitelistNotifierProvider, (prev, WhitelistState next) {
+      next.whenOrNull(
+        sucessEmptyQueues: (_, __) {
+          AutoRouter.of(context).popUntilRoot();
+        },
+        success: (_, __) {
+          // TODO: Make this configurable
+          ref
+              .read(
+                whitelistNotifierProvider.notifier,
+              )
+              .deleteOldRules(
+                widget.serverId,
+                widget.deletableRules,
+              );
+
+          _checkProgress();
+        },
+      );
+    });
+
     return MacosScaffold(
-      titleBar: const TitleBar(
+      toolBar: const ToolBar(
+        centerTitle: true,
         title: Text('Updating firewall rules...'),
+        titleWidth: 200,
       ),
       children: [
         ContentArea(
@@ -148,25 +171,6 @@ class _WhitelistStatusPageState extends ConsumerState<WhitelistStatusPage> {
                                                 );
 
                                             _checkProgress();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  sucessEmptyQueues: (_, oldRules) {
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                            "Time to get some work done!"),
-                                        SettingsPageButton(
-                                          label: "Back to list",
-                                          onPressed: () {
-                                            AutoRouter.of(context)
-                                                .popUntilRoot();
-                                            AutoRouter.of(context).replace(
-                                                const ServerListRoute());
                                           },
                                         ),
                                       ],

@@ -6,14 +6,14 @@ part of 'create_firewall_rule_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CreateFirewallRuleResponse _$$_CreateFirewallRuleResponseFromJson(
+_$CreateFirewallRuleResponseImpl _$$CreateFirewallRuleResponseImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CreateFirewallRuleResponse(
+    _$CreateFirewallRuleResponseImpl(
       rule: FirewallRule.fromJson(json['rule'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_CreateFirewallRuleResponseToJson(
-        _$_CreateFirewallRuleResponse instance) =>
+Map<String, dynamic> _$$CreateFirewallRuleResponseImplToJson(
+        _$CreateFirewallRuleResponseImpl instance) =>
     <String, dynamic>{
       'rule': instance.rule,
     };

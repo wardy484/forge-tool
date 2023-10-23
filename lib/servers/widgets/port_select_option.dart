@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:forge/whitelist/pages/whitelist_page.dart';
 import 'package:macos_ui/macos_ui.dart';
 
 class PortSelectOption extends StatelessWidget {
-  final String port;
+  final WhitelistPort port;
   final bool isChecked;
-  final Function(String, bool?) onChanged;
+  final Function(WhitelistPort, bool?) onChanged;
 
   const PortSelectOption({
-    Key? key,
+    super.key,
     required this.port,
     required this.isChecked,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class PortSelectOption extends StatelessWidget {
             },
           ),
           const SizedBox(width: 8),
-          Text(port),
+          Text(port.label),
         ],
       ),
     );

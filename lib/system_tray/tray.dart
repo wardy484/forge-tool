@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
+import 'package:forge/whitelist/pages/whitelist_page.dart';
 import 'package:system_tray/system_tray.dart';
 
 final systemTrayProvider = Provider<ForgeSystemTray>((ref) {
@@ -17,11 +18,8 @@ class ForgeSystemTray {
         super();
 
   Future<void> init() async {
-    // Only valid on MacOS
-    String path = 'AppIcon';
-
     final menu = _generateMenu(servers: [
-      MenuItem(
+      MenuItemLabel(
         label: "Set API Key in settings first.",
       ),
     ]);
@@ -29,60 +27,88 @@ class ForgeSystemTray {
     // We first init the systray menu and then add the menu entries
     await _systemTray.initSystemTray(
       title: "",
-      iconPath: path,
+      iconPath: "assets/images/icon.png",
     );
 
     await _systemTray.setContextMenu(menu);
 
     // handle system tray event
     _systemTray.registerSystemTrayEventHandler((eventName) {
-      print("eventName: $eventName");
-
-      if (eventName == "leftMouseDown") {
-        // do nothing apparently
-      } else if (eventName == "leftMouseUp") {
+      if (eventName == "click") {
         _systemTray.popUpContextMenu();
-      } else if (eventName == "rightMouseDown") {
-      } else if (eventName == "rightMouseUp") {
-        _appWindow.show();
       }
     });
   }
 
-  void addServers(ServerList serverList, Function(Server server) callback) {
+  void addServers(
+    ServerList serverList,
+    Function(Server, {WhitelistPort? port}) callback,
+  ) {
     final serverOptions = serverList.servers.map((server) {
-      return MenuItem(
-          label: server.name,
-          onClicked: () {
+      return SubMenu(label: server.name, children: [
+        MenuItemLabel(
+          label: "HTTP",
+          onClicked: (menuItem) {
+            _appWindow.show();
+
+            callback(server, port: WhitelistPort.http);
+          },
+        ),
+        MenuItemLabel(
+          label: "MySQL",
+          onClicked: (menuItem) {
+            _appWindow.show();
+
+            callback(server, port: WhitelistPort.mysql);
+          },
+        ),
+        MenuItemLabel(
+          label: "SSH",
+          onClicked: (menuItem) {
+            _appWindow.show();
+
+            callback(server, port: WhitelistPort.ssh);
+          },
+        ),
+        MenuItemLabel(
+          label: "Open",
+          onClicked: (menuItem) {
             _appWindow.show();
 
             callback(server);
-          });
+          },
+        ),
+      ]);
     }).toList();
 
     _systemTray.setContextMenu(_generateMenu(servers: serverOptions));
   }
 
-  List<MenuItemBase> _generateMenu({required List<MenuItem> servers}) {
-    return [
+  Menu _generateMenu({required List<MenuItemBase> servers}) {
+    final items = [
       SubMenu(
         label: "Servers",
         children: servers,
       ),
       MenuSeparator(),
-      MenuItem(
+      MenuItemLabel(
         label: 'Show',
-        onClicked: () {
+        onClicked: (menuItem) {
           _appWindow.show();
         },
       ),
-      MenuItem(
+      MenuItemLabel(
         label: 'Exit',
-        onClicked: () {
+        onClicked: (menuItem) {
           _appWindow.close();
         },
       ),
     ];
+
+    final menu = Menu();
+    menu.buildFrom(items);
+
+    return menu;
   }
 
   void hideWindow() {
