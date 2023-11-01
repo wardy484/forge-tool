@@ -1,8 +1,8 @@
-class RuleName {
+class FirewallRuleName {
   final String name;
   final String suffix;
 
-  RuleName({required this.name})
+  FirewallRuleName({required this.name})
       : suffix = DateTime.now().millisecondsSinceEpoch.toString();
 
   @override

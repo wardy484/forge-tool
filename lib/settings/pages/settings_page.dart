@@ -26,7 +26,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     return MacosScaffold(
       toolBar: const ToolBar(
         title: Text('Settings'),
-        centerTitle: true,
       ),
       children: [
         ContentArea(

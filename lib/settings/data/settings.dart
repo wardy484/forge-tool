@@ -10,6 +10,12 @@ class Settings extends HiveObject {
   @HiveField(1)
   String apiKey = "";
 
+  @HiveField(2, defaultValue: true)
+  bool autoCleanup = true;
+
+  @HiveField(3, defaultValue: true)
+  bool launchAtStartup = true;
+
   bool get isConfigured {
     return name != "" && apiKey != "";
   }

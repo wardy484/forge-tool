@@ -18,17 +18,23 @@ class SettingsAdapter extends TypeAdapter<Settings> {
     };
     return Settings()
       ..name = fields[0] as String
-      ..apiKey = fields[1] as String;
+      ..apiKey = fields[1] as String
+      ..autoCleanup = fields[2] == null ? true : fields[2] as bool
+      ..launchAtStartup = fields[3] == null ? true : fields[3] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.apiKey);
+      ..write(obj.apiKey)
+      ..writeByte(2)
+      ..write(obj.autoCleanup)
+      ..writeByte(3)
+      ..write(obj.launchAtStartup);
   }
 
   @override

@@ -2,6 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_state.dart';
 import 'package:hive/hive.dart';
+import 'package:launch_at_startup/launch_at_startup.dart' as startup;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'settings_notifier.g.dart';
 
 final settingsDatabaseProvider = Provider((ref) {
   return Hive.openBox<Settings>("settings");
@@ -16,6 +20,12 @@ final settingsNotifierProvider =
   },
 );
 
+@riverpod
+Future<Settings> fetchSettings(Ref ref) async {
+  var db = await ref.read(settingsDatabaseProvider);
+  return db.get('main', defaultValue: Settings()) as Settings;
+}
+
 class SettingsNotifier extends StateNotifier<SettingsState> {
   final Future<Box> database;
 
@@ -23,12 +33,12 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
     required this.database,
   }) : super(const SettingsState.initial());
 
-  Future<void> loadSettings() async {
-    var _database = await database;
+  Future<void> load() async {
+    var settingsDB = await database;
 
     state = const SettingsState.loading();
 
-    Settings settings = _database.get('main', defaultValue: Settings());
+    Settings settings = settingsDB.get('main', defaultValue: Settings());
 
     _validateSettingsFields(settings);
   }
@@ -62,25 +72,39 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
     );
   }
 
-  Future<void> updateSettings(String name, String apiKey) async {
-    var _database = await database;
+  Future<void> updateSettings(
+    String name,
+    String apiKey,
+    bool autoCleanup,
+    bool launchAtStartup,
+  ) async {
+    var settingsDB = await database;
 
+    // WTF is this... i should really re-write this garbage
     state = const SettingsState.loading();
 
     state = const SettingsState.loading();
 
-    Settings settings = _database.get('main', defaultValue: Settings());
+    Settings settings = settingsDB.get('main', defaultValue: Settings());
 
     settings.name = name;
     settings.apiKey = apiKey;
+    settings.autoCleanup = autoCleanup;
+    settings.launchAtStartup = launchAtStartup;
 
-    _database.delete('main');
-    _database.put('main', settings);
+    if (launchAtStartup) {
+      await startup.launchAtStartup.enable();
+    } else {
+      await startup.launchAtStartup.disable();
+    }
+
+    settingsDB.delete('main');
+    settingsDB.put('main', settings);
 
     _validateSettingsFields(settings);
   }
 
-  bool get settingsAreConfigured {
+  bool get areConfigured {
     return state.maybeWhen(
       loaded: (settings) => settings.isConfigured,
       valid: (settings) => settings.isConfigured,

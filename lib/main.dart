@@ -6,12 +6,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/router.dart';
+import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_notifier.dart';
+import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:forge/system_tray/tray.dart';
 import 'package:hive/hive.dart';
+import 'package:launch_at_startup/launch_at_startup.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:window_manager/window_manager.dart';
 
 /// This method initializes macos_window_utils and styles the window.
 Future<void> _configureMacosWindowUtils() async {
@@ -27,22 +33,64 @@ void main() async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  // await hotKeyManager.unregisterAll();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(600, 280),
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
 
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(SettingsAdapter());
 
   final container = ProviderContainer();
-  final settingsNotifier = container.read(settingsNotifierProvider.notifier);
+  final settings = container.read(settingsNotifierProvider.notifier);
 
-  await settingsNotifier.loadSettings();
+  await settings.load();
 
-  final hasValidKey = settingsNotifier.settingsAreConfigured &&
-      await verifyApiKey(container.read(forgeSdkProvider));
+  await localNotifier.setup(
+    appName: 'whitelist_ninja',
+    // The parameter shortcutPolicy only works on Windows
+    // shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
 
-  settingsNotifier.apiKeyHasBeenValidated(hasValidKey);
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
+  launchAtStartup.setup(
+    appName: packageInfo.appName,
+    appPath: Platform.resolvedExecutable,
+  );
+
+  if (!settings.areConfigured) {
+    await launchAtStartup.enable();
+  }
+
+  container.read(notificationManagerProvider).initialise();
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    if (settings.areConfigured) {
+      // TODO: Clean up
+      // This is still kinda ugly, maybe on first launch, show a loading screen
+      // add in an artifical delay so they can see _something_ then hide everything.
+      await windowManager.hide();
+    } else {
+      await windowManager.show();
+      await windowManager.focus();
+    }
+  });
+
+  final hasValidKey = settings.areConfigured &&
+      await container.read(forgeSdkProvider).verifyApiKey();
+
+  settings.apiKeyHasBeenValidated(hasValidKey);
+
+  final servers = await container.read(serverListProvider.future);
   final systemTray = container.read(systemTrayProvider);
+
   await systemTray.init();
+  systemTray.addServers(servers);
 
   runApp(
     UncontrolledProviderScope(
@@ -64,44 +112,47 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final settingsState = ref.read(settingsNotifierProvider);
-
-    // TOOD: Handle CMD + Q, the below code does not work :sad_face:
-    return Shortcuts(
-      shortcuts: {
-        LogicalKeySet(
-          LogicalKeyboardKey.superKey,
-          LogicalKeyboardKey.keyQ,
-        ): HideIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.keyQ): AddIntent(),
-      },
-      child: Actions(
-        actions: {
-          HideIntent: CallbackAction<HideIntent>(
-            onInvoke: (intent) {
-              ref.read(systemTrayProvider).hideWindow();
-              return null;
-            },
-          ),
-        },
-        child: MacosApp.router(
-          theme: MacosThemeData.light(),
-          darkTheme: MacosThemeData.dark(),
-          // themeMode: ThemeMode.system,
-          debugShowCheckedModeBanner: false,
-          routeInformationParser: _appRouter.defaultRouteParser(),
-          routerDelegate: _appRouter.delegate(
-            // TODO: Default route;
-            initialRoutes: settingsState.whenOrNull(
-              valid: (settings) => [
-                const ServerListRoute(),
-              ],
-            ),
-          ),
-        ),
+    return CloseShortcut(
+      child: MacosApp.router(
+        theme: MacosThemeData.light(),
+        darkTheme: MacosThemeData.dark(),
+        debugShowCheckedModeBanner: false,
+        routeInformationParser: _appRouter.defaultRouteParser(),
+        routerDelegate: _appRouter.delegate(),
       ),
     );
   }
 }
 
-class HideIntent extends Intent {}
+final hideWindowKeySet = LogicalKeySet(
+  LogicalKeyboardKey.meta, // Replace with control on Windows
+  LogicalKeyboardKey.keyW,
+);
+
+class HideWindowIntent extends Intent {}
+
+class CloseShortcut extends ConsumerWidget {
+  const CloseShortcut({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FocusableActionDetector(
+      autofocus: true,
+      shortcuts: {
+        hideWindowKeySet: HideWindowIntent(),
+      },
+      actions: {
+        HideWindowIntent: CallbackAction(onInvoke: (e) {
+          windowManager.hide();
+          return null;
+        }),
+      },
+      child: child,
+    );
+  }
+}

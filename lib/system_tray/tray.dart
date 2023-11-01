@@ -1,20 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forge/exceptions/rule_exists_exception.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
-import 'package:forge/whitelist/pages/whitelist_page.dart';
+import 'package:forge/service.dart';
+import 'package:forge/settings/settings_notifier.dart';
+import 'package:forge/system_tray/system_tray_notification_manager.dart';
+import 'package:forge/firewall_rules/firewall_rule_repsitory.dart';
 import 'package:system_tray/system_tray.dart';
 
 final systemTrayProvider = Provider<ForgeSystemTray>((ref) {
-  return ForgeSystemTray();
+  return ForgeSystemTray(
+    ref: ref,
+  );
 });
 
 class ForgeSystemTray {
   final SystemTray _systemTray;
   final AppWindow _appWindow;
+  final Ref _ref;
 
-  ForgeSystemTray()
-      : _systemTray = SystemTray(),
+  ServerList? serverList;
+
+  ForgeSystemTray({
+    required Ref ref,
+  })  : _systemTray = SystemTray(),
         _appWindow = AppWindow(),
+        _ref = ref,
         super();
 
   Future<void> init() async {
@@ -40,59 +51,48 @@ class ForgeSystemTray {
     });
   }
 
-  void addServers(
-    ServerList serverList,
-    Function(Server, {WhitelistPort? port}) callback,
-  ) {
-    final serverOptions = serverList.servers.map((server) {
-      return SubMenu(label: server.name, children: [
-        MenuItemLabel(
-          label: "HTTP",
-          onClicked: (menuItem) {
-            _appWindow.show();
+  void addServers(ServerList serverList) {
+    this.serverList = serverList;
 
-            callback(server, port: WhitelistPort.http);
-          },
-        ),
-        MenuItemLabel(
-          label: "MySQL",
-          onClicked: (menuItem) {
-            _appWindow.show();
+    _buildMenu();
+  }
 
-            callback(server, port: WhitelistPort.mysql);
-          },
-        ),
-        MenuItemLabel(
-          label: "SSH",
-          onClicked: (menuItem) {
-            _appWindow.show();
+  void _buildMenu() {
+    if (serverList == null) {
+      return;
+    }
 
-            callback(server, port: WhitelistPort.ssh);
-          },
-        ),
-        MenuItemLabel(
-          label: "Open",
-          onClicked: (menuItem) {
-            _appWindow.show();
-
-            callback(server);
-          },
-        ),
-      ]);
+    final serverOptions = serverList!.servers.map((server) {
+      return SubMenu(
+        label: server.name,
+        children: [
+          ...Service.values.map((service) {
+            return MenuItemLabel(
+              label: service.label,
+              onClicked: (menuItem) => _handleServerSelected(server, service),
+            );
+          }).toList(),
+          // TODO: Add custom option
+        ],
+      );
     }).toList();
 
     _systemTray.setContextMenu(_generateMenu(servers: serverOptions));
+
+    // handle system tray event
+    _systemTray.registerSystemTrayEventHandler((eventName) {
+      if (eventName == "click") {
+        _systemTray.popUpContextMenu();
+      }
+    });
   }
 
   Menu _generateMenu({required List<MenuItemBase> servers}) {
     final items = [
-      SubMenu(
-        label: "Servers",
-        children: servers,
-      ),
+      ...servers,
       MenuSeparator(),
       MenuItemLabel(
-        label: 'Show',
+        label: 'Settings',
         onClicked: (menuItem) {
           _appWindow.show();
         },
@@ -111,7 +111,65 @@ class ForgeSystemTray {
     return menu;
   }
 
-  void hideWindow() {
-    _appWindow.hide();
+  void _checkProgress(Server server) {
+    Future.delayed(const Duration(seconds: 3)).then((_) async {
+      final installing = await _ref
+          .read(firewallRuleRepositoryProvider)
+          .checkForInProgressRules(server.id);
+
+      if (installing) {
+        _checkProgress(server);
+      } else {
+        _ref
+            .read(notificationManagerProvider)
+            .showFirewallRuleInstalledNotification(server);
+
+        _resetState();
+      }
+    });
+  }
+
+  void _setLoadingState(Server server) {
+    _systemTray.setImage("assets/images/loading-icon.gif");
+
+    final menu = _generateMenu(servers: [
+      MenuItemLabel(
+        label: "Installing firewall rules on ${server.name}...",
+        enabled: false,
+      ),
+    ]);
+
+    _systemTray.setContextMenu(menu);
+  }
+
+  void _resetState() {
+    _systemTray.setImage("assets/images/icon.png");
+
+    _buildMenu();
+  }
+
+  Future<void> _handleServerSelected(Server server, Service service) async {
+    final settings = await _ref.read(fetchSettingsProvider.future);
+
+    try {
+      _setLoadingState(server);
+
+      await _ref.read(firewallRuleRepositoryProvider).createFirewallRules(
+            serverId: server.id,
+            name: settings.name,
+            ports: service.ports,
+          );
+
+      // Poll to check for installation success + notify user
+      _checkProgress(server);
+    } catch (e) {
+      if (e is FirewallRuleExistsException) {
+        _ref
+            .read(notificationManagerProvider)
+            .showDuplicateFirewallRuleNotifaction(server);
+
+        _resetState();
+      }
+    }
   }
 }
