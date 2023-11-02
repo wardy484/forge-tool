@@ -15,6 +15,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    CustomFirewallRuleRoute.name: (routeData) {
+      final args = routeData.argsAs<CustomFirewallRuleRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CustomFirewallRulePage(
+          key: args.key,
+          server: args.server,
+        ),
+      );
+    },
     SettingsRoute.name: (routeData) {
       final args = routeData.argsAs<SettingsRouteArgs>(
           orElse: () => const SettingsRouteArgs());
@@ -25,8 +35,47 @@ abstract class _$AppRouter extends RootStackRouter {
           initialPage: args.initialPage,
         ),
       );
-    }
+    },
   };
+}
+
+/// generated route for
+/// [CustomFirewallRulePage]
+class CustomFirewallRuleRoute
+    extends PageRouteInfo<CustomFirewallRuleRouteArgs> {
+  CustomFirewallRuleRoute({
+    Key? key,
+    required Server server,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CustomFirewallRuleRoute.name,
+          args: CustomFirewallRuleRouteArgs(
+            key: key,
+            server: server,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CustomFirewallRuleRoute';
+
+  static const PageInfo<CustomFirewallRuleRouteArgs> page =
+      PageInfo<CustomFirewallRuleRouteArgs>(name);
+}
+
+class CustomFirewallRuleRouteArgs {
+  const CustomFirewallRuleRouteArgs({
+    this.key,
+    required this.server,
+  });
+
+  final Key? key;
+
+  final Server server;
+
+  @override
+  String toString() {
+    return 'CustomFirewallRuleRouteArgs{key: $key, server: $server}';
+  }
 }
 
 /// generated route for

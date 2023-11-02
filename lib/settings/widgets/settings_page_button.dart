@@ -13,18 +13,15 @@ class SettingsPageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          PushButton(
-            controlSize: ControlSize.large,
-            onPressed: onPressed,
-            child: Text(label),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        PushButton(
+          controlSize: ControlSize.large,
+          onPressed: onPressed,
+          child: Text(label),
+        ),
+      ],
     );
   }
 }

@@ -1,27 +1,32 @@
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/exceptions/rule_exists_exception.dart';
+import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
-import 'package:forge/service.dart';
+import 'package:forge/firewall_rules/data/service.dart';
+import 'package:forge/router.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
-import 'package:forge/firewall_rules/firewall_rule_repsitory.dart';
 import 'package:system_tray/system_tray.dart';
+import 'package:window_manager/window_manager.dart';
 
-final systemTrayProvider = Provider<ForgeSystemTray>((ref) {
-  return ForgeSystemTray(
+final systemTrayProvider = Provider<AppSystemTray>((ref) {
+  return AppSystemTray(
     ref: ref,
   );
 });
 
-class ForgeSystemTray {
+class AppSystemTray {
   final SystemTray _systemTray;
   final AppWindow _appWindow;
   final Ref _ref;
 
   ServerList? serverList;
 
-  ForgeSystemTray({
+  AppSystemTray({
     required Ref ref,
   })  : _systemTray = SystemTray(),
         _appWindow = AppWindow(),
@@ -72,7 +77,18 @@ class ForgeSystemTray {
               onClicked: (menuItem) => _handleServerSelected(server, service),
             );
           }).toList(),
-          // TODO: Add custom option
+          MenuItemLabel(
+            label: 'Custom',
+            onClicked: (menuItem) {
+              _ref
+                  .read(appRouterProvider)
+                  .replace(CustomFirewallRuleRoute(server: server));
+
+              Future.delayed(const Duration(milliseconds: 100)).then((_) {
+                _appWindow.show();
+              });
+            },
+          ),
         ],
       );
     }).toList();
@@ -94,7 +110,11 @@ class ForgeSystemTray {
       MenuItemLabel(
         label: 'Settings',
         onClicked: (menuItem) {
-          _appWindow.show();
+          _ref.read(appRouterProvider).replace(SettingsRoute());
+
+          Future.delayed(const Duration(milliseconds: 100)).then((_) {
+            _appWindow.show();
+          });
         },
       ),
       MenuItemLabel(
@@ -109,24 +129,6 @@ class ForgeSystemTray {
     menu.buildFrom(items);
 
     return menu;
-  }
-
-  void _checkProgress(Server server) {
-    Future.delayed(const Duration(seconds: 3)).then((_) async {
-      final installing = await _ref
-          .read(firewallRuleRepositoryProvider)
-          .checkForInProgressRules(server.id);
-
-      if (installing) {
-        _checkProgress(server);
-      } else {
-        _ref
-            .read(notificationManagerProvider)
-            .showFirewallRuleInstalledNotification(server);
-
-        _resetState();
-      }
-    });
   }
 
   void _setLoadingState(Server server) {
@@ -161,7 +163,17 @@ class ForgeSystemTray {
           );
 
       // Poll to check for installation success + notify user
-      _checkProgress(server);
+      // Do so in an isolate so that we don't block the main thread.
+      compute(
+        isolatedProgressCheck,
+        ApiTokenAndServerId(apiToken: settings.apiKey, serverId: server.id),
+      );
+
+      _ref
+          .read(notificationManagerProvider)
+          .showFirewallRuleInstalledNotification(server);
+
+      _resetState();
     } catch (e) {
       if (e is FirewallRuleExistsException) {
         _ref

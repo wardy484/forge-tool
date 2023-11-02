@@ -7,7 +7,7 @@ import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/settings/widgets/settings_input.dart';
 import 'package:forge/settings/widgets/settings_page_button.dart';
-import 'package:forge/system_tray/tray.dart';
+import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:window_manager/window_manager.dart';
 

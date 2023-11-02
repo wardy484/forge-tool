@@ -10,7 +10,7 @@ import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
-import 'package:forge/system_tray/tray.dart';
+import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hive/hive.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:local_notifier/local_notifier.dart';
@@ -18,6 +18,7 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// This method initializes macos_window_utils and styles the window.
 Future<void> _configureMacosWindowUtils() async {
@@ -26,15 +27,15 @@ Future<void> _configureMacosWindowUtils() async {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   if (!kIsWeb) {
     if (Platform.isMacOS) {
       await _configureMacosWindowUtils();
     }
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  // await hotKeyManager.unregisterAll();
 
   WindowOptions windowOptions = const WindowOptions(
     size: Size(600, 280),
@@ -52,8 +53,6 @@ void main() async {
 
   await localNotifier.setup(
     appName: 'whitelist_ninja',
-    // The parameter shortcutPolicy only works on Windows
-    // shortcutPolicy: ShortcutPolicy.requireCreate,
   );
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -92,15 +91,22 @@ void main() async {
   await systemTray.init();
   systemTray.addServers(servers);
 
-  runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const MyApp(),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://ddb83c056f27d0349e716d89241f39eb@o1207946.ingest.sentry.io/4506152044068864';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(
+      UncontrolledProviderScope(
+        container: container,
+        child: const MyApp(),
+      ),
     ),
   );
 }
-
-final _appRouter = AppRouter();
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -112,6 +118,8 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final _appRouter = ref.watch(appRouterProvider);
+
     return CloseShortcut(
       child: MacosApp.router(
         theme: MacosThemeData.light(),

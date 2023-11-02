@@ -17,6 +17,10 @@ final forgeClientProvider = Provider((ref) {
         orElse: () => "",
       );
 
+  return buildForgeDio(apiKey);
+});
+
+Dio buildForgeDio(String apiKey) {
   final options = BaseOptions(
     baseUrl: forgeUrl,
     headers: {
@@ -27,7 +31,7 @@ final forgeClientProvider = Provider((ref) {
   );
 
   return Dio(options);
-});
+}
 
 final forgeSdkProvider = Provider((ref) {
   final client = ref.watch(forgeClientProvider);

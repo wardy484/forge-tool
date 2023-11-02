@@ -1,16 +1,34 @@
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/exceptions/rule_exists_exception.dart';
+import 'package:forge/firewall_rules/data/firewall_rule_name.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/forge/model/firewall/create_firewall_rule/create_firewall_rule.dart';
 import 'package:forge/forge/model/firewall/firewall_rule/firewall_rule.dart';
-import 'package:forge/firewall_rules/firewall_rule_name.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'firewall_rule_repsitory.g.dart';
 
 final firewallRuleRepositoryProvider = Provider<FirewallRuleRepository>((ref) {
   return FirewallRuleRepository(
     forge: ref.watch(forgeSdkProvider),
   );
 });
+
+@riverpod
+Future<bool> checkAllRulesInstalled(Ref ref, int serverId) async {
+  return await Future.delayed(const Duration(seconds: 3)).then((_) async {
+    final installing = await ref
+        .read(firewallRuleRepositoryProvider)
+        .checkForInProgressRules(serverId);
+
+    if (installing) {
+      return await checkAllRulesInstalled(ref, serverId);
+    }
+
+    return true;
+  });
+}
 
 class FirewallRuleRepository {
   final ForgeSdk forge;
@@ -98,4 +116,37 @@ class FirewallRuleRepository {
       return rule.status == "installing" || rule.status == "removing";
     });
   }
+}
+
+class ApiTokenAndServerId {
+  final String apiToken;
+  final int serverId;
+
+  ApiTokenAndServerId({
+    required this.apiToken,
+    required this.serverId,
+  });
+}
+
+Future<bool> isolatedProgressCheck(ApiTokenAndServerId args) async {
+  // Cannot use riverpod dependency injection in an isolate
+  // TODO: Create a factory for building a forge SDK
+  final dio = buildForgeDio(args.apiToken);
+  final forgeSdk = ForgeSdk(client: dio);
+  final firewallRuleRepository = FirewallRuleRepository(forge: forgeSdk);
+
+  return await Future.delayed(const Duration(seconds: 3)).then(
+    (_) => performProgressCheck(firewallRuleRepository, args.serverId),
+  );
+}
+
+Future<bool> performProgressCheck(
+    FirewallRuleRepository repository, int serverId) async {
+  final installing = await repository.checkForInProgressRules(serverId);
+
+  if (installing) {
+    return await performProgressCheck(repository, serverId);
+  }
+
+  return true;
 }
