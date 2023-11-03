@@ -1,176 +1,151 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/forge/forge.dart';
-import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_notifier.dart';
-import 'package:forge/settings/widgets/settings_input.dart';
-import 'package:forge/settings/widgets/settings_page_button.dart';
-import 'package:forge/system_tray/app_system_tray.dart';
-import 'package:macos_ui/macos_ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
-class SettingsForm extends ConsumerStatefulWidget {
-  final Settings settings;
-  final String? error;
-
+class SettingsForm extends HookConsumerWidget {
   const SettingsForm({
     super.key,
     required this.settings,
-    this.error,
   });
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsFormState();
-}
-
-class _SettingsFormState extends ConsumerState<SettingsForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _apiKeyController = TextEditingController();
-  bool _autoCleanUp = true;
-  bool _launchOnStartup = true;
+  final Settings settings;
 
   @override
-  void initState() {
-    ref.read(settingsNotifierProvider).whenOrNull(
-          loaded: (settings) => _assignControllers(settings),
-          valid: (settings) => _assignControllers(settings),
-          error: (settings, _) => _assignControllers(settings),
-        );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final formKey = useState(GlobalKey<FormState>());
+    final nameController = useTextEditingController(text: settings.name);
+    final apiKeyController = useTextEditingController(text: settings.apiKey);
+    final autoCleanUp = useState(settings.autoCleanup);
+    final launchOnStartup = useState(settings.launchAtStartup);
+    final apiKeyMessage = useState<String?>(null);
 
-    super.initState();
-  }
-
-  void _assignControllers(Settings settings) {
-    _nameController.text = settings.name;
-    _apiKeyController.text = settings.apiKey;
-    _autoCleanUp = settings.autoCleanup;
-    _launchOnStartup = settings.launchAtStartup;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Center(
-        child: Form(
-          key: _formKey,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.end,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      child: Form(
+        key: formKey.value,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: "Name",
+                hintText: "Enter your name",
+                prefixIcon: Icon(Icons.person),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a name";
+                }
+
+                return null;
+              },
+            ),
+            SizedBox(height: 12),
+            TextFormField(
+              controller: apiKeyController,
+              decoration: const InputDecoration(
+                labelText: "API Key",
+                hintText: "Enter your API key",
+                prefixIcon: Icon(Icons.key),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter an API key";
+                }
+
+                return null;
+              },
+            ),
+            if (apiKeyMessage.value != null)
+              Row(
                 children: [
-                  SizedBox(height: 5),
-                  Text("Name:"),
-                  SizedBox(height: 28),
-                  Text("API Key:"),
-                  SizedBox(height: 24),
-                  Text("Auto-delete old rules:"),
-                  SizedBox(height: 22),
-                  Text("Launch on start-up:"),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      apiKeyMessage.value!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
                 ],
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (widget.error is String)
-                      Card(
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                            horizontal: 16,
-                          ),
-                          child: Text(
-                            widget.error ?? "",
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    if (widget.error is String) const SizedBox(height: 14),
-                    SettingsInput(
-                      icon: CupertinoIcons.person,
-                      placeholder: 'Enter your name',
-                      controller: _nameController,
-                    ),
-                    const SizedBox(height: 14),
-                    SettingsInput(
-                      icon: CupertinoIcons.lock,
-                      placeholder: 'Enter your api key',
-                      controller: _apiKeyController,
-                    ),
-                    const SizedBox(height: 14),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: MacosSwitch(
-                        value: _launchOnStartup,
-                        onChanged: (value) {
-                          setState(() => _launchOnStartup = value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: MacosSwitch(
-                        value: _autoCleanUp,
-                        onChanged: (value) {
-                          setState(() => _autoCleanUp = value);
-                        },
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    SettingsPageButton(
-                      label: "Save",
-                      onPressed: () async {
-                        final settingsNotifier =
-                            ref.read(settingsNotifierProvider.notifier);
-
-                        await settingsNotifier.updateSettings(
-                          _nameController.text,
-                          _apiKeyController.text,
-                          _autoCleanUp,
-                          _launchOnStartup,
-                        );
-
-                        ref.read(settingsNotifierProvider).maybeWhen(
-                              valid: (settings) => _validateSettings(settings),
-                              loaded: (settings) => _validateSettings(settings),
-                              orElse: () {},
-                            );
-                      },
-                    ),
-                  ],
-                ),
+            SizedBox(height: 8),
+            CheckboxListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 3),
+              value: autoCleanUp.value,
+              title: const Text("Auto-delete old rules"),
+              subtitle: const Text(
+                "Automatically clean up old firewall rules after your IP Address changes.",
               ),
-            ],
-          ),
+              onChanged: (value) => autoCleanUp.value = value ?? false,
+            ),
+            CheckboxListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 3),
+              value: launchOnStartup.value,
+              title: const Text("Launch on start-up"),
+              subtitle: const Text(
+                "Launch Forge on start-up.",
+                style: TextStyle(),
+              ),
+              onChanged: (value) => launchOnStartup.value = value ?? false,
+            ),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    child: const Text("Save"),
+                    onPressed: () => _handleSave(
+                      ref,
+                      formKey.value,
+                      nameController.text,
+                      apiKeyController.text,
+                      autoCleanUp.value,
+                      launchOnStartup.value,
+                      apiKeyMessage,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Future<void> _validateSettings(Settings settings) async {
-    final settings = ref.read(settingsNotifierProvider.notifier);
+  Future<void> _handleSave(
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    String name,
+    String apiKey,
+    bool autoCleanUp,
+    bool launchOnStartup,
+    ValueNotifier<String?> apiKeyMessage,
+  ) async {
+    if (formKey.currentState!.validate() == false) return;
 
-    final isValid = settings.areConfigured &&
-        await ref.read(forgeSdkProvider).verifyApiKey();
+    final apiKeyIsValid = await ref.read(forgeSdkProvider).verifyApiKey(apiKey);
 
-    settings.apiKeyHasBeenValidated(isValid);
-
-    if (isValid) {
-      final servers = await ref.read(serverListProvider.future);
-
-      ref.read(systemTrayProvider).addServers(servers);
-      await windowManager.hide();
+    if (!apiKeyIsValid) {
+      apiKeyMessage.value = "Invalid API Key.";
+      return;
     }
+
+    apiKeyMessage.value = null;
+
+    final settingsNotifier = ref.read(settingsNotifierProvider.notifier);
+
+    await settingsNotifier.updateSettings(
+      name,
+      apiKey,
+      autoCleanUp,
+      launchOnStartup,
+    );
+
+    windowManager.hide();
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
@@ -14,31 +13,19 @@ import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hive/hive.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:local_notifier/local_notifier.dart';
-import 'package:macos_ui/macos_ui.dart';
+import 'package:yaru/yaru.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-/// This method initializes macos_window_utils and styles the window.
-Future<void> _configureMacosWindowUtils() async {
-  const config = MacosWindowUtilsConfig();
-  await config.apply();
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (!kIsWeb) {
-    if (Platform.isMacOS) {
-      await _configureMacosWindowUtils();
-    }
-  }
 
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(600, 280),
+    size: Size(600, 400),
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
   );
@@ -47,9 +34,12 @@ void main() async {
   Hive.registerAdapter(SettingsAdapter());
 
   final container = ProviderContainer();
-  final settings = container.read(settingsNotifierProvider.notifier);
 
-  await settings.load();
+  final settings = await container.read(fetchSettingsProvider.future);
+  container.read(notificationManagerProvider).initialise();
+
+  final systemTray = container.read(systemTrayProvider);
+  await systemTray.init();
 
   await localNotifier.setup(
     appName: 'whitelist_ninja',
@@ -62,34 +52,25 @@ void main() async {
     appPath: Platform.resolvedExecutable,
   );
 
-  if (!settings.areConfigured) {
-    await launchAtStartup.enable();
-  }
-
-  container.read(notificationManagerProvider).initialise();
-
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    if (settings.areConfigured) {
+    final apiKeyIsValid = settings.isConfigured &&
+        await container.read(forgeSdkProvider).verifyApiKey(settings.apiKey);
+
+    if (apiKeyIsValid) {
       // TODO: Clean up
       // This is still kinda ugly, maybe on first launch, show a loading screen
       // add in an artifical delay so they can see _something_ then hide everything.
-      await windowManager.hide();
+      // TODO: Hide when not debugging
+      await windowManager.show();
+
+      final servers = await container.read(serverListProvider.future);
+      systemTray.addServers(servers);
     } else {
+      await launchAtStartup.enable();
       await windowManager.show();
       await windowManager.focus();
     }
   });
-
-  final hasValidKey = settings.areConfigured &&
-      await container.read(forgeSdkProvider).verifyApiKey();
-
-  settings.apiKeyHasBeenValidated(hasValidKey);
-
-  final servers = await container.read(serverListProvider.future);
-  final systemTray = container.read(systemTrayProvider);
-
-  await systemTray.init();
-  systemTray.addServers(servers);
 
   await SentryFlutter.init(
     (options) {
@@ -121,12 +102,16 @@ class _MyAppState extends ConsumerState<MyApp> {
     final _appRouter = ref.watch(appRouterProvider);
 
     return CloseShortcut(
-      child: MacosApp.router(
-        theme: MacosThemeData.light(),
-        darkTheme: MacosThemeData.dark(),
-        debugShowCheckedModeBanner: false,
-        routeInformationParser: _appRouter.defaultRouteParser(),
-        routerDelegate: _appRouter.delegate(),
+      child: YaruTheme(
+        builder: (context, yaru, child) {
+          return MaterialApp.router(
+            theme: yaru.theme,
+            darkTheme: yaru.darkTheme,
+            debugShowCheckedModeBanner: false,
+            routeInformationParser: _appRouter.defaultRouteParser(),
+            routerDelegate: _appRouter.delegate(),
+          );
+        },
       ),
     );
   }

@@ -11,9 +11,8 @@ import 'package:forge/settings/settings_notifier.dart';
 const String forgeUrl = "https://forge.laravel.com/api/v1";
 
 final forgeClientProvider = Provider((ref) {
-  final String apiKey = ref.watch(settingsNotifierProvider).maybeWhen(
-        valid: (settings) => settings.apiKey,
-        loaded: (settings) => settings.apiKey,
+  final String apiKey = ref.watch(fetchSettingsProvider).maybeWhen(
+        data: (settings) => settings.apiKey,
         orElse: () => "",
       );
 
@@ -115,9 +114,17 @@ class ForgeSdk {
     return res.statusCode == 200;
   }
 
-  Future<bool> verifyApiKey() async {
+  Future<bool> verifyApiKey(String apiKey) async {
     try {
-      await listServers();
+      await client.get(
+        "/servers",
+        options: Options(
+          headers: {
+            "Authorization": "Bearer $apiKey",
+          },
+        ),
+      );
+
       return true;
     } catch (e) {
       if (e is DioException) {

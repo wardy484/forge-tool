@@ -26,14 +26,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     SettingsRoute.name: (routeData) {
-      final args = routeData.argsAs<SettingsRouteArgs>(
-          orElse: () => const SettingsRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: SettingsPage(
-          key: args.key,
-          initialPage: args.initialPage,
-        ),
+        child: const SettingsPage(),
       );
     },
   };
@@ -80,38 +75,14 @@ class CustomFirewallRuleRouteArgs {
 
 /// generated route for
 /// [SettingsPage]
-class SettingsRoute extends PageRouteInfo<SettingsRouteArgs> {
-  SettingsRoute({
-    Key? key,
-    bool initialPage = true,
-    List<PageRouteInfo>? children,
-  }) : super(
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
           SettingsRoute.name,
-          args: SettingsRouteArgs(
-            key: key,
-            initialPage: initialPage,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'SettingsRoute';
 
-  static const PageInfo<SettingsRouteArgs> page =
-      PageInfo<SettingsRouteArgs>(name);
-}
-
-class SettingsRouteArgs {
-  const SettingsRouteArgs({
-    this.key,
-    this.initialPage = true,
-  });
-
-  final Key? key;
-
-  final bool initialPage;
-
-  @override
-  String toString() {
-    return 'SettingsRouteArgs{key: $key, initialPage: $initialPage}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

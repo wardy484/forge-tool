@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/exceptions/rule_exists_exception.dart';
@@ -11,7 +9,6 @@ import 'package:forge/router.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:system_tray/system_tray.dart';
-import 'package:window_manager/window_manager.dart';
 
 final systemTrayProvider = Provider<AppSystemTray>((ref) {
   return AppSystemTray(

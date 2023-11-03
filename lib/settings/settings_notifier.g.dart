@@ -6,11 +6,11 @@ part of 'settings_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchSettingsHash() => r'80e39b4d54af315236e7112079cb80258c7ec2fe';
+String _$fetchSettingsHash() => r'21f7b490cd713f6f3dd1dd9a3c785771c0f310c8';
 
 /// See also [fetchSettings].
 @ProviderFor(fetchSettings)
-final fetchSettingsProvider = AutoDisposeFutureProvider<Settings>.internal(
+final fetchSettingsProvider = FutureProvider<Settings>.internal(
   fetchSettings,
   name: r'fetchSettingsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -20,6 +20,6 @@ final fetchSettingsProvider = AutoDisposeFutureProvider<Settings>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef FetchSettingsRef = AutoDisposeFutureProviderRef<Settings>;
+typedef FetchSettingsRef = FutureProviderRef<Settings>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

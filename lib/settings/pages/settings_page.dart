@@ -1,53 +1,30 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:forge/mac/widgets/loading.dart';
-import 'package:forge/settings/data/settings.dart';
+import 'package:flutter/material.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/settings/widgets/settings_form.dart';
-import 'package:macos_ui/macos_ui.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()
-class SettingsPage extends ConsumerStatefulWidget {
-  final bool initialPage;
-
-  const SettingsPage({
-    Key? key,
-    this.initialPage = true,
-  }) : super(key: key);
+class SettingsPage extends ConsumerWidget {
+  const SettingsPage({super.key});
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends ConsumerState<SettingsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return MacosScaffold(
-      toolBar: const ToolBar(
-        title: Text('Settings'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Settings"),
       ),
-      children: [
-        ContentArea(
-          builder: (context, scrollController) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: ref.watch(settingsNotifierProvider).maybeWhen(
-                    orElse: () => const Loading(),
-                    loaded: (Settings settings) {
-                      return SettingsForm(settings: settings);
-                    },
-                    valid: (Settings settings) {
-                      return SettingsForm(settings: settings);
-                    },
-                    error: (Settings settings, error) {
-                      return SettingsForm(settings: settings, error: error);
-                    },
-                  ),
-            );
-          },
-        ),
-      ],
+      body: ref.watch(fetchSettingsProvider).when(
+            data: (settings) {
+              return SettingsForm(settings: settings);
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stackTrace) => Center(
+              child: Text(error.toString()),
+            ),
+          ),
     );
   }
 }

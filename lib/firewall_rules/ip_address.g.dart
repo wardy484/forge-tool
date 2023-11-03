@@ -20,5 +20,23 @@ final ipAddressProvider = AutoDisposeFutureProvider<String?>.internal(
 );
 
 typedef IpAddressRef = AutoDisposeFutureProviderRef<String?>;
+String _$ipAddressAndSettingsHash() =>
+    r'0d5b3d0ea1dcd37a4d64279bbd5cac15f303bd82';
+
+/// See also [ipAddressAndSettings].
+@ProviderFor(ipAddressAndSettings)
+final ipAddressAndSettingsProvider =
+    AutoDisposeFutureProvider<IPAddressAndSettings>.internal(
+  ipAddressAndSettings,
+  name: r'ipAddressAndSettingsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$ipAddressAndSettingsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef IpAddressAndSettingsRef
+    = AutoDisposeFutureProviderRef<IPAddressAndSettings>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

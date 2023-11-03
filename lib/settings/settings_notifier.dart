@@ -20,7 +20,7 @@ final settingsNotifierProvider =
   },
 );
 
-@riverpod
+@Riverpod(keepAlive: true)
 Future<Settings> fetchSettings(Ref ref) async {
   var db = await ref.read(settingsDatabaseProvider);
   return db.get('main', defaultValue: Settings()) as Settings;
@@ -33,45 +33,7 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
     required this.database,
   }) : super(const SettingsState.initial());
 
-  Future<void> load() async {
-    var settingsDB = await database;
-
-    state = const SettingsState.loading();
-
-    Settings settings = settingsDB.get('main', defaultValue: Settings());
-
-    _validateSettingsFields(settings);
-  }
-
-  void _validateSettingsFields(Settings settings) {
-    if (settings.apiKey != "" && settings.name != "") {
-      state = SettingsState.loaded(settings);
-    } else {
-      state = SettingsState.error(
-        settings,
-        "Name and API Key must be set.",
-      );
-    }
-  }
-
-  void apiKeyHasBeenValidated(bool isValid) {
-    void handler(Settings settings) {
-      if (isValid) {
-        state = SettingsState.valid(settings);
-      } else {
-        state = SettingsState.error(
-          settings,
-          "Invalid API Key found, please update it and try again.",
-        );
-      }
-    }
-
-    state.whenOrNull(
-      loaded: (settings) => handler(settings),
-      valid: (settings) => handler(settings),
-    );
-  }
-
+  // TODO: Could just be a future proivide really
   Future<void> updateSettings(
     String name,
     String apiKey,
@@ -100,15 +62,5 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
 
     settingsDB.delete('main');
     settingsDB.put('main', settings);
-
-    _validateSettingsFields(settings);
-  }
-
-  bool get areConfigured {
-    return state.maybeWhen(
-      loaded: (settings) => settings.isConfigured,
-      valid: (settings) => settings.isConfigured,
-      orElse: () => false,
-    );
   }
 }

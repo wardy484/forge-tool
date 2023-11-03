@@ -1,30 +1,31 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
 import 'package:forge/forge/model/server/server.dart';
-import 'package:forge/settings/settings_notifier.dart';
+import 'package:forge/settings/data/settings.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:macos_ui/macos_ui.dart';
 
 class CustomFirewallRuleForm extends HookConsumerWidget {
   const CustomFirewallRuleForm({
     super.key,
     required this.server,
     required this.defaultIpAddress,
+    required this.settings,
   });
 
   final Server server;
   final String defaultIpAddress;
+  final Settings settings;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useState(GlobalKey<FormState>());
-    final nameController = useTextEditingController();
-    final portController = useTextEditingController();
+    final nameController = useTextEditingController(text: settings.name);
     final ipAddress = useTextEditingController(text: defaultIpAddress);
+    final portController = useTextEditingController();
     final ports = useState(<String>[]);
     final portErrorMessage = useState<String?>(null);
+    final portInputFocusNode = useFocusNode();
 
     final addPort = () {
       if (portController.text.isEmpty) {
@@ -44,184 +45,154 @@ class CustomFirewallRuleForm extends HookConsumerWidget {
 
       ports.value = [...ports.value, portController.text];
       portController.clear();
+      portInputFocusNode.requestFocus();
     };
 
-    useEffect(() {
-      ref.read(settingsNotifierProvider).whenOrNull(
-        valid: (settings) async {
-          nameController.text = settings.name;
-        },
-      );
-
-      return null;
-    }, []);
-
-    return Expanded(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       child: Form(
         key: formKey.value,
         child: Column(
           children: [
-            TextInput(
+            TextFormField(
               controller: nameController,
-              label: 'Name:',
-              icon: CupertinoIcons.person,
-              placeholder: 'Name',
+              decoration: const InputDecoration(
+                labelText: "Name",
+                hintText: "Enter your name",
+                prefixIcon: Icon(Icons.person),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a name";
+                }
+
+                return null;
+              },
             ),
-            SizedBox(height: 8),
-            TextInput(
+            SizedBox(height: 12),
+            TextFormField(
               controller: ipAddress,
-              label: 'IP Address:',
-              icon: CupertinoIcons.person,
-              placeholder: 'IP Address',
+              decoration: const InputDecoration(
+                labelText: "IP Address",
+                hintText: "Enter your IP address",
+                prefixIcon: Icon(Icons.person),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter an IP address";
+                }
+
+                return null;
+              },
             ),
-            SizedBox(height: 8),
-            TextInput(
-              controller: portController,
-              label: 'Port:',
-              icon: CupertinoIcons.person,
-              placeholder: 'Port',
-              errorText: portErrorMessage.value,
-              infoText: "Hit enter to add port.",
-              onSubmitted: (value) => addPort(),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    focusNode: portInputFocusNode,
+                    controller: portController,
+                    decoration: const InputDecoration(
+                      labelText: "Port",
+                      hintText: "Enter your port",
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a port";
+                      }
+
+                      return null;
+                    },
+                    onFieldSubmitted: (value) => addPort(),
+                  ),
+                ),
+                SizedBox(width: 5),
+                ElevatedButton.icon(
+                  onPressed: addPort,
+                  icon: Icon(Icons.add),
+                  label: Text("Add Port"),
+                ),
+              ],
             ),
-            SizedBox(height: 8),
-            LabelledContent(
-              label: Text("Selected Ports:"),
-              content: Row(
+            SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Selected ports:",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 3),
+            if (ports.value.isEmpty)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("No ports selected."),
+              ),
+            if (ports.value.isNotEmpty)
+              Row(
                 children: ports.value
                     .map(
                       (e) => Padding(
-                        padding: const EdgeInsets.only(right: 3),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2,
-                              horizontal: 8,
-                            ),
-                            child: Text(e),
-                          ),
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Chip(
+                          label: Text(e),
+                          onDeleted: () {
+                            ports.value =
+                                ports.value.where((port) => port != e).toList();
+                          },
                         ),
                       ),
                     )
                     .toList(),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                PushButton(
-                  child: Text("Add rule"),
-                  controlSize: ControlSize.large,
-                  onPressed: () async {
-                    ref
-                        .read(firewallRuleRepositoryProvider)
-                        .createFirewallRules(
-                      serverId: server.id,
-                      name: nameController.text,
-                      ipAddress: ipAddress.text,
-                      ports: [portController.text],
-                    );
-
-                    // TODO: Create a provider class to handle loading and fetching etc
-                    // Loading and fetching what dickhead
-                  },
+            SizedBox(height: 12),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        child: Text("Add rules"),
+                        onPressed: ports.value.isNotEmpty
+                            ? () => _handleSave(
+                                  ref,
+                                  formKey.value,
+                                  nameController.text,
+                                  ipAddress.text,
+                                  ports.value,
+                                )
+                            : null,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-class TextInput extends StatelessWidget {
-  const TextInput({
-    super.key,
-    required this.controller,
-    required this.label,
-    required this.icon,
-    required this.placeholder,
-    this.onSubmitted,
-    this.errorText,
-    this.infoText,
-  });
+  Future<void> _handleSave(
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    String name,
+    String ipAddress,
+    List<String> ports,
+  ) async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
 
-  final TextEditingController controller;
-  final String label;
-  final IconData icon;
-  final String placeholder;
-  final void Function(String)? onSubmitted;
-  final String? errorText;
-  final String? infoText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        LabelledContent(
-          label: Text(label),
-          content: MacosTextField(
-            controller: controller,
-            prefix: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: MacosIcon(icon),
-            ),
-            onSubmitted: onSubmitted,
-            placeholder: placeholder,
-            maxLines: 1,
-          ),
-        ),
-        if (errorText != null || infoText != null) SizedBox(height: 2),
-        if (errorText != null)
-          LabelledContent(
-            content: Text(
-              errorText!,
-              style: TextStyle(color: Colors.red, fontSize: 12),
-            ),
-          )
-        else if (infoText != null)
-          LabelledContent(
-            content: Text(infoText!, style: TextStyle(fontSize: 12)),
-          ),
-      ],
-    );
-  }
-}
-
-class LabelledContent extends StatelessWidget {
-  const LabelledContent({
-    super.key,
-    this.label,
-    required this.content,
-  });
-
-  final Widget? label;
-  final Widget content;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              label ?? SizedBox(),
-            ],
-          ),
-          flex: 5,
-        ),
-        SizedBox(width: 8),
-        Expanded(
-          child: content,
-          flex: 22,
-        ),
-      ],
-    );
+    ref.read(firewallRuleRepositoryProvider).createFirewallRules(
+          serverId: server.id,
+          name: name,
+          ipAddress: ipAddress,
+          ports: ports,
+        );
   }
 }
