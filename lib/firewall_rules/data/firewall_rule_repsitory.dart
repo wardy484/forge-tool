@@ -1,6 +1,6 @@
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:forge/exceptions/rule_exists_exception.dart';
+import 'package:forge/common/exceptions/rule_exists_exception.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_name.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/forge/model/firewall/create_firewall_rule/create_firewall_rule.dart';

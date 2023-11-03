@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
+import 'package:forge/quick_actions/data/quick_action.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings.dart';
@@ -32,6 +33,7 @@ void main() async {
 
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(SettingsAdapter());
+  Hive.registerAdapter(QuickActionAdapter());
 
   final container = ProviderContainer();
 
@@ -60,8 +62,7 @@ void main() async {
       // TODO: Clean up
       // This is still kinda ugly, maybe on first launch, show a loading screen
       // add in an artifical delay so they can see _something_ then hide everything.
-      // TODO: Hide when not debugging
-      await windowManager.show();
+      await windowManager.hide();
 
       final servers = await container.read(serverListProvider.future);
       systemTray.addServers(servers);

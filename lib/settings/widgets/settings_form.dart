@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:forge/common/widgets/bottom_full_width_button.dart';
 import 'package:forge/forge/forge.dart';
+import 'package:forge/router.dart';
 import 'package:forge/settings/data/settings.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -92,24 +94,29 @@ class SettingsForm extends HookConsumerWidget {
               ),
               onChanged: (value) => launchOnStartup.value = value ?? false,
             ),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 3),
+              title: const Text("Manage quick actions"),
+              subtitle: const Text(
+                "Manage the quick actions that appear in the system tray.",
+              ),
+              onTap: () {
+                print("Tapped");
+                ref.read(appRouterProvider).push(QuickActionsListRoute());
+              },
+            ),
             SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Save"),
-                    onPressed: () => _handleSave(
-                      ref,
-                      formKey.value,
-                      nameController.text,
-                      apiKeyController.text,
-                      autoCleanUp.value,
-                      launchOnStartup.value,
-                      apiKeyMessage,
-                    ),
-                  ),
-                ),
-              ],
+            BottomFullWidthButton(
+              child: const Text("Save"),
+              onPressed: () => _handleSave(
+                ref,
+                formKey.value,
+                nameController.text,
+                apiKeyController.text,
+                autoCleanUp.value,
+                launchOnStartup.value,
+                apiKeyMessage,
+              ),
             ),
           ],
         ),

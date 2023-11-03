@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:forge/exceptions/rule_exists_exception.dart';
+import 'package:forge/common/exceptions/rule_exists_exception.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
-import 'package:forge/firewall_rules/data/service.dart';
+import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
@@ -33,7 +34,7 @@ class AppSystemTray {
   Future<void> init() async {
     final menu = _generateMenu(servers: [
       MenuItemLabel(
-        label: "Set API Key in settings first.",
+        label: "Loading...",
       ),
     ]);
 
@@ -59,19 +60,22 @@ class AppSystemTray {
     _buildMenu();
   }
 
-  void _buildMenu() {
+  void _buildMenu() async {
     if (serverList == null) {
       return;
     }
+
+    final quickActions = await _ref.read(fetchQuickActionsProvider.future);
 
     final serverOptions = serverList!.servers.map((server) {
       return SubMenu(
         label: server.name,
         children: [
-          ...Service.values.map((service) {
+          ...quickActions.map((action) {
             return MenuItemLabel(
-              label: service.label,
-              onClicked: (menuItem) => _handleServerSelected(server, service),
+              label: action.name,
+              onClicked: (menuItem) =>
+                  _handleServerSelected(server, action.ports),
             );
           }).toList(),
           MenuItemLabel(
@@ -117,7 +121,7 @@ class AppSystemTray {
       MenuItemLabel(
         label: 'Exit',
         onClicked: (menuItem) {
-          _appWindow.close();
+          SystemNavigator.pop();
         },
       ),
     ];
@@ -141,13 +145,13 @@ class AppSystemTray {
     _systemTray.setContextMenu(menu);
   }
 
-  void _resetState() {
+  void rebuild() {
     _systemTray.setImage("assets/images/icon.png");
 
     _buildMenu();
   }
 
-  Future<void> _handleServerSelected(Server server, Service service) async {
+  Future<void> _handleServerSelected(Server server, List<String> ports) async {
     final settings = await _ref.read(fetchSettingsProvider.future);
 
     try {
@@ -156,7 +160,7 @@ class AppSystemTray {
       await _ref.read(firewallRuleRepositoryProvider).createFirewallRules(
             serverId: server.id,
             name: settings.name,
-            ports: service.ports,
+            ports: ports,
           );
 
       // Poll to check for installation success + notify user
@@ -170,14 +174,14 @@ class AppSystemTray {
           .read(notificationManagerProvider)
           .showFirewallRuleInstalledNotification(server);
 
-      _resetState();
+      rebuild();
     } catch (e) {
       if (e is FirewallRuleExistsException) {
         _ref
             .read(notificationManagerProvider)
             .showDuplicateFirewallRuleNotifaction(server);
 
-        _resetState();
+        rebuild();
       }
     }
   }

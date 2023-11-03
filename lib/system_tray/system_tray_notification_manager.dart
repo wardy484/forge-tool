@@ -66,11 +66,12 @@ class NotificationManager {
     );
   }
 
-  showFirewallRuleInstalledNotification(Server server) async {
+  Future<void> showFirewallRuleInstalledNotification(Server server) async {
     const darwinNotificationDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: false,
       presentSound: false,
+      interruptionLevel: InterruptionLevel.active,
     );
 
     const notificationDetails = NotificationDetails(

@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    CreateQuickActionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CreateQuickActionPage(),
+      );
+    },
     CustomFirewallRuleRoute.name: (routeData) {
       final args = routeData.argsAs<CustomFirewallRuleRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -25,6 +31,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    QuickActionsListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const QuickActionsListPage(),
+      );
+    },
     SettingsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -32,6 +44,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [CreateQuickActionPage]
+class CreateQuickActionRoute extends PageRouteInfo<void> {
+  const CreateQuickActionRoute({List<PageRouteInfo>? children})
+      : super(
+          CreateQuickActionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CreateQuickActionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -71,6 +97,20 @@ class CustomFirewallRuleRouteArgs {
   String toString() {
     return 'CustomFirewallRuleRouteArgs{key: $key, server: $server}';
   }
+}
+
+/// generated route for
+/// [QuickActionsListPage]
+class QuickActionsListRoute extends PageRouteInfo<void> {
+  const QuickActionsListRoute({List<PageRouteInfo>? children})
+      : super(
+          QuickActionsListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'QuickActionsListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

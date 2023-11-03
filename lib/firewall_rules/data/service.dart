@@ -1,4 +1,5 @@
 enum Service implements Comparable<Service> {
+  kitchenSink(ports: ["80", "443", "3306", "22"]),
   http(ports: ["80", "443"]),
   mysql(ports: ["3306"]),
   ssh(ports: ["22"]),
@@ -13,6 +14,8 @@ enum Service implements Comparable<Service> {
 
   String get label {
     switch (this) {
+      case Service.kitchenSink:
+        return "Kitchen Sink";
       case Service.http:
         return "HTTP";
       case Service.mysql:

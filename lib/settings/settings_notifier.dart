@@ -22,7 +22,7 @@ final settingsNotifierProvider =
 
 @Riverpod(keepAlive: true)
 Future<Settings> fetchSettings(Ref ref) async {
-  var db = await ref.read(settingsDatabaseProvider);
+  final db = await ref.read(settingsDatabaseProvider);
   return db.get('main', defaultValue: Settings()) as Settings;
 }
 

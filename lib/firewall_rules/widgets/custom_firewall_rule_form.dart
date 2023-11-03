@@ -1,9 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:forge/common/exceptions/rule_exists_exception.dart';
+import 'package:forge/common/widgets/bottom_full_width_button.dart';
+import 'package:forge/common/widgets/ports_form.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/settings/data/settings.dart';
+import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
 
 class CustomFirewallRuleForm extends HookConsumerWidget {
   const CustomFirewallRuleForm({
@@ -22,31 +28,9 @@ class CustomFirewallRuleForm extends HookConsumerWidget {
     final formKey = useState(GlobalKey<FormState>());
     final nameController = useTextEditingController(text: settings.name);
     final ipAddress = useTextEditingController(text: defaultIpAddress);
-    final portController = useTextEditingController();
     final ports = useState(<String>[]);
-    final portErrorMessage = useState<String?>(null);
-    final portInputFocusNode = useFocusNode();
-
-    final addPort = () {
-      if (portController.text.isEmpty) {
-        portErrorMessage.value = "Please specify a port.";
-        return;
-      }
-
-      if (ports.value.contains(portController.text)) {
-        portErrorMessage.value = "Port already added.";
-        return;
-      }
-
-      if (int.tryParse(portController.text) == null) {
-        portErrorMessage.value = "Port must be a number.";
-        return;
-      }
-
-      ports.value = [...ports.value, portController.text];
-      portController.clear();
-      portInputFocusNode.requestFocus();
-    };
+    final installing = useState(false);
+    final errorMessage = useState<String?>(null);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
@@ -86,91 +70,35 @@ class CustomFirewallRuleForm extends HookConsumerWidget {
               },
             ),
             SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    focusNode: portInputFocusNode,
-                    controller: portController,
-                    decoration: const InputDecoration(
-                      labelText: "Port",
-                      hintText: "Enter your port",
-                      prefixIcon: Icon(Icons.person),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter a port";
-                      }
-
-                      return null;
-                    },
-                    onFieldSubmitted: (value) => addPort(),
-                  ),
-                ),
-                SizedBox(width: 5),
-                ElevatedButton.icon(
-                  onPressed: addPort,
-                  icon: Icon(Icons.add),
-                  label: Text("Add Port"),
-                ),
-              ],
+            PortsForm(
+              errorMessage: errorMessage.value,
+              ports: ports.value,
+              onPortsChanged: (newPorts) {
+                errorMessage.value = null;
+                ports.value = newPorts;
+              },
             ),
             SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Selected ports:",
-                style: TextStyle(fontWeight: FontWeight.bold),
+            if (installing.value)
+              BottomFullWidthButton(
+                child: Text("Installing..."),
+                onPressed: null,
               ),
-            ),
-            SizedBox(height: 3),
-            if (ports.value.isEmpty)
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text("No ports selected."),
-              ),
-            if (ports.value.isNotEmpty)
-              Row(
-                children: ports.value
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: Chip(
-                          label: Text(e),
-                          onDeleted: () {
-                            ports.value =
-                                ports.value.where((port) => port != e).toList();
-                          },
+            if (!installing.value)
+              BottomFullWidthButton(
+                child: Text("Add rules"),
+                onPressed: ports.value.isEmpty
+                    ? null
+                    : () => _handleSave(
+                          ref,
+                          formKey.value,
+                          nameController.text,
+                          ipAddress.text,
+                          ports.value,
+                          installing,
+                          errorMessage,
                         ),
-                      ),
-                    )
-                    .toList(),
               ),
-            SizedBox(height: 12),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        child: Text("Add rules"),
-                        onPressed: ports.value.isNotEmpty
-                            ? () => _handleSave(
-                                  ref,
-                                  formKey.value,
-                                  nameController.text,
-                                  ipAddress.text,
-                                  ports.value,
-                                )
-                            : null,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -183,16 +111,43 @@ class CustomFirewallRuleForm extends HookConsumerWidget {
     String name,
     String ipAddress,
     List<String> ports,
+    ValueNotifier<bool> installing,
+    ValueNotifier<String?> errorMessage,
   ) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
-    ref.read(firewallRuleRepositoryProvider).createFirewallRules(
-          serverId: server.id,
-          name: name,
-          ipAddress: ipAddress,
-          ports: ports,
-        );
+    installing.value = true;
+
+    try {
+      await ref.read(firewallRuleRepositoryProvider).createFirewallRules(
+            serverId: server.id,
+            name: name,
+            ipAddress: ipAddress,
+            ports: ports,
+          );
+    } catch (e) {
+      installing.value = false;
+
+      if (e is FirewallRuleExistsException) {
+        errorMessage.value = "Already whitelisted for selected ports.";
+        return;
+      }
+    }
+
+    compute(
+      isolatedProgressCheck,
+      ApiTokenAndServerId(apiToken: settings.apiKey, serverId: server.id),
+    ).then((value) async {
+      installing.value = false;
+      ports.clear();
+
+      await ref
+          .read(notificationManagerProvider)
+          .showFirewallRuleInstalledNotification(server);
+
+      await windowManager.hide();
+    });
   }
 }
