@@ -85,4 +85,24 @@ class NotificationManager {
       notificationDetails,
     );
   }
+
+  Future<void> showRateLimitError() async {
+    const darwinNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: false,
+      presentSound: false,
+      interruptionLevel: InterruptionLevel.active,
+    );
+
+    const notificationDetails = NotificationDetails(
+      macOS: darwinNotificationDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Error!',
+      "Looks like we hit the forge rate limit, slow down a bit.",
+      notificationDetails,
+    );
+  }
 }

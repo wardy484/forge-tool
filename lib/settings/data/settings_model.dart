@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'settings.g.dart';
+part 'settings_model.g.dart';
 
 @HiveType(typeId: 0)
-class Settings extends HiveObject {
+class SettingsModel extends HiveObject {
   @HiveField(0)
   String name = "";
 

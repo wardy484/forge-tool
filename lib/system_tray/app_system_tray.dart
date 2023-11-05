@@ -41,7 +41,7 @@ class AppSystemTray {
     // We first init the systray menu and then add the menu entries
     await _systemTray.initSystemTray(
       title: "",
-      iconPath: "assets/images/icon.png",
+      iconPath: "assets/images/icon.svg",
     );
 
     await _systemTray.setContextMenu(menu);

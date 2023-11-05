@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/common/widgets/bottom_full_width_button.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/router.dart';
-import 'package:forge/settings/data/settings.dart';
+import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
@@ -14,14 +14,14 @@ class SettingsForm extends HookConsumerWidget {
     required this.settings,
   });
 
-  final Settings settings;
+  final SettingsModel settings;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formKey = useState(GlobalKey<FormState>());
     final nameController = useTextEditingController(text: settings.name);
     final apiKeyController = useTextEditingController(text: settings.apiKey);
-    final autoCleanUp = useState(settings.autoCleanup);
+    // final autoCleanUp = useState(settings.autoCleanup);
     final launchOnStartup = useState(settings.launchAtStartup);
     final apiKeyMessage = useState<String?>(null);
 
@@ -75,15 +75,15 @@ class SettingsForm extends HookConsumerWidget {
                 ],
               ),
             SizedBox(height: 8),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 3),
-              value: autoCleanUp.value,
-              title: const Text("Auto-delete old rules"),
-              subtitle: const Text(
-                "Automatically clean up old firewall rules after your IP Address changes.",
-              ),
-              onChanged: (value) => autoCleanUp.value = value ?? false,
-            ),
+            // CheckboxListTile(
+            //   contentPadding: EdgeInsets.symmetric(horizontal: 3),
+            //   value: autoCleanUp.value,
+            //   title: const Text("Auto-delete old rules"),
+            //   subtitle: const Text(
+            //     "Automatically clean up old firewall rules after your IP Address changes.",
+            //   ),
+            //   onChanged: (value) => autoCleanUp.value = value ?? false,
+            // ),
             CheckboxListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 3),
               value: launchOnStartup.value,
@@ -113,7 +113,7 @@ class SettingsForm extends HookConsumerWidget {
                 formKey.value,
                 nameController.text,
                 apiKeyController.text,
-                autoCleanUp.value,
+                true,
                 launchOnStartup.value,
                 apiKeyMessage,
               ),
@@ -144,14 +144,12 @@ class SettingsForm extends HookConsumerWidget {
 
     apiKeyMessage.value = null;
 
-    final settingsNotifier = ref.read(settingsNotifierProvider.notifier);
-
-    await settingsNotifier.updateSettings(
-      name,
-      apiKey,
-      autoCleanUp,
-      launchOnStartup,
-    );
+    await ref.read(settingsProvider.notifier).updateSettings(
+          name,
+          apiKey,
+          autoCleanUp,
+          launchOnStartup,
+        );
 
     windowManager.hide();
   }

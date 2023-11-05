@@ -6,7 +6,7 @@ import 'package:forge/common/widgets/bottom_full_width_button.dart';
 import 'package:forge/common/widgets/ports_form.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
 import 'package:forge/forge/model/server/server.dart';
-import 'package:forge/settings/data/settings.dart';
+import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
@@ -21,7 +21,7 @@ class CustomFirewallRuleForm extends HookConsumerWidget {
 
   final Server server;
   final String defaultIpAddress;
-  final Settings settings;
+  final SettingsModel settings;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

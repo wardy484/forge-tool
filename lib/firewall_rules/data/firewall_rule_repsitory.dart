@@ -37,10 +37,6 @@ class FirewallRuleRepository {
     required this.forge,
   });
 
-  Future<List<FirewallRule>> listRules(int serverId) async {
-    return forge.listRules(serverId);
-  }
-
   List<String> _filterExistingRules(
     List<FirewallRule> rules,
     int serverId,
@@ -104,6 +100,12 @@ class FirewallRuleRepository {
         // Sleep between writes in order to not destroy the ip tables
         await Future.delayed(const Duration(seconds: 1));
       }
+
+      for (var rule in toDelete) {
+        await forge.deleteRule(serverId, rule.id);
+
+        await Future.delayed(const Duration(seconds: 1));
+      }
     } catch (e) {
       rethrow;
     }
@@ -129,8 +131,6 @@ class ApiTokenAndServerId {
 }
 
 Future<bool> isolatedProgressCheck(ApiTokenAndServerId args) async {
-  // Cannot use riverpod dependency injection in an isolate
-  // TODO: Create a factory for building a forge SDK
   final dio = buildForgeDio(args.apiToken);
   final forgeSdk = ForgeSdk(client: dio);
   final firewallRuleRepository = FirewallRuleRepository(forge: forgeSdk);

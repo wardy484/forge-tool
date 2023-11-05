@@ -7,7 +7,7 @@ import 'package:forge/forge/forge.dart';
 import 'package:forge/quick_actions/data/quick_action.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
-import 'package:forge/settings/data/settings.dart';
+import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
@@ -26,13 +26,13 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(600, 400),
+    size: Size(600, 420),
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
   );
 
   Hive.init((await getApplicationDocumentsDirectory()).path);
-  Hive.registerAdapter(SettingsAdapter());
+  Hive.registerAdapter(SettingsModelAdapter());
   Hive.registerAdapter(QuickActionAdapter());
 
   final container = ProviderContainer();
@@ -59,9 +59,6 @@ void main() async {
         await container.read(forgeSdkProvider).verifyApiKey(settings.apiKey);
 
     if (apiKeyIsValid) {
-      // TODO: Clean up
-      // This is still kinda ugly, maybe on first launch, show a loading screen
-      // add in an artifical delay so they can see _something_ then hide everything.
       await windowManager.hide();
 
       final servers = await container.read(serverListProvider.future);
@@ -81,12 +78,14 @@ void main() async {
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
     },
-    appRunner: () => runApp(
-      UncontrolledProviderScope(
-        container: container,
-        child: const MyApp(),
-      ),
-    ),
+    appRunner: () {
+      return runApp(
+        UncontrolledProviderScope(
+          container: container,
+          child: const MyApp(),
+        ),
+      );
+    },
   );
 }
 

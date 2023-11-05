@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forge/common/exceptions/rate_limit_exception.dart';
 import 'package:forge/forge/model/firewall/create_firewall_rule/create_firewall_rule.dart';
 import 'package:forge/forge/model/firewall/create_firewall_rule_response/create_firewall_rule_response.dart';
 import 'package:forge/forge/model/firewall/firewall_rule/firewall_rule.dart';
@@ -59,6 +60,10 @@ class ForgeSdk {
       );
     }
 
+    if (res.statusCode == 429) {
+      throw RateLimitException();
+    }
+
     return ServerList(servers: []);
   }
 
@@ -75,6 +80,10 @@ class ForgeSdk {
       return CreateFirewallRuleResponse.fromJson(res.data).rule;
     }
 
+    if (res.statusCode == 429) {
+      throw RateLimitException();
+    }
+
     throw Error();
   }
 
@@ -85,6 +94,10 @@ class ForgeSdk {
 
     if (res.statusCode == 200) {
       return ListFirewallRulesResponse.fromJson(res.data).rules;
+    }
+
+    if (res.statusCode == 429) {
+      throw RateLimitException();
     }
 
     throw Error();
@@ -100,6 +113,10 @@ class ForgeSdk {
       return GetFirewallRuleResponse.fromJson(res.data).rule;
     }
 
+    if (res.statusCode == 429) {
+      throw RateLimitException();
+    }
+
     throw Error();
   }
 
@@ -110,6 +127,10 @@ class ForgeSdk {
     final res = await client.delete(
       "/servers/$serverId/firewall-rules/$ruleId",
     );
+
+    if (res.statusCode == 429) {
+      throw RateLimitException();
+    }
 
     return res.statusCode == 200;
   }
@@ -130,6 +151,10 @@ class ForgeSdk {
       if (e is DioException) {
         if (e.response?.statusCode == 422) {
           return false;
+        }
+
+        if (e.response?.statusCode == 429) {
+          throw RateLimitException();
         }
       }
     }

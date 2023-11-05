@@ -1,6 +1,6 @@
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:forge/settings/data/settings.dart';
+import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,7 +24,7 @@ Future<IPAddressAndSettings> ipAddressAndSettings(Ref ref) async {
 
 class IPAddressAndSettings {
   final String? ipAddress;
-  final Settings settings;
+  final SettingsModel settings;
 
   IPAddressAndSettings({
     required this.ipAddress,
