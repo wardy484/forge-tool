@@ -44,7 +44,7 @@ void main() async {
   await systemTray.init();
 
   await localNotifier.setup(
-    appName: 'whitelist_ninja',
+    appName: 'forge_buddy',
   );
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();

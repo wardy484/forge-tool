@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = Whitelist Ninja
+PRODUCT_NAME = Forge Buddy
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.kimward.whitelist_ninja
+PRODUCT_BUNDLE_IDENTIFIER = com.kimward.forge_buddy
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 Kim Ward. All rights reserved.

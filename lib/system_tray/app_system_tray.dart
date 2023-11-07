@@ -9,6 +9,7 @@ import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
+import 'package:process_run/process_run.dart';
 import 'package:system_tray/system_tray.dart';
 
 final systemTrayProvider = Provider<AppSystemTray>((ref) {
@@ -41,7 +42,7 @@ class AppSystemTray {
     // We first init the systray menu and then add the menu entries
     await _systemTray.initSystemTray(
       title: "",
-      iconPath: "assets/images/icon.svg",
+      iconPath: "assets/images/menu-bar-icon.svg",
     );
 
     await _systemTray.setContextMenu(menu);
@@ -78,8 +79,9 @@ class AppSystemTray {
                   _handleServerSelected(server, action.ports),
             );
           }).toList(),
+          MenuSeparator(),
           MenuItemLabel(
-            label: 'Custom',
+            label: 'Add custom firewall rule',
             onClicked: (menuItem) {
               _ref
                   .read(appRouterProvider)
@@ -88,6 +90,24 @@ class AppSystemTray {
               Future.delayed(const Duration(milliseconds: 100)).then((_) {
                 _appWindow.show();
               });
+            },
+          ),
+          MenuSeparator(),
+          MenuItemLabel(
+            label: 'Connect via SSH',
+            onClicked: (menuItem) async {
+              var shell = Shell();
+
+              await shell.run("open ssh://forge@${server.ipAddress}");
+            },
+          ),
+          MenuItemLabel(
+            label: 'Open in Forge',
+            onClicked: (menuItem) async {
+              var shell = Shell();
+
+              await shell.run(
+                  "open 'https://forge.laravel.com/servers/${server.id}/sites'");
             },
           ),
         ],
@@ -146,7 +166,7 @@ class AppSystemTray {
   }
 
   void rebuild() {
-    _systemTray.setImage("assets/images/icon.png");
+    _systemTray.setImage("assets/images/menu-bar-icon.svg");
 
     _buildMenu();
   }
