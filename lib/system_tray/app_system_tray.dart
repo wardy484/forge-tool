@@ -43,6 +43,7 @@ class AppSystemTray {
     await _systemTray.initSystemTray(
       title: "",
       iconPath: "assets/images/menu-bar-icon.svg",
+      isTemplate: true,
     );
 
     await _systemTray.setContextMenu(menu);
@@ -166,7 +167,7 @@ class AppSystemTray {
   }
 
   void rebuild() {
-    _systemTray.setImage("assets/images/menu-bar-icon.svg");
+    _systemTray.setImage("assets/images/menu-bar-icon.svg", isTemplate: true);
 
     _buildMenu();
   }

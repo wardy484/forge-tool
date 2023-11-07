@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/quick_actions/data/quick_action.dart';
+import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings_model.dart';
@@ -13,7 +14,6 @@ import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hive/hive.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
-import 'package:local_notifier/local_notifier.dart';
 import 'package:yaru/yaru.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,16 +43,16 @@ void main() async {
   final systemTray = container.read(systemTrayProvider);
   await systemTray.init();
 
-  await localNotifier.setup(
-    appName: 'forge_buddy',
-  );
-
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
   launchAtStartup.setup(
     appName: packageInfo.appName,
     appPath: Platform.resolvedExecutable,
   );
+
+  // Uncomment to run as a "new user" for testing
+  await container.read(settingsProvider.notifier).reset();
+  await container.read(quickActionsProvider.notifier).reset();
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     final apiKeyIsValid = settings.isConfigured &&

@@ -26,10 +26,12 @@ class NotificationManager {
 
     final InitializationSettings initializationSettings =
         InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsDarwin,
-            macOS: initializationSettingsDarwin,
-            linux: initializationSettingsLinux);
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsDarwin,
+      macOS: initializationSettingsDarwin,
+      linux: initializationSettingsLinux,
+    );
+
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,

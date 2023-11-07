@@ -3,8 +3,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/common/widgets/bottom_full_width_button.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/router.dart';
+import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
+import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -101,7 +103,6 @@ class SettingsForm extends HookConsumerWidget {
                 "Manage the quick actions that appear in the system tray.",
               ),
               onTap: () {
-                print("Tapped");
                 ref.read(appRouterProvider).push(QuickActionsListRoute());
               },
             ),
@@ -150,6 +151,16 @@ class SettingsForm extends HookConsumerWidget {
           autoCleanUp,
           launchOnStartup,
         );
+
+    print("Rebuilding system tray");
+    ref.invalidate(forgeClientProvider);
+    ref.invalidate(forgeSdkProvider);
+
+    final servers = await ref.read(serverListProvider.future);
+    final systemTray = ref.read(systemTrayProvider);
+
+    systemTray.addServers(servers);
+    // systemTray.rebuild();
 
     windowManager.hide();
   }

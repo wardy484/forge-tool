@@ -26,7 +26,7 @@ class QuickActions extends _$QuickActions {
     final quickActions = db.values.toList();
 
     if (quickActions.isEmpty) {
-      await createDefaultQuickActions();
+      return await createDefaultQuickActions();
     }
 
     return db.values.toList();
@@ -52,17 +52,27 @@ class QuickActions extends _$QuickActions {
     state = AsyncData(db.values.toList());
   }
 
-  Future<void> createDefaultQuickActions() async {
+  Future<List<QuickAction>> createDefaultQuickActions() async {
     final defaults = Service.values.toList();
     final db = await ref.read(quickActionsDatabaseProvider);
 
     for (var defaultQuickAction in defaults) {
       var quickAction = QuickAction()
-        ..name = defaultQuickAction.name
+        ..name = defaultQuickAction.label
         ..ports = defaultQuickAction.ports;
 
       await db.add(quickAction);
     }
+
+    state = AsyncData(db.values.toList());
+
+    return db.values.toList();
+  }
+
+  Future<void> reset() async {
+    var db = await ref.read(quickActionsDatabaseProvider);
+
+    db.clear();
 
     state = AsyncData(db.values.toList());
   }

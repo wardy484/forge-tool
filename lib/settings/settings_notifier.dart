@@ -49,4 +49,19 @@ class Settings extends _$Settings {
     db.delete('main');
     db.put('main', settings);
   }
+
+  Future<void> reset() async {
+    var db = await ref.read(settingsDatabaseProvider);
+
+    SettingsModel settings =
+        db.get('main', defaultValue: SettingsModel()) as SettingsModel;
+
+    settings.name = "";
+    settings.apiKey = "";
+    settings.autoCleanup = true;
+    settings.launchAtStartup = true;
+
+    db.delete('main');
+    db.put('main', settings);
+  }
 }
