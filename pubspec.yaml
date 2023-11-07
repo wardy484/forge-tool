@@ -53,6 +53,8 @@ dependencies:
   flutter_hooks: ^0.20.3
   yaru: ^1.1.0
   process_run: ^0.13.2
+  email_validator: "^2.1.16"
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 class SettingsForm extends HookConsumerWidget {
@@ -76,6 +77,30 @@ class SettingsForm extends HookConsumerWidget {
                   ),
                 ],
               ),
+            if (apiKeyMessage.value == null)
+              Row(
+                children: [
+                  InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        "Click here for instructions on how to get your Forgep API key here.",
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      final Uri forgeApiDocsUri = Uri.parse(
+                        'https://forge.laravel.com/docs/accounts/api.html#create-api-token',
+                      );
+
+                      launchUrl(forgeApiDocsUri);
+                    },
+                  ),
+                ],
+              ),
+
             SizedBox(height: 8),
             // CheckboxListTile(
             //   contentPadding: EdgeInsets.symmetric(horizontal: 3),
@@ -152,15 +177,11 @@ class SettingsForm extends HookConsumerWidget {
           launchOnStartup,
         );
 
-    print("Rebuilding system tray");
-    ref.invalidate(forgeClientProvider);
-    ref.invalidate(forgeSdkProvider);
+    ref.read(forgeSdkProvider).setApiKey(apiKey);
 
     final servers = await ref.read(serverListProvider.future);
-    final systemTray = ref.read(systemTrayProvider);
 
-    systemTray.addServers(servers);
-    // systemTray.rebuild();
+    ref.read(systemTrayProvider).addServers(servers);
 
     windowManager.hide();
   }

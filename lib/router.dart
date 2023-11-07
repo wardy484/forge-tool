@@ -6,6 +6,7 @@ import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/quick_actions/pages/create_quick_action_page.dart';
 import 'package:forge/quick_actions/pages/quick_actions_list_page.dart';
 import 'package:forge/settings/pages/settings_page.dart';
+import 'package:forge/settings/pages/verify_license_page.dart';
 
 part 'router.gr.dart';
 
@@ -19,6 +20,10 @@ final appRouterProvider = Provider<AppRouter>((ref) {
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
+        AutoRoute(
+          page: VerifyLicenseRoute.page,
+          path: "/license",
+        ),
         CustomRoute(
           page: SettingsRoute.page,
           initial: true,

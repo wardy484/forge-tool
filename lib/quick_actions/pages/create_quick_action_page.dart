@@ -96,6 +96,7 @@ class CreateQuickActionPage extends HookConsumerWidget {
       }
 
       await ref.read(quickActionsProvider.notifier).addQuickAction(name, ports);
+
       ref.read(systemTrayProvider).rebuild();
 
       ref.read(appRouterProvider).pop();

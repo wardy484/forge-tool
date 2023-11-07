@@ -20,13 +20,18 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       ..name = fields[0] as String
       ..apiKey = fields[1] as String
       ..autoCleanup = fields[2] == null ? true : fields[2] as bool
-      ..launchAtStartup = fields[3] == null ? true : fields[3] as bool;
+      ..launchAtStartup = fields[3] == null ? true : fields[3] as bool
+      ..licenseKey = fields[4] == null ? '' : fields[4] as String
+      ..email = fields[6] == null ? '' : fields[6] as String
+      ..hasValidLicense = fields[7] == null ? false : fields[7] as bool
+      ..dateVerified = fields[8] as DateTime?
+      ..firstLaunched = fields[9] as DateTime?;
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -34,7 +39,17 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       ..writeByte(2)
       ..write(obj.autoCleanup)
       ..writeByte(3)
-      ..write(obj.launchAtStartup);
+      ..write(obj.launchAtStartup)
+      ..writeByte(4)
+      ..write(obj.licenseKey)
+      ..writeByte(6)
+      ..write(obj.email)
+      ..writeByte(7)
+      ..write(obj.hasValidLicense)
+      ..writeByte(8)
+      ..write(obj.dateVerified)
+      ..writeByte(9)
+      ..write(obj.firstLaunched);
   }
 
   @override

@@ -43,6 +43,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsPage(),
       );
     },
+    VerifyLicenseRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const VerifyLicensePage(),
+      );
+    },
   };
 }
 
@@ -123,6 +129,20 @@ class SettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [VerifyLicensePage]
+class VerifyLicenseRoute extends PageRouteInfo<void> {
+  const VerifyLicenseRoute({List<PageRouteInfo>? children})
+      : super(
+          VerifyLicenseRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'VerifyLicenseRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -7,6 +7,7 @@ import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
 import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
+import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:process_run/process_run.dart';
@@ -32,10 +33,12 @@ class AppSystemTray {
         _ref = ref,
         super();
 
-  Future<void> init() async {
+  Future<void> init(SettingsModel settings) async {
     final menu = _generateMenu(servers: [
       MenuItemLabel(
-        label: "Loading...",
+        label: settings.isConfigured
+            ? "Loading..."
+            : "Please configure Forge Buddy",
       ),
     ]);
 
@@ -67,7 +70,7 @@ class AppSystemTray {
       return;
     }
 
-    final quickActions = await _ref.read(fetchQuickActionsProvider.future);
+    final quickActions = await _ref.read(quickActionsProvider.future);
 
     final serverOptions = serverList!.servers.map((server) {
       return SubMenu(

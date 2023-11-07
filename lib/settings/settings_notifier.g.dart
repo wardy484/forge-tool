@@ -6,7 +6,7 @@ part of 'settings_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchSettingsHash() => r'f76ab1af5916745bcf220b763edf5afae54420a1';
+String _$fetchSettingsHash() => r'b5c4a9e3589022f10aa2d8be511f043ac127ef04';
 
 /// See also [fetchSettings].
 @ProviderFor(fetchSettings)
@@ -21,7 +21,7 @@ final fetchSettingsProvider = FutureProvider<SettingsModel>.internal(
 );
 
 typedef FetchSettingsRef = FutureProviderRef<SettingsModel>;
-String _$settingsHash() => r'7c59c89e3cdfe4678d05bfc9b1750f4297cbf9b2';
+String _$settingsHash() => r'2640bc1ed0c40eb28d94239fe8efe3466235cfb6';
 
 /// See also [Settings].
 @ProviderFor(Settings)

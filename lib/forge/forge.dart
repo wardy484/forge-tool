@@ -46,6 +46,10 @@ class ForgeSdk {
 
   ForgeSdk({required this.client});
 
+  void setApiKey(String apiKey) {
+    client.options.headers['Authorization'] = "Bearer $apiKey";
+  }
+
   Future<ServerList> listServers() async {
     final res = await client.get("/servers");
 

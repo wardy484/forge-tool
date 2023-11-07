@@ -13,7 +13,10 @@ final settingsDatabaseProvider = Provider((ref) {
 @Riverpod(keepAlive: true)
 Future<SettingsModel> fetchSettings(Ref ref) async {
   final db = await ref.read(settingsDatabaseProvider);
-  return db.get('main', defaultValue: SettingsModel()) as SettingsModel;
+  return db.get(
+    'main',
+    defaultValue: SettingsModel()..firstLaunched = DateTime.now(),
+  ) as SettingsModel;
 }
 
 @Riverpod(keepAlive: true)
@@ -21,7 +24,10 @@ class Settings extends _$Settings {
   @override
   FutureOr<SettingsModel> build() async {
     final db = await ref.read(settingsDatabaseProvider);
-    return db.get('main', defaultValue: SettingsModel()) as SettingsModel;
+    return db.get(
+      'main',
+      defaultValue: SettingsModel()..firstLaunched = DateTime.now(),
+    ) as SettingsModel;
   }
 
   Future<void> updateSettings(
@@ -60,6 +66,20 @@ class Settings extends _$Settings {
     settings.apiKey = "";
     settings.autoCleanup = true;
     settings.launchAtStartup = true;
+
+    db.delete('main');
+  }
+
+  Future<void> updateLicense(String licenseKey, String email) async {
+    var db = await ref.read(settingsDatabaseProvider);
+
+    SettingsModel settings =
+        db.get('main', defaultValue: SettingsModel()) as SettingsModel;
+
+    settings.licenseKey = licenseKey;
+    settings.email = email;
+    settings.hasValidLicense = true;
+    settings.dateVerified = DateTime.now();
 
     db.delete('main');
     db.put('main', settings);

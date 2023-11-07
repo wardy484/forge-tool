@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,7 @@ void main() async {
 
   WindowOptions windowOptions = const WindowOptions(
     size: Size(600, 420),
+    minimumSize: Size(600, 420),
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
   );
@@ -41,7 +43,7 @@ void main() async {
   container.read(notificationManagerProvider).initialise();
 
   final systemTray = container.read(systemTrayProvider);
-  await systemTray.init();
+  await systemTray.init(settings);
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -51,8 +53,13 @@ void main() async {
   );
 
   // Uncomment to run as a "new user" for testing
-  await container.read(settingsProvider.notifier).reset();
-  await container.read(quickActionsProvider.notifier).reset();
+  // await container.read(settingsProvider.notifier).reset();
+  // await container.read(quickActionsProvider.notifier).reset();
+  // await container.read(settingsProvider.future);
+
+  await container
+      .read(quickActionsProvider.notifier)
+      .createDefaultQuickActions();
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     final apiKeyIsValid = settings.isConfigured &&
@@ -99,20 +106,79 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
-    final _appRouter = ref.watch(appRouterProvider);
-
     return CloseShortcut(
       child: YaruTheme(
         builder: (context, yaru, child) {
-          return MaterialApp.router(
-            theme: yaru.theme,
-            darkTheme: yaru.darkTheme,
-            debugShowCheckedModeBanner: false,
-            routeInformationParser: _appRouter.defaultRouteParser(),
-            routerDelegate: _appRouter.delegate(),
-          );
+          return ref.watch(settingsProvider).when(
+                data: (settings) {
+                  return MainRouter(
+                    yaru: yaru,
+                    hasValidLicense: settings.hasValidLicense,
+                  );
+                },
+                loading: () => MaterialApp(
+                  theme: yaru.theme,
+                  darkTheme: yaru.darkTheme,
+                  debugShowCheckedModeBanner: false,
+                  home: const Scaffold(
+                    body: Column(
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                error: (error, stackTrace) {
+                  return MaterialApp(
+                    theme: yaru.theme,
+                    darkTheme: yaru.darkTheme,
+                    debugShowCheckedModeBanner: false,
+                    home: Scaffold(
+                      body: Column(
+                        children: [
+                          Center(
+                            child: Text("Error: ${error}"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
         },
       ),
+    );
+  }
+}
+
+class MainRouter extends ConsumerWidget {
+  const MainRouter({
+    super.key,
+    required this.yaru,
+    required this.hasValidLicense,
+  });
+
+  final YaruThemeData yaru;
+  final bool hasValidLicense;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
+      theme: yaru.theme,
+      darkTheme: yaru.darkTheme,
+      debugShowCheckedModeBanner: false,
+      routeInformationParser: router.defaultRouteParser(),
+      routerDelegate: router.delegate(deepLinkBuilder: (deepLink) {
+        if (hasValidLicense == false) {
+          return DeepLink.single(VerifyLicenseRoute());
+        }
+
+        return DeepLink.defaultPath;
+      }),
     );
   }
 }

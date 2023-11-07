@@ -6,23 +6,7 @@ part of 'quick_action_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$fetchQuickActionsHash() => r'91e05c7af31e52ab370d8a72b14652d39f7ac72a';
-
-/// See also [fetchQuickActions].
-@ProviderFor(fetchQuickActions)
-final fetchQuickActionsProvider =
-    AutoDisposeFutureProvider<List<QuickAction>>.internal(
-  fetchQuickActions,
-  name: r'fetchQuickActionsProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$fetchQuickActionsHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef FetchQuickActionsRef = AutoDisposeFutureProviderRef<List<QuickAction>>;
-String _$quickActionsHash() => r'6b05db0db6ffb4966ce89901bfbe948b318aab86';
+String _$quickActionsHash() => r'5f9a71e2aabd2693dae3e5fb5687204b0b7184b8';
 
 /// See also [QuickActions].
 @ProviderFor(QuickActions)
