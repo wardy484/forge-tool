@@ -14,7 +14,7 @@ Future<String?> ipAddress(Ref ref) {
 @riverpod
 Future<IPAddressAndSettings> ipAddressAndSettings(Ref ref) async {
   final ipAddress = await ref.read(ipAddressProvider.future);
-  final settings = await ref.read(fetchSettingsProvider.future);
+  final settings = await ref.read(settingsProvider.future);
 
   return IPAddressAndSettings(
     ipAddress: ipAddress,

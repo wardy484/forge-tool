@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:hive/hive.dart';
 import 'package:launch_at_startup/launch_at_startup.dart' as startup;
@@ -9,15 +8,6 @@ part 'settings_notifier.g.dart';
 final settingsDatabaseProvider = Provider((ref) {
   return Hive.openBox<SettingsModel>("settings");
 });
-
-@Riverpod(keepAlive: true)
-Future<SettingsModel> fetchSettings(Ref ref) async {
-  final db = await ref.read(settingsDatabaseProvider);
-  return db.get(
-    'main',
-    defaultValue: SettingsModel()..firstLaunched = DateTime.now(),
-  ) as SettingsModel;
-}
 
 @Riverpod(keepAlive: true)
 class Settings extends _$Settings {

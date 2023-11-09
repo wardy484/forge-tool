@@ -5,6 +5,7 @@ import 'package:forge/forge_buddy_api/verify_license.dart';
 import 'package:forge/router.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
+import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
@@ -83,53 +84,61 @@ class LicenseForm extends HookConsumerWidget {
             SizedBox(height: 12),
             Text("Remaining Trial: ${settings.remainingTrial} days"),
             SizedBox(height: 12),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  children: [
-                    if (settings.remainingTrial > 0)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 12.0),
-                        child: Expanded(
-                          child: OutlinedButton(
-                            child: Text(
-                                "Continue Trial: ${settings.remainingTrial} days"),
-                            onPressed: () {
+            Expanded(child: SizedBox()),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                children: [
+                  if (settings.remainingTrial > 0)
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 12),
+                        child: OutlinedButton(
+                          child: Text(
+                              "Continue Trial: ${settings.remainingTrial} days"),
+                          onPressed: () {
+                            final systemTray = ref.read(systemTrayProvider);
+
+                            if (settings.isConfigured) {
+                              systemTray.buildLoadedMenu();
+                              windowManager.hide();
+                            } else {
                               ref
                                   .read(appRouterProvider)
                                   .replace(const SettingsRoute());
-                            },
-                          ),
-                        ),
-                      ),
-                    Expanded(
-                      child: OutlinedButton(
-                        child: Text("Purchase License"),
-                        onPressed: () async {
-                          final purchaseUri = Uri.parse(
-                            'https://forgebuddy.com/checkout',
-                          );
 
-                          await launchUrl(purchaseUri);
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton(
-                        child: Text("Activate License"),
-                        onPressed: () => _handleSave(
-                          ref,
-                          formKey.value,
-                          licenseKeyController.text,
-                          emailController.text,
-                          errorMessage,
+                              systemTray.buildConfigurationRequiredMenu();
+                            }
+                          },
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  Expanded(
+                    child: OutlinedButton(
+                      child: Text("Purchase License"),
+                      onPressed: () async {
+                        final purchaseUri = Uri.parse(
+                          'https://forgebuddy.com/checkout',
+                        );
+
+                        await launchUrl(purchaseUri);
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      child: Text("Activate License"),
+                      onPressed: () => _handleSave(
+                        ref,
+                        formKey.value,
+                        licenseKeyController.text,
+                        emailController.text,
+                        errorMessage,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

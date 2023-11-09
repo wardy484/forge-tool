@@ -1,4 +1,7 @@
 PODS:
+  - auto_updater (0.0.1):
+    - FlutterMacOS
+    - Sparkle
   - flutter_local_notifications (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -16,6 +19,7 @@ PODS:
     - FlutterMacOS
     - Sentry/HybridSDK (= 8.14.2)
   - SentryPrivate (8.14.2)
+  - Sparkle (2.5.1)
   - system_tray (0.0.1):
     - FlutterMacOS
   - url_launcher_macos (0.0.1):
@@ -24,6 +28,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - auto_updater (from `Flutter/ephemeral/.symlinks/plugins/auto_updater/macos`)
   - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
@@ -38,8 +43,11 @@ SPEC REPOS:
   trunk:
     - Sentry
     - SentryPrivate
+    - Sparkle
 
 EXTERNAL SOURCES:
+  auto_updater:
+    :path: Flutter/ephemeral/.symlinks/plugins/auto_updater/macos
   flutter_local_notifications:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
   FlutterMacOS:
@@ -60,6 +68,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
+  auto_updater: d3c03e9e5f2a00ec78572d9f7473cb8c9a6c0273
   flutter_local_notifications: 3805ca215b2fb7f397d78b66db91f6a747af52e4
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
@@ -68,10 +77,11 @@ SPEC CHECKSUMS:
   Sentry: e0ea366f95ebb68f26d6030d8c22d6b2e6d23dd0
   sentry_flutter: 9a04c51c373d76ee22167bf1e65bc468c0a91fed
   SentryPrivate: 949a21fa59872427edc73b524c3ec8456761d97f
+  Sparkle: ce9957501a2655dd4c8264312c6134ff478a777c
   system_tray: e53c972838c69589ff2e77d6d3abfd71332f9e5d
   url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
-PODFILE CHECKSUM: 9906e2d8b66524767d9e0a23ccea6cf884c4076c
+PODFILE CHECKSUM: 8dac40f2dcba08175993c58d97cd1857970adfb6
 
 COCOAPODS: 1.12.0

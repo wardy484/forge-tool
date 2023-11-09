@@ -1,25 +1,22 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/forge/forge.dart';
+import 'package:forge/forge_buddy_app.dart';
 import 'package:forge/quick_actions/data/quick_action.dart';
 import 'package:forge/quick_actions/data/quick_action_repository.dart';
-import 'package:forge/router.dart';
-import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hive/hive.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
-import 'package:yaru/yaru.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:auto_updater/auto_updater.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,11 +36,11 @@ void main() async {
 
   final container = ProviderContainer();
 
-  final settings = await container.read(fetchSettingsProvider.future);
-  container.read(notificationManagerProvider).initialise();
+  final settings = await container.read(settingsProvider.future);
+  await container.read(notificationManagerProvider).initialise();
 
   final systemTray = container.read(systemTrayProvider);
-  await systemTray.init(settings);
+  await systemTray.init();
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -65,13 +62,23 @@ void main() async {
     final apiKeyIsValid = settings.isConfigured &&
         await container.read(forgeSdkProvider).verifyApiKey(settings.apiKey);
 
-    if (apiKeyIsValid) {
+    if (apiKeyIsValid && settings.hasValidLicense) {
       await windowManager.hide();
+      await systemTray.buildLoadedMenu();
 
-      final servers = await container.read(serverListProvider.future);
-      systemTray.addServers(servers);
+      await configureAutoUpdater();
     } else {
-      await launchAtStartup.enable();
+      if (!settings.hasValidLicense) {
+        systemTray.buildPendingLicenseMenu();
+      } else {
+        await systemTray.buildLoadedMenu();
+        await configureAutoUpdater();
+      }
+
+      if (launchAtStartup.isEnabled == true) {
+        await launchAtStartup.enable();
+      }
+
       await windowManager.show();
       await windowManager.focus();
     }
@@ -89,129 +96,16 @@ void main() async {
       return runApp(
         UncontrolledProviderScope(
           container: container,
-          child: const MyApp(),
+          child: const ForgeBuddyApp(),
         ),
       );
     },
   );
 }
 
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return CloseShortcut(
-      child: YaruTheme(
-        builder: (context, yaru, child) {
-          return ref.watch(settingsProvider).when(
-                data: (settings) {
-                  return MainRouter(
-                    yaru: yaru,
-                    hasValidLicense: settings.hasValidLicense,
-                  );
-                },
-                loading: () => MaterialApp(
-                  theme: yaru.theme,
-                  darkTheme: yaru.darkTheme,
-                  debugShowCheckedModeBanner: false,
-                  home: const Scaffold(
-                    body: Column(
-                      children: [
-                        Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                error: (error, stackTrace) {
-                  return MaterialApp(
-                    theme: yaru.theme,
-                    darkTheme: yaru.darkTheme,
-                    debugShowCheckedModeBanner: false,
-                    home: Scaffold(
-                      body: Column(
-                        children: [
-                          Center(
-                            child: Text("Error: ${error}"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-        },
-      ),
-    );
-  }
-}
-
-class MainRouter extends ConsumerWidget {
-  const MainRouter({
-    super.key,
-    required this.yaru,
-    required this.hasValidLicense,
-  });
-
-  final YaruThemeData yaru;
-  final bool hasValidLicense;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(appRouterProvider);
-
-    return MaterialApp.router(
-      theme: yaru.theme,
-      darkTheme: yaru.darkTheme,
-      debugShowCheckedModeBanner: false,
-      routeInformationParser: router.defaultRouteParser(),
-      routerDelegate: router.delegate(deepLinkBuilder: (deepLink) {
-        if (hasValidLicense == false) {
-          return DeepLink.single(VerifyLicenseRoute());
-        }
-
-        return DeepLink.defaultPath;
-      }),
-    );
-  }
-}
-
-final hideWindowKeySet = LogicalKeySet(
-  LogicalKeyboardKey.meta, // Replace with control on Windows
-  LogicalKeyboardKey.keyW,
-);
-
-class HideWindowIntent extends Intent {}
-
-class CloseShortcut extends ConsumerWidget {
-  const CloseShortcut({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return FocusableActionDetector(
-      autofocus: true,
-      shortcuts: {
-        hideWindowKeySet: HideWindowIntent(),
-      },
-      actions: {
-        HideWindowIntent: CallbackAction(onInvoke: (e) {
-          windowManager.hide();
-          return null;
-        }),
-      },
-      child: child,
-    );
-  }
+Future<void> configureAutoUpdater() async {
+  String feedURL = 'http://localhost:5002/appcast.xml';
+  await autoUpdater.setFeedURL(feedURL);
+  await autoUpdater.checkForUpdates();
+  await autoUpdater.setScheduledCheckInterval(3600);
 }

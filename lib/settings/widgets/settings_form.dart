@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/common/widgets/bottom_full_width_button.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/router.dart';
-import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
@@ -178,10 +177,7 @@ class SettingsForm extends HookConsumerWidget {
         );
 
     ref.read(forgeSdkProvider).setApiKey(apiKey);
-
-    final servers = await ref.read(serverListProvider.future);
-
-    ref.read(systemTrayProvider).addServers(servers);
+    ref.read(systemTrayProvider).buildLoadedMenu();
 
     windowManager.hide();
   }

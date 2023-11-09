@@ -1,3 +1,4 @@
+import 'package:auto_updater/auto_updater.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,11 +8,15 @@ import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
 import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
-import 'package:forge/settings/data/settings_model.dart';
+import 'package:forge/servers/server_list_notifier.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:process_run/process_run.dart';
 import 'package:system_tray/system_tray.dart';
+import 'package:window_manager/window_manager.dart';
+
+const MenuBarIconPath = "assets/images/menu-bar-icon.svg";
+const MenuBarLoadingIconPath = "assets/images/loading-icon.gif";
 
 final systemTrayProvider = Provider<AppSystemTray>((ref) {
   return AppSystemTray(
@@ -22,36 +27,23 @@ final systemTrayProvider = Provider<AppSystemTray>((ref) {
 class AppSystemTray {
   final SystemTray _systemTray;
   final AppWindow _appWindow;
-  final Ref _ref;
+  final Ref ref;
 
   ServerList? serverList;
 
   AppSystemTray({
-    required Ref ref,
+    required Ref this.ref,
   })  : _systemTray = SystemTray(),
         _appWindow = AppWindow(),
-        _ref = ref,
         super();
 
-  Future<void> init(SettingsModel settings) async {
-    final menu = _generateMenu(servers: [
-      MenuItemLabel(
-        label: settings.isConfigured
-            ? "Loading..."
-            : "Please configure Forge Buddy",
-      ),
-    ]);
-
-    // We first init the systray menu and then add the menu entries
+  Future<void> init() async {
     await _systemTray.initSystemTray(
       title: "",
-      iconPath: "assets/images/menu-bar-icon.svg",
+      iconPath: MenuBarIconPath,
       isTemplate: true,
     );
 
-    await _systemTray.setContextMenu(menu);
-
-    // handle system tray event
     _systemTray.registerSystemTrayEventHandler((eventName) {
       if (eventName == "click") {
         _systemTray.popUpContextMenu();
@@ -59,129 +51,186 @@ class AppSystemTray {
     });
   }
 
-  void addServers(ServerList serverList) {
-    this.serverList = serverList;
-
-    _buildMenu();
+  void buildLoadingMenu() {
+    _setMenuItems(
+      icon: MenuBarLoadingIconPath,
+      children: [
+        MenuItemLabel(
+          label: 'Fetching server list...',
+          enabled: false,
+        ),
+      ],
+    );
   }
 
-  void _buildMenu() async {
-    if (serverList == null) {
-      return;
-    }
+  void buildConfigurationRequiredMenu() {
+    _setMenuItems(children: [
+      MenuItemLabel(
+        label: 'Update settings to continue.',
+        enabled: false,
+      ),
+    ]);
+  }
 
-    final quickActions = await _ref.read(quickActionsProvider.future);
+  void buildAddingRuleMenu() {
+    _setMenuItems(
+      icon: MenuBarLoadingIconPath,
+      children: [
+        MenuItemLabel(
+          label: 'Adding firewall rule...',
+          enabled: false,
+        ),
+      ],
+    );
+  }
 
-    final serverOptions = serverList!.servers.map((server) {
+  void buildPendingLicenseMenu() {
+    _setMenuItems(
+      includeSettings: false,
+      includeUpdates: false,
+      children: [
+        MenuItemLabel(
+          label: 'Enter license key or continue free trial.',
+          onClicked: (_) {
+            ref.read(appRouterProvider).replace(VerifyLicenseRoute());
+
+            Future.delayed(const Duration(milliseconds: 100)).then((_) {
+              windowManager.show();
+              windowManager.focus();
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Future<void> buildLoadedMenu() async {
+    buildLoadingMenu();
+
+    final quickActions = await ref.read(quickActionsProvider.future);
+    final serverList = await ref.read(serverListProvider.future);
+
+    final serverMenuItems = serverList.servers.map((server) {
       return SubMenu(
         label: server.name,
         children: [
           ...quickActions.map((action) {
             return MenuItemLabel(
               label: action.name,
-              onClicked: (menuItem) =>
-                  _handleServerSelected(server, action.ports),
+              onClicked: (_) => _onQuickActionClicked(server, action.ports),
             );
           }).toList(),
           MenuSeparator(),
           MenuItemLabel(
             label: 'Add custom firewall rule',
-            onClicked: (menuItem) {
-              _ref
-                  .read(appRouterProvider)
-                  .replace(CustomFirewallRuleRoute(server: server));
-
-              Future.delayed(const Duration(milliseconds: 100)).then((_) {
-                _appWindow.show();
-              });
-            },
+            onClicked: (_) => _onAddCustomFirewallRuleClicked(server),
           ),
-          MenuSeparator(),
           MenuItemLabel(
             label: 'Connect via SSH',
-            onClicked: (menuItem) async {
-              var shell = Shell();
-
-              await shell.run("open ssh://forge@${server.ipAddress}");
-            },
+            onClicked: (_) async => await _onConnectViaSshClicked(server),
           ),
           MenuItemLabel(
             label: 'Open in Forge',
-            onClicked: (menuItem) async {
-              var shell = Shell();
-
-              await shell.run(
-                  "open 'https://forge.laravel.com/servers/${server.id}/sites'");
-            },
+            onClicked: (_) async => await _onOpenInForgeClicked(server),
           ),
         ],
       );
     }).toList();
 
-    _systemTray.setContextMenu(_generateMenu(servers: serverOptions));
-
-    // handle system tray event
-    _systemTray.registerSystemTrayEventHandler((eventName) {
-      if (eventName == "click") {
-        _systemTray.popUpContextMenu();
-      }
-    });
+    _setMenuItems(
+      children: [
+        ...serverMenuItems,
+      ],
+    );
   }
 
-  Menu _generateMenu({required List<MenuItemBase> servers}) {
-    final items = [
-      ...servers,
-      MenuSeparator(),
-      MenuItemLabel(
-        label: 'Settings',
-        onClicked: (menuItem) {
-          _ref.read(appRouterProvider).replace(SettingsRoute());
+  void _setMenuItems({
+    bool includeSettings = true,
+    bool includeUpdates = true,
+    String icon = MenuBarIconPath,
+    required List<MenuItemBase> children,
+  }) {
+    _systemTray.setImage(icon, isTemplate: true);
 
-          Future.delayed(const Duration(milliseconds: 100)).then((_) {
-            _appWindow.show();
-          });
-        },
-      ),
+    final items = [
+      ...children,
+      MenuSeparator(),
+      if (includeSettings)
+        MenuItemLabel(
+          label: 'Settings',
+          onClicked: (_) => _onSettingsClicked(),
+        ),
+      if (includeUpdates)
+        MenuItemLabel(
+          label: 'Check for updates',
+          onClicked: (_) => _onCheckForUpdatesClicked,
+        ),
       MenuItemLabel(
         label: 'Exit',
-        onClicked: (menuItem) {
-          SystemNavigator.pop();
-        },
+        onClicked: (_) => _onExitClicked(),
       ),
     ];
 
-    final menu = Menu();
-    menu.buildFrom(items);
-
-    return menu;
-  }
-
-  void _setLoadingState(Server server) {
-    _systemTray.setImage("assets/images/loading-icon.gif");
-
-    final menu = _generateMenu(servers: [
-      MenuItemLabel(
-        label: "Installing firewall rules on ${server.name}...",
-        enabled: false,
-      ),
-    ]);
+    final menu = Menu()..buildFrom(items);
 
     _systemTray.setContextMenu(menu);
   }
 
-  void rebuild() {
-    _systemTray.setImage("assets/images/menu-bar-icon.svg", isTemplate: true);
-
-    _buildMenu();
+  void _onExitClicked() {
+    SystemNavigator.pop();
   }
 
-  Future<void> _handleServerSelected(Server server, List<String> ports) async {
-    final settings = await _ref.read(fetchSettingsProvider.future);
+  void _onCheckForUpdatesClicked() {
+    autoUpdater.checkForUpdates();
+  }
+
+  void _onSettingsClicked() {
+    ref.read(appRouterProvider).replace(SettingsRoute());
+
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
+      _appWindow.show();
+    });
+  }
+
+  void _onAddCustomFirewallRuleClicked(Server server) {
+    ref
+        .read(appRouterProvider)
+        .replace(CustomFirewallRuleRoute(server: server));
+
+    Future.delayed(const Duration(milliseconds: 100)).then((_) {
+      _appWindow.show();
+    });
+  }
+
+  Future<void> _onConnectViaSshClicked(Server server) async {
+    var shell = Shell();
 
     try {
-      _setLoadingState(server);
+      await shell.run("open ssh://forge@${server.ipAddress}");
+    } catch (e) {
+      ref.read(notificationManagerProvider).showUnableToOpenSSHEerror(server);
+    }
+  }
 
-      await _ref.read(firewallRuleRepositoryProvider).createFirewallRules(
+  Future<void> _onOpenInForgeClicked(Server server) async {
+    var shell = Shell();
+
+    try {
+      await shell.run(
+        "open 'https://forge.laravel.com/servers/${server.id}/sites'",
+      );
+    } catch (e) {
+      ref.read(notificationManagerProvider).showUnableToOpenBrowserError();
+    }
+  }
+
+  Future<void> _onQuickActionClicked(Server server, List<String> ports) async {
+    final settings = await ref.read(settingsProvider.future);
+
+    try {
+      buildAddingRuleMenu();
+
+      await ref.read(firewallRuleRepositoryProvider).createFirewallRules(
             serverId: server.id,
             name: settings.name,
             ports: ports,
@@ -194,19 +243,17 @@ class AppSystemTray {
         ApiTokenAndServerId(apiToken: settings.apiKey, serverId: server.id),
       );
 
-      _ref
+      ref
           .read(notificationManagerProvider)
           .showFirewallRuleInstalledNotification(server);
-
-      rebuild();
     } catch (e) {
       if (e is FirewallRuleExistsException) {
-        _ref
+        ref
             .read(notificationManagerProvider)
             .showDuplicateFirewallRuleNotifaction(server);
-
-        rebuild();
       }
+    } finally {
+      buildLoadedMenu();
     }
   }
 }

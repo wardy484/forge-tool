@@ -55,7 +55,7 @@ class QuickActionsListPage extends ConsumerWidget {
                             .read(quickActionsProvider.notifier)
                             .removeQuickAction(quickAction);
 
-                        ref.read(systemTrayProvider).rebuild();
+                        ref.read(systemTrayProvider).buildLoadedMenu();
                       },
                     ),
                   );

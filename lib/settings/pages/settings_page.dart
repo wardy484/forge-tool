@@ -14,7 +14,7 @@ class SettingsPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      body: ref.watch(fetchSettingsProvider).when(
+      body: ref.watch(settingsProvider).when(
             data: (settings) {
               return SettingsForm(settings: settings);
             },

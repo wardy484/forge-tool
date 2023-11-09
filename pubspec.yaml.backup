@@ -1,0 +1,60 @@
+name: forge
+description: Quickly whitelist your forge servers.
+
+publish_to: "none"
+
+version: 1.0.2+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  dio: ^5.3.3
+  json_serializable: ^6.1.4
+  system_tray: ^2.0.3
+
+  cupertino_icons: ^1.0.2
+  dart_ipify: ^1.1.1
+  auto_route: ^7.8.4
+  io: ^1.0.3
+  path_provider: ^2.0.8
+  flutter_styled_toast: ^2.0.0
+  hive: ^2.0.5
+  flutter_riverpod: ^2.4.4
+  riverpod_annotation: ^2.2.1
+  window_manager: ^0.3.7
+  launch_at_startup: ^0.2.2
+  package_info_plus: ^4.2.0
+  freezed: ^2.4.5
+  flutter_local_notifications: ^16.1.0
+  sentry_flutter: ^7.12.0
+  hooks_riverpod: ^2.4.5
+  flutter_hooks: ^0.20.3
+  yaru: ^1.1.0
+  process_run: ^0.13.2
+  email_validator: "^2.1.16"
+  url_launcher: ^6.2.1
+  auto_updater: ^0.1.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.4.6
+  json_annotation:
+  auto_route_generator: 7.3.2
+  hive_generator:
+
+  flutter_lints: ^3.0.0
+  riverpod_generator: ^2.3.5
+  custom_lint: ^0.5.4
+  riverpod_lint: ^2.3.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/

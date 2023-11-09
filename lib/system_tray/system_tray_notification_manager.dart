@@ -12,41 +12,32 @@ class NotificationManager {
   NotificationManager()
       : flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  void initialise() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
-
-    final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(
-            // onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-            );
-
-    final LinuxInitializationSettings initializationSettingsLinux =
-        LinuxInitializationSettings(defaultActionName: 'Open notification');
-
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
+  Future<void> initialise() async {
+    final initializationSettingsDarwin = DarwinInitializationSettings();
+    final initializationSettings = InitializationSettings(
       macOS: initializationSettingsDarwin,
-      linux: initializationSettingsLinux,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-    final bool? result = await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            MacOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+    print("Before asking");
 
-    print("Permission granted: $result");
+    final plugin =
+        flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin>();
+
+    if (plugin != null) {
+      print(await plugin.pendingNotificationRequests());
+      final bool? result = await plugin.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+      print("Permission granted: $result");
+      print(await plugin.pendingNotificationRequests());
+    } else {
+      print("Plugin is null");
+    }
   }
 
   showDuplicateFirewallRuleNotifaction(Server server) async {
@@ -84,6 +75,46 @@ class NotificationManager {
       0,
       'Success!',
       "HTTP has been whitelisted for ${server.name}.",
+      notificationDetails,
+    );
+  }
+
+  Future<void> showUnableToOpenSSHEerror(Server server) async {
+    const darwinNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: false,
+      presentSound: false,
+      interruptionLevel: InterruptionLevel.active,
+    );
+
+    const notificationDetails = NotificationDetails(
+      macOS: darwinNotificationDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Error!',
+      "Unable to connect to SSH for: ${server.name}.",
+      notificationDetails,
+    );
+  }
+
+  Future<void> showUnableToOpenBrowserError() async {
+    const darwinNotificationDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: false,
+      presentSound: false,
+      interruptionLevel: InterruptionLevel.active,
+    );
+
+    const notificationDetails = NotificationDetails(
+      macOS: darwinNotificationDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Error!',
+      "Unable to open default browser.",
       notificationDetails,
     );
   }

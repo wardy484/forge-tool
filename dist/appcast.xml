@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+    <channel>
+        <title>forge_buddy</title>
+        <description>Most recent updates to forge_buddy</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.0.0</title>
+            <sparkle:releaseNotesLink>
+                https://forgebuddy.com/release_notes.html
+            </sparkle:releaseNotesLink>
+            <pubDate>Tue, 7 Nov 2023 12:00:00 +0800</pubDate>
+            <enclosure url="1.0.0+1/forge-1.0.0+1-macos.zip"
+                sparkle:edSignature="oIUjCuYxNQSEsUulerq5xSZrYJBC6Ex2CfVjDts/d6CFueiHo4IqBjyndIuy0uSt5TtBw0REeYNcMO66fJUsDQ=="
+                sparkle:version="1.0.0"
+                sparkle:os="macos"
+                length="20930994"
+                type="application/octet-stream" />
+        </item>
+        <item>
+            <title>Version 1.0.1</title>
+            <sparkle:releaseNotesLink>
+                https://forgebuddy.com/release_notes.html
+            </sparkle:releaseNotesLink>
+            <pubDate>Tue, 7 Nov 2023 13:00:00 +0800</pubDate>
+            <enclosure url="1.0.1+1/forge-1.0.1+1-macos.zip"
+                sparkle:edSignature="/Bkvn4HtqNZ1KxXhYtA40MmKJN5EK8nsbhgOTsLa6lur+c9yoHaSLTTlldk6q+j+02wdweWEHVBCi0EcGKj8Dg=="
+                sparkle:version="1.0.1"
+                sparkle:os="macos"
+                length="20930983"
+                type="application/octet-stream" />
+        </item>
+        <item>
+            <title>Version 1.0.2+1</title>
+            <sparkle:releaseNotesLink> https://forgebuddy.com/release_notes.html </sparkle:releaseNotesLink>
+            <pubDate>Tue, 07 Nov 2023 22:15:51 +0000</pubDate>
+            <enclosure url="1.0.2+1/forge-1.0.2+1-macos.zip"
+                sparkle:edSignature="BeuPmiiqtn1CcEe57wuenqwdbH4H14m5Z+6W6iF6PSlecaDFKAmaf08WXBd9tJoT+zIdh3b2a6jMfCuHPR9wCg=="
+                sparkle:version="1.0.2+1" sparkle:os="macos" length="20931305"
+                type="application/octet-stream" />
+        </item>
+    </channel>
+</rss>

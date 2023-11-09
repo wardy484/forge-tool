@@ -14,7 +14,7 @@ class VerifyLicensePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Welcome to Forge Buddy!"),
       ),
-      body: ref.watch(fetchSettingsProvider).when(
+      body: ref.watch(settingsProvider).when(
             data: (settings) {
               return LicenseForm(settings: settings);
             },

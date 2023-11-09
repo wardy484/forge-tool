@@ -21,7 +21,7 @@ final ipAddressProvider = AutoDisposeFutureProvider<String?>.internal(
 
 typedef IpAddressRef = AutoDisposeFutureProviderRef<String?>;
 String _$ipAddressAndSettingsHash() =>
-    r'0d5b3d0ea1dcd37a4d64279bbd5cac15f303bd82';
+    r'7dc0708c9b9fa81b2db50eaa05f7ef05f7ef79d4';
 
 /// See also [ipAddressAndSettings].
 @ProviderFor(ipAddressAndSettings)

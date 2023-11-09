@@ -12,7 +12,7 @@ import 'package:forge/settings/settings_notifier.dart';
 const String forgeUrl = "https://forge.laravel.com/api/v1";
 
 final forgeClientProvider = Provider((ref) {
-  final String apiKey = ref.watch(fetchSettingsProvider).maybeWhen(
+  final String apiKey = ref.watch(settingsProvider).maybeWhen(
         data: (settings) => settings.apiKey,
         orElse: () => "",
       );
