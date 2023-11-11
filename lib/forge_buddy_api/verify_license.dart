@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:forge/environment.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,9 +20,10 @@ class VerifyLicenseResponse {
 
 @riverpod
 FutureOr<bool> verifyLicense(Ref ref, String licenseKey, String email) async {
-  // TODO: Update to prod url
+  final config = await ref.read(configProvider.future);
+
   final response = await Dio().post(
-    "http://forgebuddy.test/api/license/activate",
+    "${config.applicationUrl}/api/license/activate",
     data: {
       "license_key": licenseKey,
       "email": email,

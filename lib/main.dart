@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:forge/environment.dart';
 import 'package:forge/forge/forge.dart';
 import 'package:forge/forge_buddy_app.dart';
 import 'package:forge/quick_actions/data/quick_action.dart';
@@ -35,6 +36,7 @@ void main() async {
   Hive.registerAdapter(QuickActionAdapter());
 
   final container = ProviderContainer();
+  final config = await container.read(configProvider.future);
 
   final settings = await container.read(settingsProvider.future);
   await container.read(notificationManagerProvider).initialise();
@@ -49,10 +51,13 @@ void main() async {
     appPath: Platform.resolvedExecutable,
   );
 
-  // Uncomment to run as a "new user" for testing
-  // await container.read(settingsProvider.notifier).reset();
-  // await container.read(quickActionsProvider.notifier).reset();
-  // await container.read(settingsProvider.future);
+  if (config.deleteConfigOnStartup) {
+    await container.read(settingsProvider.notifier).reset();
+    await container.read(quickActionsProvider.notifier).reset();
+    await container.read(settingsProvider.future);
+  }
+
+  await configureAutoUpdater(config.applicationUrl);
 
   await container
       .read(quickActionsProvider.notifier)
@@ -65,14 +70,11 @@ void main() async {
     if (apiKeyIsValid && settings.hasValidLicense) {
       await windowManager.hide();
       await systemTray.buildLoadedMenu();
-
-      await configureAutoUpdater();
     } else {
       if (!settings.hasValidLicense) {
         systemTray.buildPendingLicenseMenu();
       } else {
         await systemTray.buildLoadedMenu();
-        await configureAutoUpdater();
       }
 
       if (launchAtStartup.isEnabled == true) {
@@ -86,11 +88,8 @@ void main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://ddb83c056f27d0349e716d89241f39eb@o1207946.ingest.sentry.io/4506152044068864';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
+      options.dsn = config.sentryDsn;
+      options.tracesSampleRate = config.sentrySampleRate;
     },
     appRunner: () {
       return runApp(
@@ -103,9 +102,10 @@ void main() async {
   );
 }
 
-Future<void> configureAutoUpdater() async {
-  String feedURL = 'http://localhost:5002/appcast.xml';
+Future<void> configureAutoUpdater(String applicationUrl) async {
+  String feedURL = '${applicationUrl}/appcast.xml';
+
   await autoUpdater.setFeedURL(feedURL);
-  await autoUpdater.checkForUpdates();
+  await autoUpdater.checkForUpdates(inBackground: true);
   await autoUpdater.setScheduledCheckInterval(3600);
 }

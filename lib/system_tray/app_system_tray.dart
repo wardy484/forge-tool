@@ -181,7 +181,7 @@ class AppSystemTray {
   }
 
   void _onCheckForUpdatesClicked() {
-    autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdates(inBackground: false);
   }
 
   void _onSettingsClicked() {

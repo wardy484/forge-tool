@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:forge/environment.dart';
 import 'package:forge/forge_buddy_api/verify_license.dart';
 import 'package:forge/router.dart';
 import 'package:forge/settings/data/settings_model.dart';
@@ -117,8 +118,10 @@ class LicenseForm extends HookConsumerWidget {
                     child: OutlinedButton(
                       child: Text("Purchase License"),
                       onPressed: () async {
+                        final config = await ref.read(configProvider.future);
+
                         final purchaseUri = Uri.parse(
-                          'https://forgebuddy.com/checkout',
+                          '${config.applicationUrl}/checkout',
                         );
 
                         await launchUrl(purchaseUri);
@@ -172,8 +175,10 @@ class LicenseForm extends HookConsumerWidget {
 
     if (settings.isConfigured) {
       await windowManager.hide();
+      ref.read(systemTrayProvider).buildLoadedMenu();
     } else {
       ref.read(appRouterProvider).replace(const SettingsRoute());
+      ref.read(systemTrayProvider).buildConfigurationRequiredMenu();
     }
   }
 }
