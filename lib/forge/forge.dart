@@ -7,6 +7,7 @@ import 'package:forge/forge/model/firewall/firewall_rule/firewall_rule.dart';
 import 'package:forge/forge/model/firewall/get_firewall_rule_response/get_firewall_rule_response.dart';
 import 'package:forge/forge/model/firewall/list_firewall_rules_response/list_firewall_rules_response.dart';
 import 'package:forge/forge/model/server/server_list.dart';
+import 'package:forge/forge/model/site/site_list.dart';
 import 'package:forge/settings/settings_notifier.dart';
 
 const String forgeUrl = "https://forge.laravel.com/api/v1";
@@ -30,7 +31,27 @@ Dio buildForgeDio(String apiKey) {
     },
   );
 
-  return Dio(options);
+  final dio = Dio(options);
+
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+        return handler.next(options);
+      },
+      onResponse: (Response response, ResponseInterceptorHandler handler) {
+        if (response.statusCode == 429) {
+          throw RateLimitException();
+        }
+
+        return handler.next(response);
+      },
+      onError: (DioException e, ErrorInterceptorHandler handler) {
+        return handler.next(e);
+      },
+    ),
+  );
+
+  return dio;
 }
 
 final forgeSdkProvider = Provider((ref) {
@@ -64,11 +85,23 @@ class ForgeSdk {
       );
     }
 
-    if (res.statusCode == 429) {
-      throw RateLimitException();
+    return ServerList(servers: []);
+  }
+
+  Future<SiteList> listSites(int serverId) async {
+    final res = await client.get("/servers/$serverId/sites");
+
+    if (res.statusCode == 200) {
+      return SiteList.fromJson(res.data);
     }
 
-    return ServerList(servers: []);
+    return SiteList(sites: []);
+  }
+
+  Future<void> deploy(int serverId, int siteId) async {
+    final res = await client
+        .post("/servers/${serverId}/sites/${siteId}/deployment/deploy");
+    print(res);
   }
 
   Future<FirewallRule> createFirewallRule(
@@ -84,10 +117,6 @@ class ForgeSdk {
       return CreateFirewallRuleResponse.fromJson(res.data).rule;
     }
 
-    if (res.statusCode == 429) {
-      throw RateLimitException();
-    }
-
     throw Error();
   }
 
@@ -98,10 +127,6 @@ class ForgeSdk {
 
     if (res.statusCode == 200) {
       return ListFirewallRulesResponse.fromJson(res.data).rules;
-    }
-
-    if (res.statusCode == 429) {
-      throw RateLimitException();
     }
 
     throw Error();
@@ -117,10 +142,6 @@ class ForgeSdk {
       return GetFirewallRuleResponse.fromJson(res.data).rule;
     }
 
-    if (res.statusCode == 429) {
-      throw RateLimitException();
-    }
-
     throw Error();
   }
 
@@ -131,10 +152,6 @@ class ForgeSdk {
     final res = await client.delete(
       "/servers/$serverId/firewall-rules/$ruleId",
     );
-
-    if (res.statusCode == 429) {
-      throw RateLimitException();
-    }
 
     return res.statusCode == 200;
   }
@@ -155,10 +172,6 @@ class ForgeSdk {
       if (e is DioException) {
         if (e.response?.statusCode == 422) {
           return false;
-        }
-
-        if (e.response?.statusCode == 429) {
-          throw RateLimitException();
         }
       }
     }

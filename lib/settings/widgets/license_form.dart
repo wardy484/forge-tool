@@ -2,12 +2,14 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:forge/environment.dart';
+import 'package:forge/forge_buddy_api/log_trial.dart';
 import 'package:forge/forge_buddy_api/verify_license.dart';
 import 'package:forge/router.dart';
 import 'package:forge/settings/data/settings_model.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/app_system_tray.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -98,6 +100,12 @@ class LicenseForm extends HookConsumerWidget {
                           child: Text(
                               "Continue Trial: ${settings.remainingTrial} days"),
                           onPressed: () {
+                            try {
+                              ref.read(logTrialProvider.future);
+                            } catch (e) {
+                              Sentry.captureException(e);
+                            }
+
                             final systemTray = ref.read(systemTrayProvider);
 
                             if (settings.isConfigured) {

@@ -2,9 +2,12 @@
 
 ## Building a an update for release
 
-Write me
 
 ## Building a new dmg
+
+```
+flutter build macos --release
+```
 
 Run the following command in the project root:
 ```

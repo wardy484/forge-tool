@@ -6,7 +6,7 @@ part of 'verify_license.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$verifyLicenseHash() => r'44670c0593e581fcd8b7a4e89c36633d33bb7c0d';
+String _$verifyLicenseHash() => r'6c5f296916f07b03fb95ecb2607447a2ddadf0ed';
 
 /// Copied from Dart SDK
 class _SystemHash {

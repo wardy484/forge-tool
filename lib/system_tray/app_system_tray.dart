@@ -4,11 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:forge/common/exceptions/rule_exists_exception.dart';
 import 'package:forge/firewall_rules/data/firewall_rule_repsitory.dart';
+import 'package:forge/forge/forge.dart';
 import 'package:forge/forge/model/server/server.dart';
 import 'package:forge/forge/model/server/server_list.dart';
+import 'package:forge/forge/model/site/site.dart';
 import 'package:forge/quick_actions/data/quick_action_repository.dart';
 import 'package:forge/router.dart';
 import 'package:forge/servers/server_list_notifier.dart';
+import 'package:forge/servers/site_list.dart';
 import 'package:forge/settings/settings_notifier.dart';
 import 'package:forge/system_tray/system_tray_notification_manager.dart';
 import 'package:process_run/process_run.dart';
@@ -110,20 +113,51 @@ class AppSystemTray {
     final quickActions = await ref.read(quickActionsProvider.future);
     final serverList = await ref.read(serverListProvider.future);
 
-    final serverMenuItems = serverList.servers.map((server) {
+    final serverMenuItems = serverList.servers.map((server) async {
+      final sites = await ref.read(siteListsProvider(server.id).future);
+
       return SubMenu(
         label: server.name,
         children: [
-          ...quickActions.map((action) {
-            return MenuItemLabel(
-              label: action.name,
-              onClicked: (_) => _onQuickActionClicked(server, action.ports),
+          ...sites.sites.map((site) {
+            return SubMenu(
+              label: site.name,
+              children: [
+                MenuItemLabel(
+                  label: "Visit site",
+                  onClicked: (_) async {
+                    return runShellCommand(
+                      "open 'https://${site.name}'",
+                    );
+                  },
+                ),
+                MenuItemLabel(
+                    label: "Deploy",
+                    onClicked: (_) async =>
+                        await _onDeployClicked(server, site)),
+                MenuItemLabel(
+                  label: "Edit .env",
+                  onClicked: (_) async => await _onEditEnvClicked(server, site),
+                ),
+              ],
             );
           }).toList(),
           MenuSeparator(),
-          MenuItemLabel(
-            label: 'Add custom firewall rule',
-            onClicked: (_) => _onAddCustomFirewallRuleClicked(server),
+          SubMenu(
+            label: 'Whitelist',
+            children: [
+              ...quickActions.map((action) {
+                return MenuItemLabel(
+                  label: action.name,
+                  onClicked: (_) => _onQuickActionClicked(server, action.ports),
+                );
+              }).toList(),
+              MenuSeparator(),
+              MenuItemLabel(
+                label: 'Add custom firewall rule',
+                onClicked: (_) => _onAddCustomFirewallRuleClicked(server),
+              ),
+            ],
           ),
           MenuItemLabel(
             label: 'Connect via SSH',
@@ -139,7 +173,7 @@ class AppSystemTray {
 
     _setMenuItems(
       children: [
-        ...serverMenuItems,
+        ...await Future.wait(serverMenuItems),
       ],
     );
   }
@@ -203,25 +237,35 @@ class AppSystemTray {
   }
 
   Future<void> _onConnectViaSshClicked(Server server) async {
-    var shell = Shell();
-
-    try {
-      await shell.run("open ssh://forge@${server.ipAddress}");
-    } catch (e) {
-      ref.read(notificationManagerProvider).showUnableToOpenSSHEerror(server);
-    }
+    return runShellCommand(
+      "open 'ssh://forge@${server.ipAddress}'",
+    );
   }
 
   Future<void> _onOpenInForgeClicked(Server server) async {
+    return runShellCommand(
+      "open 'https://forge.laravel.com/servers/${server.id}/sites'",
+    );
+  }
+
+  Future<void> _onEditEnvClicked(Server server, Site site) async {
+    return runShellCommand(
+      "open 'https://forge.laravel.com/servers/${server.id}/sites/${site.id}/environment'",
+    );
+  }
+
+  Future<void> runShellCommand(String command) async {
     var shell = Shell();
 
     try {
-      await shell.run(
-        "open 'https://forge.laravel.com/servers/${server.id}/sites'",
-      );
+      await shell.run(command);
     } catch (e) {
       ref.read(notificationManagerProvider).showUnableToOpenBrowserError();
     }
+  }
+
+  Future<void> _onDeployClicked(Server server, Site site) async {
+    await ref.read(forgeSdkProvider).deploy(server.id, site.id);
   }
 
   Future<void> _onQuickActionClicked(Server server, List<String> ports) async {
